@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "973073144601",
+    "project_id": "studyflix-1c5e5",
+    "storage_bucket": "studyflix-1c5e5.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:973073144601:android:2340e8dea106ef0562c388",
+        "android_client_info": {
+          "package_name": "com.studyflix.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "973073144601-u5g3rcc23f0d7q0r5i87i8tetpd8e87j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_TWAwOJBUxNYXmf228yOt0pFBqkGbiWA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "973073144601-4eg4rbjb1a6n3dphlit8rl47aka5i6u8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
