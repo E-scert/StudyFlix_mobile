@@ -20,7 +20,7 @@ import com.studyflix.android.ui.student.videos.VideosScreen
 import com.studyflix.android.ui.teacher.TeacherDashboardScreen
 
 /**
- * Root navigation graph. On successful sign-in, [onSignedIn] pushes the
+ * Root navigation graph. On successful sign-in, the app pushes the
  * caller to the correct portal root -- equivalent to
  * redirectToRoleBasedDashboard() in public/shared/role-manager.js.
  */
@@ -31,7 +31,7 @@ fun StudyFlixNavGraph(navController: NavHostController = rememberNavController()
         composable(Screen.Login.route) {
             LoginScreen(
                 onSignedIn = { role -> navigateToPortalRoot(navController, role) },
-                onNavigateToSignUp = { navController.navigate(Screen.SignUpStudent.route) }
+                onNavigateToSignUp = { navController.navigate(Screen.SignUpStudent.route) },
             )
         }
 
@@ -74,7 +74,9 @@ fun StudyFlixNavGraph(navController: NavHostController = rememberNavController()
 
         // ---- Teacher / Admin portal roots ----
         composable(Screen.TeacherDashboard.route) {
-            TeacherDashboardScreen(onLogout = { navController.navigate(Screen.Login.route) { popUpTo(0) } })
+            TeacherDashboardScreen {
+                navController.navigate(Screen.Login.route) { popUpTo(0) }
+            }
         }
         composable(Screen.AdminDashboard.route) {
             AdminDashboardScreen(onLogout = { navController.navigate(Screen.Login.route) { popUpTo(0) } })

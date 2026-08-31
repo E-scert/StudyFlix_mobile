@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Logout
+import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -19,16 +19,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
-/**
- * Scaffold for the teacher portal root. Follows the same MVVM + Clean
- * Architecture pattern as the student portal (see ui/student/*): a
- * TeacherDashboardViewModel would sit here, backed by domain use cases such
- * as GetLearnersUseCase / GetAssignmentsUseCase / GetTeacherMarksUseCase,
- * each wired to a TeacherRepository following the same shape as
- * StudentRepository. Feature screens (learners, assignments, results,
- * messaging -- see PROJECT_DOCUMENTATION.md section 5.2) can be added under
- * ui/teacher/<feature>/ exactly like ui/student/<feature>/.
- */
+
+//  Scaffold for the teacher portal root. Follows the same MVVM + Clean
+//  Architecture pattern as the student portal (see ui/student): a
+//  TeacherDashboardViewModel would sit here, backed by domain use cases such
+// as GetLearnersUseCase / GetAssignmentsUseCase / GetTeacherMarksUseCase,
+// each wired to a TeacherRepository following the same shape as
+//  StudentRepository. Feature screens (learners, assignments, results,
+// messaging -- see PROJECT_DOCUMENTATION.md section 5.2) can be added under
+// ui/teacher/<feature>/ exactly like ui/student/<feature>/.
+//
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TeacherDashboardScreen(onLogout: () -> Unit) {
@@ -38,7 +39,7 @@ fun TeacherDashboardScreen(onLogout: () -> Unit) {
                 title = { Text("Teacher Dashboard") },
                 actions = {
                     IconButton(onClick = onLogout) {
-                        Icon(Icons.Filled.Logout, contentDescription = "Log out")
+                        Icon(Icons.AutoMirrored.Filled.Logout, contentDescription = "Log out")
                     }
                 }
             )

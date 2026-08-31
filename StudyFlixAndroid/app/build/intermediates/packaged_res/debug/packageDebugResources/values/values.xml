@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">StudyFlix</string>
+    <string name="default_web_client_id" translatable="false">973073144601-u5g3rcc23f0d7q0r5i87i8tetpd8e87j.apps.googleusercontent.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">973073144601</string>
+    <string name="google_api_key" translatable="false">AIzaSyB_TWAwOJBUxNYXmf228yOt0pFBqkGbiWA</string>
+    <string name="google_app_id" translatable="false">1:973073144601:android:2340e8dea106ef0562c388</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyB_TWAwOJBUxNYXmf228yOt0pFBqkGbiWA</string>
+    <string name="google_storage_bucket" translatable="false">studyflix-1c5e5.firebasestorage.app</string>
+    <string name="project_id" translatable="false">studyflix-1c5e5</string>
+    <style name="Theme.StudyFlix" parent="android:Theme.Material.Light.NoActionBar"/>
+</resources>
