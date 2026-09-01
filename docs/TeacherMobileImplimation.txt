@@ -1,0 +1,450 @@
+Excellent. Let's treat this as the Teacher Portal Android App Planning Document v1 based entirely on the website pages you've provided.
+
+Goal for tomorrow: We are not coding yet. We are defining exactly what the Teacher module should look like, what screens it needs, what Firebase collections it uses, and what should be built first.
+
+StudyFlix Teacher Portal (Android) Plan
+Design Direction
+
+Use the existing Student App theme for consistency.
+
+Core Colors
+Primary Dark Background    #070A12
+Card Background            #1C2640
+Teal Accent                #00D4B4
+Cyan Accent                #00C8FF
+Gold Accent                #FFD700
+Green Success              #22C55E
+Red Error                  #E8003D
+Muted Text                 #8892B0
+
+UI Style
+Modern
+Dark Theme First
+Rounded Cards
+Gradient Buttons
+Material 3
+Jetpack Compose
+Consistent with Student Portal
+
+Navigation Structure
+
+Bottom Navigation:
+
+Home
+Learners
+Assignments
+Chats
+Profile
+
+
+Drawer Menu:
+
+Dashboard
+My Learners
+Assignments
+Submissions
+Results
+Publications
+Admin Chat
+Settings
+Logout
+
+SCREEN 1
+Teacher Dashboard
+
+This becomes the first screen after login.
+
+Display
+Teacher Name
+School
+Selected Grade
+Selected Subject
+
+
+Cards:
+
+Total Learners
+Assignments Created
+Pending Submissions
+Published Results
+Online Learners
+
+
+Quick Actions:
+
+Create Assignment
+View Submissions
+View Results
+Open Chats
+
+SCREEN 2
+My Learners
+
+Direct copy of website functionality.
+
+Features
+List Learners
+Profile Picture
+Online Status
+Average Score
+Total Submissions
+
+
+Actions:
+
+View Profile
+View Assignment Progress
+Message Learner
+
+Learner Profile Dialog
+
+Display:
+
+Full Name
+Email
+Phone
+School
+Grade
+Plan
+Join Date
+
+Assignment Progress Dialog
+
+For one student
+
+Show:
+
+Assignment Name
+Due Date
+Submission Status
+Score
+Average %
+
+SCREEN 3
+Assignments
+
+Combines multiple website pages.
+
+Tabs:
+
+Assignments
+Quizzes
+Published
+
+
+Assignment Card:
+
+Title
+Subject
+Grade
+Due Date
+Status
+Submission Count
+
+
+Actions:
+
+Edit
+Delete
+View Submissions
+Publish
+
+SCREEN 4
+Create Assignment
+
+This replaces write-homework.html
+
+Step 1
+Title
+Subject
+Grade
+Due Date
+Instructions
+
+Step 2
+
+Question Builder
+
+Question Types:
+
+Text Question
+Question With Image
+Parent Question
+Sub Question
+
+
+Each question:
+
+Question Text
+Marks
+Image
+Memo
+
+Step 3
+
+Publish Assignment
+
+Draft
+Active
+Schedule
+
+SCREEN 5
+Student Submissions
+
+From submissions-list.html
+
+Filters
+All
+Pending
+Draft Graded
+Published
+
+Card
+Student Name
+Assignment Name
+Submission Date
+Time Spent
+Status
+Current Score
+
+
+Button:
+
+Grade & Review
+
+SCREEN 6
+Grade Submission
+
+From view-submission.html
+
+This is one of the most important screens.
+
+Header
+Student Name
+Assignment Name
+Subject
+Submission Date
+Time Spent
+
+
+Score Summary
+
+Ticks
+Half Marks
+Crosses
+Current Score
+
+Question Card
+
+Display:
+
+Question
+Question Image
+Student Answer
+
+
+Marking Buttons:
+
+✅ Full Mark
+🟡 Half Mark
+❌ Wrong
+↺ Reset
+
+Bottom Actions
+Save Draft
+Publish Marks
+
+SCREEN 7
+Results
+
+From Marks & Results
+
+Teacher views all published marks.
+
+Filters:
+
+Subject
+Grade
+Student
+Assignment
+
+
+Display:
+
+Student
+Assignment
+Score
+Percentage
+Date Published
+
+SCREEN 8
+Publications
+
+From My Publications
+
+Categories:
+
+Question Papers
+Memos
+Worksheets
+Study Material
+
+
+Actions:
+
+Upload
+Edit
+Delete
+Publish
+
+SCREEN 9
+Learners Chat
+
+Website equivalent:
+
+learners-chat.html
+
+
+Features:
+
+Chat List
+Online Indicators
+Profile Quick View
+Real Time Messaging
+Message Delete
+Read Status
+
+
+Firestore:
+
+chats
+chats/{chatId}
+messages
+
+
+Chat ID:
+
+chat_{studentId}_{teacherId}
+
+SCREEN 10
+Admin Chat
+
+Features:
+
+Direct teacher-admin support
+Unread badge
+Real-time messages
+
+
+Chat ID:
+
+chat_student_{teacherUid}
+
+SCREEN 11
+Settings
+
+Display:
+
+Teacher Name
+School
+Grade
+Subject
+Email
+Phone
+
+
+Editable:
+
+Selected Grade
+Selected Subject
+Profile Image
+Phone
+
+Firestore Collections We Must Support
+
+From all website pages reviewed:
+
+teachers
+students
+assignments
+quizzes
+submissions
+publications
+studentsMarks
+allStudentMarks
+chats
+
+
+Subcollections:
+
+chats/{chatId}/messages
+studentsMarks/{studentId}/myMarks
+allStudentMarks/{studentId}/marks
+
+Recommended Build Order
+
+Do NOT build randomly.
+
+Phase 1
+
+Foundation
+
+Teacher Login
+Teacher Dashboard
+Teacher Navigation
+Settings
+
+Phase 2
+
+Class Management
+
+My Learners
+Learner Profile
+Assignment Progress
+
+Phase 3
+
+Assessment System
+
+Assignments
+Create Assignment
+Submissions List
+Grade Submission
+Publish Marks
+
+Phase 4
+
+Communication
+
+Learners Chat
+Admin Chat
+Unread Badges
+
+Phase 5
+
+Content
+
+Publications
+Uploads
+Results
+
+Final Recommendation
+
+Tomorrow, start with:
+
+Teacher Module Package
+      ↓
+Teacher Dashboard
+      ↓
+Teacher Navigation Drawer
+      ↓
+My Learners Screen
+
+
+Reason:
+
+Dashboard and Learners are the foundation for everything else.
+They also reuse many components already present in the Student App theme.
+
+
+This plan now matches the website pages you've provided and can serve as the blueprint for the Android Teacher Portal implementation.
