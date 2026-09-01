@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 data class StudentHomeUiState(
     val student: Student? = null,
-    val isRefreshing: Boolean = false
+    val isRefreshing: Boolean = false,
 )
 
 @HiltViewModel

@@ -16,7 +16,7 @@ import javax.inject.Inject
 data class ChatUiState(
     val messages: List<ChatMessage> = emptyList(),
     val draft: String = "",
-    val isSending: Boolean = false
+    val isSending: Boolean = false,
 )
 
 /** Equivalent of ChatManager on web: live message list + send box. */

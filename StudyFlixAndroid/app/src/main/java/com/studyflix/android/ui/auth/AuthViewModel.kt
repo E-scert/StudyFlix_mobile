@@ -65,6 +65,11 @@ class LoginViewModel @Inject constructor(
     fun consumeSignedInEvent() {
         _uiState.value = _uiState.value.copy(signedInRole = null)
     }
+    fun showPortalError(message: String) {
+        _uiState.value = _uiState.value.copy(
+            errorMessage = message
+        )
+    }
 }
 
 /** UI state for the student self-service sign-up screen. */

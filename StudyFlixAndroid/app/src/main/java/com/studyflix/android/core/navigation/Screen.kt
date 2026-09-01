@@ -11,7 +11,10 @@ sealed class Screen(val route: String) {
     data object Landing : Screen("landing")
 
     // Authentication
-    data object Login : Screen("login")
+    data object Login : Screen("login/{portal}"){
+        fun createRoute(portal: String )= "login/$portal"
+        const val ARG_PORTAL = "portal"
+    }
     data object SignUpStudent : Screen("signup_student")
 
     // Student portal

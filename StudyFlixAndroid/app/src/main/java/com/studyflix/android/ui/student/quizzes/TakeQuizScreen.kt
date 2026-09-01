@@ -22,6 +22,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 
@@ -36,7 +37,14 @@ fun TakeQuizScreen(onFinished: () -> Unit, viewModel: TakeQuizViewModel = hiltVi
     }
 
     val quiz = uiState.quiz
-    Scaffold(topBar = { TopAppBar(title = { Text(quiz?.title ?: "Quiz") }) }) { padding: PaddingValues ->
+    Scaffold(topBar = { TopAppBar(
+        title = {
+            Text(
+                text = quiz?.title ?: "Quiz",
+                color = Color(0xFF00FFCC)
+            )
+        }
+    ) }) { padding: PaddingValues ->
         if (quiz == null) {
             CircularProgressIndicator(modifier = Modifier.padding(padding).padding(24.dp))
             return@Scaffold
@@ -49,10 +57,15 @@ fun TakeQuizScreen(onFinished: () -> Unit, viewModel: TakeQuizViewModel = hiltVi
         ) {
             Text(
                 text = "Question ${uiState.currentIndex + 1} of ${quiz.questions.size}",
-                style = MaterialTheme.typography.labelSmall
+                style = MaterialTheme.typography.titleSmall,
+                color = Color(0xFF00FFCC)
             )
             question?.let {
-                Text(text = it.text, style = MaterialTheme.typography.titleMedium)
+                Text(
+                    text = it.text,
+                    style = MaterialTheme.typography.headlineSmall
+                )
+
                 it.options.forEachIndexed { index, option ->
                     Row(
                         modifier = Modifier
@@ -67,7 +80,8 @@ fun TakeQuizScreen(onFinished: () -> Unit, viewModel: TakeQuizViewModel = hiltVi
                             selected = uiState.answers.getOrNull(uiState.currentIndex) == index,
                             onClick = { viewModel.selectAnswer(index) }
                         )
-                        Text(option)
+                        Text(text = option,
+                            style = MaterialTheme.typography.bodyLarge)
                     }
                 }
             }

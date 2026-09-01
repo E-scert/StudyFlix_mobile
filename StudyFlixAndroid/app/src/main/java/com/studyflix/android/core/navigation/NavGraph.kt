@@ -32,44 +32,83 @@ fun StudyFlixNavGraph(navController: NavHostController = rememberNavController()
         composable(Screen.Landing.route) {
             LandingScreen(
                 onStudentClick = {
-                    navController.navigate(Screen.Login.route)
+                    navController.navigate(Screen.Login.createRoute("student"))
                 },
                 onTeacherClick = {
-                    navController.navigate(Screen.Login.route)
+                    navController.navigate(Screen.Login.createRoute("teacher"))
                 },
                 onAdminClick = {
-                    navController.navigate(Screen.Login.route)
+                    navController.navigate(Screen.Login.createRoute("admin"))
                 }
             )
         }
 
-        composable(Screen.Login.route) {
+        composable(
+            route = Screen.Login.route,
+            arguments = listOf(
+                navArgument(Screen.Login.ARG_PORTAL) {
+                    type = NavType.StringType
+                }
+            )
+        ) { backStackEntry ->
+
+            val portal =
+                backStackEntry.arguments
+                    ?.getString(Screen.Login.ARG_PORTAL)
+                    ?: "student"
+
             LoginScreen(
-                onSignedIn = { role -> navigateToPortalRoot(navController, role) },
-                onNavigateToSignUp = { navController.navigate(Screen.SignUpStudent.route) },
+                portal = portal,
+
+                onSignedIn = { role ->
+                    navigateToPortalRoot(navController, role)
+                },
+
+                onNavigateToSignUp = {
+                    navController.navigate(Screen.SignUpStudent.route)
+                },
+
+                onBack = {
+                    navController.popBackStack()
+                }
             )
         }
-
 
         composable(Screen.SignUpStudent.route) {
             SignUpStudentScreen(
                 onSignedUp = {
-                    navController.navigate(Screen.StudentHome.route) {
-                        popUpTo(Screen.Login.route) { inclusive = true }
+
+                    // After successful registration,
+                    // return to Login instead of Student Home
+
+                    navController.navigate(
+                        Screen.Login.createRoute("student")
+                    ) {
+                        popUpTo(Screen.SignUpStudent.route) {
+                            inclusive = true
+                        }
                     }
                 },
-                onBack = { navController.popBackStack() }
+
+                onBack = {
+                    navController.popBackStack()
+                }
             )
         }
 
-        // ---- Student portal ----
+
+                        // ---- Student portal ----
         composable(Screen.StudentHome.route) {
             StudentHomeScreen(
                 onOpenVideos = { navController.navigate(Screen.StudentVideos.route) },
                 onOpenQuizzes = { navController.navigate(Screen.StudentQuizzes.route) },
                 onOpenMarks = { navController.navigate(Screen.StudentMarks.route) },
                 onOpenChat = { navController.navigate(Screen.StudentChat.route) },
-                onLogout = { navController.navigate(Screen.Login.route) { popUpTo(0) } }
+                onLogout = {
+                    navController.navigate(Screen.Landing.route) {
+                        popUpTo(0)
+                    }
+                 }
             )
         }
         composable(Screen.StudentVideos.route) { VideosScreen(onBack = { navController.popBackStack() }) }
@@ -91,11 +130,19 @@ fun StudyFlixNavGraph(navController: NavHostController = rememberNavController()
         // ---- Teacher / Admin portal roots ----
         composable(Screen.TeacherDashboard.route) {
             TeacherDashboardScreen {
-                navController.navigate(Screen.Login.route) { popUpTo(0) }
+                navController.navigate(Screen.Login.route) {
+                    popUpTo(0)
+                }
             }
         }
         composable(Screen.AdminDashboard.route) {
-            AdminDashboardScreen(onLogout = { navController.navigate(Screen.Login.route) { popUpTo(0) } })
+            AdminDashboardScreen(
+                onLogout = {
+                    navController.navigate(Screen.Login.route) {
+                        popUpTo(0)
+                    }
+                }
+            )
         }
     }
 }

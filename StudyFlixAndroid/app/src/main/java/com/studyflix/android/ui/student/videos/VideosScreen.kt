@@ -25,13 +25,16 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.studyflix.android.core.ui.theme.StudyFlixBackground
 import com.studyflix.android.domain.model.VideoContent
 
 /** Equivalent of public/student/videos.html + js/videos.js: season tabs + episode list. */
@@ -41,11 +44,24 @@ fun VideosScreen(onBack: () -> Unit, viewModel: VideosViewModel = hiltViewModel(
     val uiState by viewModel.uiState.collectAsState()
 
     Scaffold(
+        containerColor = StudyFlixBackground,
         topBar = {
             TopAppBar(
-                title = { Text("Videos & Notes") },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = Color(0xFF0F172A)
+                ),
+                title = {
+                    Text(
+                        "Learning Videos",
+                        color = Color(0xFF7C4DFF)
+                    )
+                },
                 navigationIcon = {
-                    IconButton(onClick = onBack) { Icon(Icons.Filled.ArrowBack, contentDescription = "Back") }
+                    IconButton(onClick = onBack) { Icon(
+                        Icons.Filled.ArrowBack,
+                        contentDescription = "Back",
+                        tint = Color(0xFF7C4DFF)
+                    ) }
                 }
             )
         }
@@ -98,9 +114,19 @@ private fun VideoRow(video: VideoContent) {
             supportingContent = { Text("${video.subject} • ${video.duration}") },
             leadingContent = {
                 Icon(
-                    imageVector = if (video.locked) Icons.Filled.Lock else Icons.Filled.PlayCircle,
-                    contentDescription = null
+                    imageVector = if (video.locked)
+                        Icons.Filled.Lock
+                    else
+                        Icons.Filled.PlayCircle,
+
+                    contentDescription = null,
+
+                    tint = if (video.locked)
+                        androidx.compose.ui.graphics.Color.Red
+                    else
+                        androidx.compose.ui.graphics.Color(0xFF00FFCC)
                 )
+
             }
         )
     }

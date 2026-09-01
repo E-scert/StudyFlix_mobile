@@ -26,7 +26,7 @@ import javax.inject.Singleton
 @Singleton
 class AuthRepositoryImpl @Inject constructor(
     private val auth: FirebaseAuth,
-    private val firestore: FirebaseFirestore
+    private val firestore: FirebaseFirestore,
 ) : AuthRepository {
 
     override val currentUid: String?
@@ -58,7 +58,7 @@ class AuthRepositoryImpl @Inject constructor(
 
         // Mirrors the default document shape created in StudentAuth.loadUserData()
         // on web when no `students/{uid}` document exists yet.
-        val trialEnds = Date(System.currentTimeMillis() + 30L * 24 * 60 * 60 * 1000)
+        val trialEnds = Date(System.currentTimeMillis() + (30L * 24 * 60 * 60 * 1000))
         val student = Student(
             uid = uid,
             email = email,
