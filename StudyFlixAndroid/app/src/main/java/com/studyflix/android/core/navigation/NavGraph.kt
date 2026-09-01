@@ -11,6 +11,7 @@ import com.studyflix.android.domain.model.UserRole
 import com.studyflix.android.ui.admin.AdminDashboardScreen
 import com.studyflix.android.ui.auth.LoginScreen
 import com.studyflix.android.ui.auth.SignUpStudentScreen
+import com.studyflix.android.ui.landing.LandingScreen
 import com.studyflix.android.ui.student.chat.ChatScreen
 import com.studyflix.android.ui.student.home.StudentHomeScreen
 import com.studyflix.android.ui.student.marks.MarksScreen
@@ -26,7 +27,21 @@ import com.studyflix.android.ui.teacher.TeacherDashboardScreen
  */
 @Composable
 fun StudyFlixNavGraph(navController: NavHostController = rememberNavController()) {
-    NavHost(navController = navController, startDestination = Screen.Login.route) {
+    NavHost(navController = navController, startDestination = Screen.Landing.route) {
+
+        composable(Screen.Landing.route) {
+            LandingScreen(
+                onStudentClick = {
+                    navController.navigate(Screen.Login.route)
+                },
+                onTeacherClick = {
+                    navController.navigate(Screen.Login.route)
+                },
+                onAdminClick = {
+                    navController.navigate(Screen.Login.route)
+                }
+            )
+        }
 
         composable(Screen.Login.route) {
             LoginScreen(
@@ -34,6 +49,7 @@ fun StudyFlixNavGraph(navController: NavHostController = rememberNavController()
                 onNavigateToSignUp = { navController.navigate(Screen.SignUpStudent.route) },
             )
         }
+
 
         composable(Screen.SignUpStudent.route) {
             SignUpStudentScreen(
