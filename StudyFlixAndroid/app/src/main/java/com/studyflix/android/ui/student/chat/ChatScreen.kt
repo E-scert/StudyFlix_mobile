@@ -27,12 +27,14 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+//import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.studyflix.android.core.ui.theme.StudyFlixBackground
+//import com.studyflix.android.core.ui.theme.StudyFlixBackground
 import com.studyflix.android.domain.model.ChatMessage
 import com.studyflix.android.domain.model.UserRole
+import com.studyflix.android.ui.theme.AppColors
+import com.studyflix.android.ui.theme.StudentColors
 
 /** Equivalent of public/student/teacher-chat.html: message thread + composer. */
 @OptIn(ExperimentalMaterial3Api::class)
@@ -41,22 +43,27 @@ fun ChatScreen(onBack: () -> Unit, viewModel: ChatViewModel = hiltViewModel()) {
     val uiState by viewModel.uiState.collectAsState()
 
     Scaffold(
-        containerColor = StudyFlixBackground,
+        containerColor = AppColors.Background,
         topBar = {
             TopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFF0F172A)
+                    containerColor = AppColors.TopBar
                 ),
-                title = { Text("Chat with Teacher",color = Color(0xFF00FFCC)) },
+                title = {
+                    Text(
+                        "Chat with Teacher",
+                        color = StudentColors.Primary
+                    )
+                },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(
                             Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Back",
-                            tint = Color(0xFF7C4DFF)
+                            tint = StudentColors.Primary
                         )
                     }
-                },
+                }
             )
         }
     ) { padding: PaddingValues ->
@@ -92,20 +99,32 @@ fun ChatScreen(onBack: () -> Unit, viewModel: ChatViewModel = hiltViewModel()) {
 
 @Composable
 private fun MessageBubble(message: ChatMessage) {
+
     val isMine = message.senderRole == UserRole.STUDENT
+
     Row(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = if (isMine) Arrangement.End else Arrangement.Start
+        horizontalArrangement =
+            if (isMine) Arrangement.End
+            else Arrangement.Start
     ) {
+
         Card(
+            colors = androidx.compose.material3.CardDefaults.cardColors(
+                containerColor = AppColors.Card
+            )
         ) {
+
             Text(
                 text = message.text,
                 modifier = Modifier.padding(10.dp),
                 style = MaterialTheme.typography.bodyMedium,
-                color = if (isMine) Color(0xFF00FFCC) else Color.White
+                color =
+                    if (isMine)
+                        StudentColors.Primary
+                    else
+                        AppColors.TextPrimary
             )
         }
-
     }
 }

@@ -19,6 +19,7 @@ import com.studyflix.android.data.repository.AuthRepositoryImpl;
 import com.studyflix.android.data.repository.ChatRepositoryImpl;
 import com.studyflix.android.data.repository.ContentRepositoryImpl;
 import com.studyflix.android.data.repository.MarksRepositoryImpl;
+import com.studyflix.android.data.repository.NotesRepositoryImpl;
 import com.studyflix.android.data.repository.QuizRepositoryImpl;
 import com.studyflix.android.data.repository.StudentRepositoryImpl;
 import com.studyflix.android.di.DatabaseModule_ProvideDatabaseFactory;
@@ -48,6 +49,8 @@ import com.studyflix.android.ui.student.home.StudentHomeViewModel;
 import com.studyflix.android.ui.student.home.StudentHomeViewModel_HiltModules;
 import com.studyflix.android.ui.student.marks.MarksViewModel;
 import com.studyflix.android.ui.student.marks.MarksViewModel_HiltModules;
+import com.studyflix.android.ui.student.notes.NotesViewModel;
+import com.studyflix.android.ui.student.notes.NotesViewModel_HiltModules;
 import com.studyflix.android.ui.student.quizzes.QuizzesViewModel;
 import com.studyflix.android.ui.student.quizzes.QuizzesViewModel_HiltModules;
 import com.studyflix.android.ui.student.quizzes.TakeQuizViewModel;
@@ -413,7 +416,7 @@ public final class DaggerStudyFlixApplication_HiltComponents_SingletonC {
 
     @Override
     public Map<Class<?>, Boolean> getViewModelKeys() {
-      return LazyClassKeyMap.<Boolean>of(ImmutableMap.<String, Boolean>builderWithExpectedSize(8).put(LazyClassKeyProvider.com_studyflix_android_ui_student_chat_ChatViewModel, ChatViewModel_HiltModules.KeyModule.provide()).put(LazyClassKeyProvider.com_studyflix_android_ui_auth_LoginViewModel, LoginViewModel_HiltModules.KeyModule.provide()).put(LazyClassKeyProvider.com_studyflix_android_ui_student_marks_MarksViewModel, MarksViewModel_HiltModules.KeyModule.provide()).put(LazyClassKeyProvider.com_studyflix_android_ui_student_quizzes_QuizzesViewModel, QuizzesViewModel_HiltModules.KeyModule.provide()).put(LazyClassKeyProvider.com_studyflix_android_ui_auth_SignUpViewModel, SignUpViewModel_HiltModules.KeyModule.provide()).put(LazyClassKeyProvider.com_studyflix_android_ui_student_home_StudentHomeViewModel, StudentHomeViewModel_HiltModules.KeyModule.provide()).put(LazyClassKeyProvider.com_studyflix_android_ui_student_quizzes_TakeQuizViewModel, TakeQuizViewModel_HiltModules.KeyModule.provide()).put(LazyClassKeyProvider.com_studyflix_android_ui_student_videos_VideosViewModel, VideosViewModel_HiltModules.KeyModule.provide()).build());
+      return LazyClassKeyMap.<Boolean>of(ImmutableMap.<String, Boolean>builderWithExpectedSize(9).put(LazyClassKeyProvider.com_studyflix_android_ui_student_chat_ChatViewModel, ChatViewModel_HiltModules.KeyModule.provide()).put(LazyClassKeyProvider.com_studyflix_android_ui_auth_LoginViewModel, LoginViewModel_HiltModules.KeyModule.provide()).put(LazyClassKeyProvider.com_studyflix_android_ui_student_marks_MarksViewModel, MarksViewModel_HiltModules.KeyModule.provide()).put(LazyClassKeyProvider.com_studyflix_android_ui_student_notes_NotesViewModel, NotesViewModel_HiltModules.KeyModule.provide()).put(LazyClassKeyProvider.com_studyflix_android_ui_student_quizzes_QuizzesViewModel, QuizzesViewModel_HiltModules.KeyModule.provide()).put(LazyClassKeyProvider.com_studyflix_android_ui_auth_SignUpViewModel, SignUpViewModel_HiltModules.KeyModule.provide()).put(LazyClassKeyProvider.com_studyflix_android_ui_student_home_StudentHomeViewModel, StudentHomeViewModel_HiltModules.KeyModule.provide()).put(LazyClassKeyProvider.com_studyflix_android_ui_student_quizzes_TakeQuizViewModel, TakeQuizViewModel_HiltModules.KeyModule.provide()).put(LazyClassKeyProvider.com_studyflix_android_ui_student_videos_VideosViewModel, VideosViewModel_HiltModules.KeyModule.provide()).build());
     }
 
     @Override
@@ -435,34 +438,24 @@ public final class DaggerStudyFlixApplication_HiltComponents_SingletonC {
     private static final class LazyClassKeyProvider {
       static String com_studyflix_android_ui_student_videos_VideosViewModel = "com.studyflix.android.ui.student.videos.VideosViewModel";
 
+      static String com_studyflix_android_ui_student_marks_MarksViewModel = "com.studyflix.android.ui.student.marks.MarksViewModel";
+
+      static String com_studyflix_android_ui_student_quizzes_TakeQuizViewModel = "com.studyflix.android.ui.student.quizzes.TakeQuizViewModel";
+
       static String com_studyflix_android_ui_auth_LoginViewModel = "com.studyflix.android.ui.auth.LoginViewModel";
+
+      static String com_studyflix_android_ui_student_home_StudentHomeViewModel = "com.studyflix.android.ui.student.home.StudentHomeViewModel";
+
+      static String com_studyflix_android_ui_student_chat_ChatViewModel = "com.studyflix.android.ui.student.chat.ChatViewModel";
+
+      static String com_studyflix_android_ui_student_notes_NotesViewModel = "com.studyflix.android.ui.student.notes.NotesViewModel";
 
       static String com_studyflix_android_ui_student_quizzes_QuizzesViewModel = "com.studyflix.android.ui.student.quizzes.QuizzesViewModel";
 
       static String com_studyflix_android_ui_auth_SignUpViewModel = "com.studyflix.android.ui.auth.SignUpViewModel";
 
-      static String com_studyflix_android_ui_student_chat_ChatViewModel = "com.studyflix.android.ui.student.chat.ChatViewModel";
-
-      static String com_studyflix_android_ui_student_marks_MarksViewModel = "com.studyflix.android.ui.student.marks.MarksViewModel";
-
-      static String com_studyflix_android_ui_student_quizzes_TakeQuizViewModel = "com.studyflix.android.ui.student.quizzes.TakeQuizViewModel";
-
-      static String com_studyflix_android_ui_student_home_StudentHomeViewModel = "com.studyflix.android.ui.student.home.StudentHomeViewModel";
-
       @KeepFieldType
       VideosViewModel com_studyflix_android_ui_student_videos_VideosViewModel2;
-
-      @KeepFieldType
-      LoginViewModel com_studyflix_android_ui_auth_LoginViewModel2;
-
-      @KeepFieldType
-      QuizzesViewModel com_studyflix_android_ui_student_quizzes_QuizzesViewModel2;
-
-      @KeepFieldType
-      SignUpViewModel com_studyflix_android_ui_auth_SignUpViewModel2;
-
-      @KeepFieldType
-      ChatViewModel com_studyflix_android_ui_student_chat_ChatViewModel2;
 
       @KeepFieldType
       MarksViewModel com_studyflix_android_ui_student_marks_MarksViewModel2;
@@ -471,7 +464,22 @@ public final class DaggerStudyFlixApplication_HiltComponents_SingletonC {
       TakeQuizViewModel com_studyflix_android_ui_student_quizzes_TakeQuizViewModel2;
 
       @KeepFieldType
+      LoginViewModel com_studyflix_android_ui_auth_LoginViewModel2;
+
+      @KeepFieldType
       StudentHomeViewModel com_studyflix_android_ui_student_home_StudentHomeViewModel2;
+
+      @KeepFieldType
+      ChatViewModel com_studyflix_android_ui_student_chat_ChatViewModel2;
+
+      @KeepFieldType
+      NotesViewModel com_studyflix_android_ui_student_notes_NotesViewModel2;
+
+      @KeepFieldType
+      QuizzesViewModel com_studyflix_android_ui_student_quizzes_QuizzesViewModel2;
+
+      @KeepFieldType
+      SignUpViewModel com_studyflix_android_ui_auth_SignUpViewModel2;
     }
   }
 
@@ -489,6 +497,8 @@ public final class DaggerStudyFlixApplication_HiltComponents_SingletonC {
     private Provider<LoginViewModel> loginViewModelProvider;
 
     private Provider<MarksViewModel> marksViewModelProvider;
+
+    private Provider<NotesViewModel> notesViewModelProvider;
 
     private Provider<QuizzesViewModel> quizzesViewModelProvider;
 
@@ -556,16 +566,17 @@ public final class DaggerStudyFlixApplication_HiltComponents_SingletonC {
       this.chatViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 0);
       this.loginViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 1);
       this.marksViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 2);
-      this.quizzesViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 3);
-      this.signUpViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 4);
-      this.studentHomeViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 5);
-      this.takeQuizViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 6);
-      this.videosViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 7);
+      this.notesViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 3);
+      this.quizzesViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 4);
+      this.signUpViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 5);
+      this.studentHomeViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 6);
+      this.takeQuizViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 7);
+      this.videosViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 8);
     }
 
     @Override
     public Map<Class<?>, javax.inject.Provider<ViewModel>> getHiltViewModelMap() {
-      return LazyClassKeyMap.<javax.inject.Provider<ViewModel>>of(ImmutableMap.<String, javax.inject.Provider<ViewModel>>builderWithExpectedSize(8).put(LazyClassKeyProvider.com_studyflix_android_ui_student_chat_ChatViewModel, ((Provider) chatViewModelProvider)).put(LazyClassKeyProvider.com_studyflix_android_ui_auth_LoginViewModel, ((Provider) loginViewModelProvider)).put(LazyClassKeyProvider.com_studyflix_android_ui_student_marks_MarksViewModel, ((Provider) marksViewModelProvider)).put(LazyClassKeyProvider.com_studyflix_android_ui_student_quizzes_QuizzesViewModel, ((Provider) quizzesViewModelProvider)).put(LazyClassKeyProvider.com_studyflix_android_ui_auth_SignUpViewModel, ((Provider) signUpViewModelProvider)).put(LazyClassKeyProvider.com_studyflix_android_ui_student_home_StudentHomeViewModel, ((Provider) studentHomeViewModelProvider)).put(LazyClassKeyProvider.com_studyflix_android_ui_student_quizzes_TakeQuizViewModel, ((Provider) takeQuizViewModelProvider)).put(LazyClassKeyProvider.com_studyflix_android_ui_student_videos_VideosViewModel, ((Provider) videosViewModelProvider)).build());
+      return LazyClassKeyMap.<javax.inject.Provider<ViewModel>>of(ImmutableMap.<String, javax.inject.Provider<ViewModel>>builderWithExpectedSize(9).put(LazyClassKeyProvider.com_studyflix_android_ui_student_chat_ChatViewModel, ((Provider) chatViewModelProvider)).put(LazyClassKeyProvider.com_studyflix_android_ui_auth_LoginViewModel, ((Provider) loginViewModelProvider)).put(LazyClassKeyProvider.com_studyflix_android_ui_student_marks_MarksViewModel, ((Provider) marksViewModelProvider)).put(LazyClassKeyProvider.com_studyflix_android_ui_student_notes_NotesViewModel, ((Provider) notesViewModelProvider)).put(LazyClassKeyProvider.com_studyflix_android_ui_student_quizzes_QuizzesViewModel, ((Provider) quizzesViewModelProvider)).put(LazyClassKeyProvider.com_studyflix_android_ui_auth_SignUpViewModel, ((Provider) signUpViewModelProvider)).put(LazyClassKeyProvider.com_studyflix_android_ui_student_home_StudentHomeViewModel, ((Provider) studentHomeViewModelProvider)).put(LazyClassKeyProvider.com_studyflix_android_ui_student_quizzes_TakeQuizViewModel, ((Provider) takeQuizViewModelProvider)).put(LazyClassKeyProvider.com_studyflix_android_ui_student_videos_VideosViewModel, ((Provider) videosViewModelProvider)).build());
     }
 
     @Override
@@ -577,22 +588,30 @@ public final class DaggerStudyFlixApplication_HiltComponents_SingletonC {
     private static final class LazyClassKeyProvider {
       static String com_studyflix_android_ui_student_chat_ChatViewModel = "com.studyflix.android.ui.student.chat.ChatViewModel";
 
+      static String com_studyflix_android_ui_student_quizzes_TakeQuizViewModel = "com.studyflix.android.ui.student.quizzes.TakeQuizViewModel";
+
+      static String com_studyflix_android_ui_student_notes_NotesViewModel = "com.studyflix.android.ui.student.notes.NotesViewModel";
+
       static String com_studyflix_android_ui_student_videos_VideosViewModel = "com.studyflix.android.ui.student.videos.VideosViewModel";
 
       static String com_studyflix_android_ui_student_marks_MarksViewModel = "com.studyflix.android.ui.student.marks.MarksViewModel";
 
-      static String com_studyflix_android_ui_auth_LoginViewModel = "com.studyflix.android.ui.auth.LoginViewModel";
-
       static String com_studyflix_android_ui_student_quizzes_QuizzesViewModel = "com.studyflix.android.ui.student.quizzes.QuizzesViewModel";
-
-      static String com_studyflix_android_ui_student_home_StudentHomeViewModel = "com.studyflix.android.ui.student.home.StudentHomeViewModel";
 
       static String com_studyflix_android_ui_auth_SignUpViewModel = "com.studyflix.android.ui.auth.SignUpViewModel";
 
-      static String com_studyflix_android_ui_student_quizzes_TakeQuizViewModel = "com.studyflix.android.ui.student.quizzes.TakeQuizViewModel";
+      static String com_studyflix_android_ui_student_home_StudentHomeViewModel = "com.studyflix.android.ui.student.home.StudentHomeViewModel";
+
+      static String com_studyflix_android_ui_auth_LoginViewModel = "com.studyflix.android.ui.auth.LoginViewModel";
 
       @KeepFieldType
       ChatViewModel com_studyflix_android_ui_student_chat_ChatViewModel2;
+
+      @KeepFieldType
+      TakeQuizViewModel com_studyflix_android_ui_student_quizzes_TakeQuizViewModel2;
+
+      @KeepFieldType
+      NotesViewModel com_studyflix_android_ui_student_notes_NotesViewModel2;
 
       @KeepFieldType
       VideosViewModel com_studyflix_android_ui_student_videos_VideosViewModel2;
@@ -601,19 +620,16 @@ public final class DaggerStudyFlixApplication_HiltComponents_SingletonC {
       MarksViewModel com_studyflix_android_ui_student_marks_MarksViewModel2;
 
       @KeepFieldType
-      LoginViewModel com_studyflix_android_ui_auth_LoginViewModel2;
-
-      @KeepFieldType
       QuizzesViewModel com_studyflix_android_ui_student_quizzes_QuizzesViewModel2;
-
-      @KeepFieldType
-      StudentHomeViewModel com_studyflix_android_ui_student_home_StudentHomeViewModel2;
 
       @KeepFieldType
       SignUpViewModel com_studyflix_android_ui_auth_SignUpViewModel2;
 
       @KeepFieldType
-      TakeQuizViewModel com_studyflix_android_ui_student_quizzes_TakeQuizViewModel2;
+      StudentHomeViewModel com_studyflix_android_ui_student_home_StudentHomeViewModel2;
+
+      @KeepFieldType
+      LoginViewModel com_studyflix_android_ui_auth_LoginViewModel2;
     }
 
     private static final class SwitchingProvider<T> implements Provider<T> {
@@ -646,19 +662,22 @@ public final class DaggerStudyFlixApplication_HiltComponents_SingletonC {
           case 2: // com.studyflix.android.ui.student.marks.MarksViewModel 
           return (T) new MarksViewModel(viewModelCImpl.getMarksUseCase(), singletonCImpl.provideFirebaseAuthProvider.get());
 
-          case 3: // com.studyflix.android.ui.student.quizzes.QuizzesViewModel 
+          case 3: // com.studyflix.android.ui.student.notes.NotesViewModel 
+          return (T) new NotesViewModel(singletonCImpl.notesRepositoryImplProvider.get());
+
+          case 4: // com.studyflix.android.ui.student.quizzes.QuizzesViewModel 
           return (T) new QuizzesViewModel(viewModelCImpl.getQuizzesUseCase());
 
-          case 4: // com.studyflix.android.ui.auth.SignUpViewModel 
+          case 5: // com.studyflix.android.ui.auth.SignUpViewModel 
           return (T) new SignUpViewModel(viewModelCImpl.signUpStudentUseCase());
 
-          case 5: // com.studyflix.android.ui.student.home.StudentHomeViewModel 
+          case 6: // com.studyflix.android.ui.student.home.StudentHomeViewModel 
           return (T) new StudentHomeViewModel(viewModelCImpl.getStudentProfileUseCase(), viewModelCImpl.signOutUseCase(), singletonCImpl.provideFirebaseAuthProvider.get());
 
-          case 6: // com.studyflix.android.ui.student.quizzes.TakeQuizViewModel 
+          case 7: // com.studyflix.android.ui.student.quizzes.TakeQuizViewModel 
           return (T) new TakeQuizViewModel(singletonCImpl.quizRepositoryImplProvider.get(), viewModelCImpl.submitQuizUseCase(), singletonCImpl.provideFirebaseAuthProvider.get(), viewModelCImpl.savedStateHandle);
 
-          case 7: // com.studyflix.android.ui.student.videos.VideosViewModel 
+          case 8: // com.studyflix.android.ui.student.videos.VideosViewModel 
           return (T) new VideosViewModel(viewModelCImpl.getVideosUseCase());
 
           default: throw new AssertionError(id);
@@ -753,6 +772,8 @@ public final class DaggerStudyFlixApplication_HiltComponents_SingletonC {
 
     private Provider<MarksRepositoryImpl> marksRepositoryImplProvider;
 
+    private Provider<NotesRepositoryImpl> notesRepositoryImplProvider;
+
     private Provider<QuizRepositoryImpl> quizRepositoryImplProvider;
 
     private Provider<StudentRepositoryImpl> studentRepositoryImplProvider;
@@ -789,9 +810,10 @@ public final class DaggerStudyFlixApplication_HiltComponents_SingletonC {
       this.authRepositoryImplProvider = DoubleCheck.provider(new SwitchingProvider<AuthRepositoryImpl>(singletonCImpl, 3));
       this.provideDatabaseProvider = DoubleCheck.provider(new SwitchingProvider<StudyFlixDatabase>(singletonCImpl, 5));
       this.marksRepositoryImplProvider = DoubleCheck.provider(new SwitchingProvider<MarksRepositoryImpl>(singletonCImpl, 4));
-      this.quizRepositoryImplProvider = DoubleCheck.provider(new SwitchingProvider<QuizRepositoryImpl>(singletonCImpl, 6));
-      this.studentRepositoryImplProvider = DoubleCheck.provider(new SwitchingProvider<StudentRepositoryImpl>(singletonCImpl, 7));
-      this.contentRepositoryImplProvider = DoubleCheck.provider(new SwitchingProvider<ContentRepositoryImpl>(singletonCImpl, 8));
+      this.notesRepositoryImplProvider = DoubleCheck.provider(new SwitchingProvider<NotesRepositoryImpl>(singletonCImpl, 6));
+      this.quizRepositoryImplProvider = DoubleCheck.provider(new SwitchingProvider<QuizRepositoryImpl>(singletonCImpl, 7));
+      this.studentRepositoryImplProvider = DoubleCheck.provider(new SwitchingProvider<StudentRepositoryImpl>(singletonCImpl, 8));
+      this.contentRepositoryImplProvider = DoubleCheck.provider(new SwitchingProvider<ContentRepositoryImpl>(singletonCImpl, 9));
     }
 
     @Override
@@ -845,13 +867,16 @@ public final class DaggerStudyFlixApplication_HiltComponents_SingletonC {
           case 5: // com.studyflix.android.data.local.StudyFlixDatabase 
           return (T) DatabaseModule_ProvideDatabaseFactory.provideDatabase(ApplicationContextModule_ProvideContextFactory.provideContext(singletonCImpl.applicationContextModule));
 
-          case 6: // com.studyflix.android.data.repository.QuizRepositoryImpl 
+          case 6: // com.studyflix.android.data.repository.NotesRepositoryImpl 
+          return (T) new NotesRepositoryImpl(singletonCImpl.provideFirestoreProvider.get());
+
+          case 7: // com.studyflix.android.data.repository.QuizRepositoryImpl 
           return (T) new QuizRepositoryImpl(singletonCImpl.provideFirestoreProvider.get(), singletonCImpl.quizDao());
 
-          case 7: // com.studyflix.android.data.repository.StudentRepositoryImpl 
+          case 8: // com.studyflix.android.data.repository.StudentRepositoryImpl 
           return (T) new StudentRepositoryImpl(singletonCImpl.provideFirestoreProvider.get(), singletonCImpl.studentDao());
 
-          case 8: // com.studyflix.android.data.repository.ContentRepositoryImpl 
+          case 9: // com.studyflix.android.data.repository.ContentRepositoryImpl 
           return (T) new ContentRepositoryImpl(singletonCImpl.provideFirestoreProvider.get(), singletonCImpl.videoDao());
 
           default: throw new AssertionError(id);

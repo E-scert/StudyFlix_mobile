@@ -1,6 +1,7 @@
 package com.studyflix.android.core.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -15,10 +16,15 @@ import com.studyflix.android.ui.landing.LandingScreen
 import com.studyflix.android.ui.student.chat.ChatScreen
 import com.studyflix.android.ui.student.home.StudentHomeScreen
 import com.studyflix.android.ui.student.marks.MarksScreen
+import com.studyflix.android.ui.student.notes.Note
+import com.studyflix.android.ui.student.notes.NoteDetailScreen
+import com.studyflix.android.ui.student.notes.NotesScreen
+import com.studyflix.android.ui.student.notes.NotesViewModel
 import com.studyflix.android.ui.student.quizzes.QuizzesScreen
 import com.studyflix.android.ui.student.quizzes.TakeQuizScreen
 import com.studyflix.android.ui.student.videos.VideosScreen
 import com.studyflix.android.ui.teacher.TeacherDashboardScreen
+
 
 /**
  * Root navigation graph. On successful sign-in, the app pushes the
@@ -39,7 +45,8 @@ fun StudyFlixNavGraph(navController: NavHostController = rememberNavController()
                 },
                 onAdminClick = {
                     navController.navigate(Screen.Login.createRoute("admin"))
-                }
+                },
+
             )
         }
 
@@ -101,6 +108,11 @@ fun StudyFlixNavGraph(navController: NavHostController = rememberNavController()
         composable(Screen.StudentHome.route) {
             StudentHomeScreen(
                 onOpenVideos = { navController.navigate(Screen.StudentVideos.route) },
+                onOpenNotes = {
+                    navController.navigate(
+                        Screen.StudentNotes.route
+                    )
+                },
                 onOpenQuizzes = { navController.navigate(Screen.StudentQuizzes.route) },
                 onOpenMarks = { navController.navigate(Screen.StudentMarks.route) },
                 onOpenChat = { navController.navigate(Screen.StudentChat.route) },
@@ -112,6 +124,53 @@ fun StudyFlixNavGraph(navController: NavHostController = rememberNavController()
             )
         }
         composable(Screen.StudentVideos.route) { VideosScreen(onBack = { navController.popBackStack() }) }
+        composable(
+            Screen.StudentNotes.route
+        ) {
+
+            NotesScreen(
+                onBack = {
+                    navController.popBackStack()
+                },
+
+                onOpenNote = { noteId ->
+                    navController.navigate(
+                        Screen.StudentNoteDetail.createRoute(noteId)
+                    )
+                }
+            )
+        }
+        composable(
+            route = Screen.StudentNoteDetail.route,
+            arguments = listOf(
+                navArgument(
+                    Screen.StudentNoteDetail.ARG_NOTE_ID
+                ) {
+                    type = NavType.StringType
+                }
+            )
+        ) { backStackEntry ->
+
+            val noteId =
+                backStackEntry.arguments?.getString(
+                    Screen.StudentNoteDetail.ARG_NOTE_ID
+                ) ?: ""
+
+            val viewModel: NotesViewModel = hiltViewModel()
+
+            val note = viewModel.getNoteById(noteId)
+
+            if (note != null) {
+
+                NoteDetailScreen(
+                    note = note,
+                    onBack = {
+                        navController.popBackStack()
+                    }
+                )
+            }
+        }
+
         composable(Screen.StudentQuizzes.route) {
             QuizzesScreen(
                 onBack = { navController.popBackStack() },

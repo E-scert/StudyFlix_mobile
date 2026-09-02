@@ -12,6 +12,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Chat
 import androidx.compose.material.icons.automirrored.filled.Logout
+import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.Grade
 import androidx.compose.material.icons.filled.PlayCircle
 import androidx.compose.material.icons.filled.Quiz
@@ -36,6 +37,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.studyflix.android.core.ui.theme.StudyFlixBackground
 import com.studyflix.android.domain.model.AccountStatus
+import com.studyflix.android.ui.theme.AppColors
+import com.studyflix.android.ui.theme.StudentColors
 
 
 /** Equivalent of public/student/home.html: quick links into every student feature module. */
@@ -43,6 +46,7 @@ import com.studyflix.android.domain.model.AccountStatus
 @Composable
 fun StudentHomeScreen(
     onOpenVideos: () -> Unit,
+    onOpenNotes: () -> Unit,
     onOpenQuizzes: () -> Unit,
     onOpenMarks: () -> Unit,
     onOpenChat: () -> Unit,
@@ -52,21 +56,23 @@ fun StudentHomeScreen(
     val uiState by viewModel.uiState.collectAsState()
 
     Scaffold(
-        containerColor = StudyFlixBackground,
+        containerColor = AppColors.Background,
         topBar = {
             TopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
-                            containerColor = Color(0xFF0F172A)
-
+                    containerColor = AppColors.TopBar
                 ),
                 title = {
                     Column {
-                        Text("StudyFlix", color = Color(0xFF7C4DFF))
+                        Text(
+                            "StudyFlix",
+                            color = StudentColors.Primary
+                        )
 
                         Text(
                             text = "Student Portal",
                             style = MaterialTheme.typography.labelSmall,
-                            color = Color(0xFF7C4DFF)
+                            color = StudentColors.Primary
                         )
                     }
                 },
@@ -77,12 +83,16 @@ fun StudentHomeScreen(
                             onLogout()
                         }
                     ) {
-                        Icon(Icons.AutoMirrored.Filled.Logout, contentDescription = "Log out")
+                        Icon(
+                            Icons.AutoMirrored.Filled.Logout,
+                            contentDescription = "Log out"
+                        )
                     }
                 }
             )
         }
-    ) { padding: PaddingValues ->
+    )
+     { padding: PaddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -105,7 +115,7 @@ fun StudentHomeScreen(
                     Text(
                         text = uiState.student?.name ?: "Student",
                         style = MaterialTheme.typography.headlineSmall,
-                        color = Color(0xFF7C4DFF)
+                        color = StudentColors.Primary
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
@@ -118,9 +128,9 @@ fun StudentHomeScreen(
                     )
 
                     val statusColor = when (uiState.student?.status) {
-                        AccountStatus.APPROVED -> Color(0xFF4CAF50)
-                        AccountStatus.PENDING -> Color(0xFFFFB300)
-                        AccountStatus.SUSPENDED -> Color(0xFFE53935)
+                        AccountStatus.APPROVED -> AppColors.Success
+                        AccountStatus.PENDING -> AppColors.Warning
+                        AccountStatus.SUSPENDED -> AppColors.Suspended
                         else -> Color.Gray
                     }
 
@@ -159,6 +169,13 @@ fun StudentHomeScreen(
                 Icons.AutoMirrored.Filled.Chat,
                 onOpenChat
             )
+            HomeMenuCard(
+                "Study Notes",
+                "Read notes and revision material",
+                Icons.Filled.Description,
+                onOpenNotes
+            )
+
         }
     }
 }
@@ -174,7 +191,8 @@ private fun HomeMenuCard(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(20.dp),
         colors = CardDefaults.cardColors(
-            containerColor = Color(0xFF1A1F38)
+            containerColor = AppColors.Card
+
         ),
         onClick = onClick
     ) {
@@ -191,14 +209,14 @@ private fun HomeMenuCard(
                 Icon(
                     icon,
                     contentDescription = null,
-                    tint = Color(0xFF7C4DFF)
+                    tint = StudentColors.Primary
                 )
             },
 
             trailingContent = {
                 Text(
                     text = "›",
-                    color = Color(0xFF7C4DFF),
+                    color = StudentColors.Primary,
                     style = MaterialTheme.typography.headlineSmall
                 )
             }

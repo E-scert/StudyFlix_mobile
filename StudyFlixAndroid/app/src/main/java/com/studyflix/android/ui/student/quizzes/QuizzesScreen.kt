@@ -32,6 +32,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.studyflix.android.core.ui.theme.StudyFlixBackground
 import com.studyflix.android.domain.model.Quiz
+import com.studyflix.android.ui.theme.AppColors
+import com.studyflix.android.ui.theme.StudentColors
 
 /** Equivalent of public/student/quizzes.html: list of published quizzes. */
 @OptIn(ExperimentalMaterial3Api::class)
@@ -49,7 +51,7 @@ fun QuizzesScreen(
 
             TopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFF0F172A)
+                    containerColor = AppColors.TopBar
                 ),
                 title = {
                     Text(
@@ -61,7 +63,7 @@ fun QuizzesScreen(
                     IconButton(onClick = onBack) { Icon(
                         Icons.Filled.ArrowBack,
                         contentDescription = "Back",
-                        tint = Color(0xFF7C4DFF)
+                        tint = StudentColors.Primary
                     ) }
                 }
             )

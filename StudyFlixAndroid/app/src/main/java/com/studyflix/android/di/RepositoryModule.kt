@@ -4,12 +4,14 @@ import com.studyflix.android.data.repository.AuthRepositoryImpl
 import com.studyflix.android.data.repository.ChatRepositoryImpl
 import com.studyflix.android.data.repository.ContentRepositoryImpl
 import com.studyflix.android.data.repository.MarksRepositoryImpl
+import com.studyflix.android.data.repository.NotesRepositoryImpl
 import com.studyflix.android.data.repository.QuizRepositoryImpl
 import com.studyflix.android.data.repository.StudentRepositoryImpl
 import com.studyflix.android.domain.repository.AuthRepository
 import com.studyflix.android.domain.repository.ChatRepository
 import com.studyflix.android.domain.repository.ContentRepository
 import com.studyflix.android.domain.repository.MarksRepository
+import com.studyflix.android.domain.repository.NotesRepository
 import com.studyflix.android.domain.repository.QuizRepository
 import com.studyflix.android.domain.repository.StudentRepository
 import dagger.Binds
@@ -50,4 +52,9 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindChatRepository(impl: ChatRepositoryImpl): ChatRepository
+
+    @Binds
+    abstract fun bindNotesRepository(
+        impl: NotesRepositoryImpl
+    ): NotesRepository
 }

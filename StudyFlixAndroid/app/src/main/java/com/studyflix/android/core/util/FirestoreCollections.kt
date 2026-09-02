@@ -11,7 +11,10 @@ object FirestoreCollections {
     const val STUDENTS = "students"
     const val SCHOOLS = "schools"
     const val CONTENT = "content"
+    const val NOTES = "notes"
     const val QUIZZES = "quizzes"
     const val MARKS = "marks"
     const val MESSAGES = "messages"
+
+
 }

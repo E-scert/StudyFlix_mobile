@@ -15,6 +15,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.PlayCircle
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
@@ -36,6 +37,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.studyflix.android.core.ui.theme.StudyFlixBackground
 import com.studyflix.android.domain.model.VideoContent
+import com.studyflix.android.ui.theme.AppColors
+import com.studyflix.android.ui.theme.StudentColors
 
 /** Equivalent of public/student/videos.html + js/videos.js: season tabs + episode list. */
 @OptIn(ExperimentalMaterial3Api::class)
@@ -48,19 +51,19 @@ fun VideosScreen(onBack: () -> Unit, viewModel: VideosViewModel = hiltViewModel(
         topBar = {
             TopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFF0F172A)
+                    containerColor = AppColors.TopBar
                 ),
                 title = {
                     Text(
                         "Learning Videos",
-                        color = Color(0xFF7C4DFF)
+                        color = StudentColors.Primary
                     )
                 },
                 navigationIcon = {
                     IconButton(onClick = onBack) { Icon(
                         Icons.Filled.ArrowBack,
                         contentDescription = "Back",
-                        tint = Color(0xFF7C4DFF)
+                        tint = StudentColors.Primary
                     ) }
                 }
             )
@@ -108,7 +111,12 @@ fun VideosScreen(onBack: () -> Unit, viewModel: VideosViewModel = hiltViewModel(
 
 @Composable
 private fun VideoRow(video: VideoContent) {
-    Card(modifier = Modifier.fillMaxWidth()) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(
+            containerColor = AppColors.Card
+        )
+    ) {
         ListItem(
             headlineContent = { Text(video.title) },
             supportingContent = { Text("${video.subject} • ${video.duration}") },
@@ -122,9 +130,9 @@ private fun VideoRow(video: VideoContent) {
                     contentDescription = null,
 
                     tint = if (video.locked)
-                        androidx.compose.ui.graphics.Color.Red
+                        AppColors.Error
                     else
-                        androidx.compose.ui.graphics.Color(0xFF00FFCC)
+                        StudentColors.Primary
                 )
 
             }

@@ -30,10 +30,24 @@ class ContentRepositoryImpl @Inject constructor(
         fetch = {
             firestore.collection(FirestoreCollections.CONTENT)
                 .whereEqualTo("type", "video")
-                .whereEqualTo("status", "approved")
-                .orderBy("createdAt", com.google.firebase.firestore.Query.Direction.DESCENDING)
+                .whereEqualTo("status", "live")
                 .get()
                 .await()
+                .also { snapshot ->
+
+                    android.util.Log.d(
+                        "VIDEOS",
+                        "Found ${snapshot.documents.size} videos"
+                    )
+
+                    snapshot.documents.forEach { doc ->
+
+                        android.util.Log.d(
+                            "VIDEOS",
+                            "Doc = ${doc.id}, title = ${doc.getString("title")}, type = ${doc.getString("type")}, status = ${doc.getString("status")}"
+                        )
+                    }
+                }
                 .documents
                 .map { doc ->
                     VideoEntity(
@@ -46,7 +60,10 @@ class ContentRepositoryImpl @Inject constructor(
                         views = (doc.getLong("views") ?: 0L).toInt(),
                         subject = doc.getString("subject").orEmpty(),
                         locked = doc.getBoolean("locked") ?: false,
-                        videoUrl = doc.getString("videoUrl").orEmpty(),
+                        videoUrl =
+                            doc.getString("videoUrl")
+                                ?: doc.getString("fileUrl")
+                                ?: "",
                         thumbnailUrl = doc.getString("thumbnailUrl").orEmpty()
                     )
                 }

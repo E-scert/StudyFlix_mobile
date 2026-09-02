@@ -22,6 +22,12 @@ sealed class Screen(val route: String) {
     data object StudentVideos : Screen("student/videos")
     data object StudentQuizzes : Screen("student/quizzes")
 
+    data object StudentNotes : Screen("student/notes")
+
+    data object StudentNoteDetail : Screen("student/note/{noteId}") {
+        fun createRoute(noteId: String) = "student/note/$noteId"
+        const val ARG_NOTE_ID = "noteId"
+    }
     data object TakeQuiz : Screen("student/quiz/{quizId}") {
         fun createRoute(quizId: String) = "student/quiz/$quizId"
         const val ARG_QUIZ_ID = "quizId"

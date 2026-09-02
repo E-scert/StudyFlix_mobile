@@ -17,6 +17,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -25,11 +26,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.studyflix.android.ui.theme.AppColors
+import com.studyflix.android.ui.theme.StudentColors
 
 /** Equivalent of public/student/take-quiz.html: one question at a time, prev/next, submit. */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TakeQuizScreen(onFinished: () -> Unit, viewModel: TakeQuizViewModel = hiltViewModel()) {
+fun TakeQuizScreen(
+    onFinished: () -> Unit,
+    viewModel: TakeQuizViewModel = hiltViewModel()
+) {
     val uiState by viewModel.uiState.collectAsState()
 
     LaunchedEffect(uiState.finalScore) {
@@ -37,36 +43,59 @@ fun TakeQuizScreen(onFinished: () -> Unit, viewModel: TakeQuizViewModel = hiltVi
     }
 
     val quiz = uiState.quiz
-    Scaffold(topBar = { TopAppBar(
-        title = {
-            Text(
-                text = quiz?.title ?: "Quiz",
-                color = Color(0xFF00FFCC)
+
+    Scaffold(
+        containerColor = AppColors.Background,
+        topBar = {
+            TopAppBar(
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = AppColors.TopBar
+                ),
+                title = {
+                    Text(
+                        text = quiz?.title ?: "Quiz",
+                        color = StudentColors.Primary
+                    )
+                }
             )
         }
-    ) }) { padding: PaddingValues ->
+    ) { padding: PaddingValues ->
+
         if (quiz == null) {
-            CircularProgressIndicator(modifier = Modifier.padding(padding).padding(24.dp))
+            CircularProgressIndicator(
+                modifier = Modifier
+                    .padding(padding)
+                    .padding(24.dp)
+            )
             return@Scaffold
         }
 
         val question = uiState.currentQuestion
+
         Column(
-            modifier = Modifier.fillMaxSize().padding(padding).padding(16.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+                .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
+
             Text(
                 text = "Question ${uiState.currentIndex + 1} of ${quiz.questions.size}",
                 style = MaterialTheme.typography.titleSmall,
-                color = Color(0xFF00FFCC)
+                color = StudentColors.Primary
             )
+
             question?.let {
+
                 Text(
                     text = it.text,
-                    style = MaterialTheme.typography.headlineSmall
+                    style = MaterialTheme.typography.headlineSmall,
+                    color = AppColors.TextPrimary
                 )
 
                 it.options.forEachIndexed { index, option ->
+
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -76,31 +105,64 @@ fun TakeQuizScreen(onFinished: () -> Unit, viewModel: TakeQuizViewModel = hiltVi
                             ),
                         verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
                     ) {
+
                         RadioButton(
                             selected = uiState.answers.getOrNull(uiState.currentIndex) == index,
                             onClick = { viewModel.selectAnswer(index) }
                         )
-                        Text(text = option,
-                            style = MaterialTheme.typography.bodyLarge)
+
+                        Text(
+                            text = option,
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = AppColors.TextPrimary
+                        )
                     }
                 }
             }
 
-            uiState.errorMessage?.let { Text(it, color = MaterialTheme.colorScheme.error) }
+            uiState.errorMessage?.let {
+                Text(
+                    text = it,
+                    color = AppColors.Error
+                )
+            }
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                TextButton(onClick = viewModel::previousQuestion, enabled = uiState.currentIndex > 0) {
-                    Text("Previous")
+
+                TextButton(
+                    onClick = viewModel::previousQuestion,
+                    enabled = uiState.currentIndex > 0
+                ) {
+                    Text(
+                        "Previous",
+                        color = StudentColors.Primary
+                    )
                 }
+
                 if (uiState.isLastQuestion) {
-                    Button(onClick = viewModel::submit, enabled = !uiState.isSubmitting) {
-                        Text(if (uiState.isSubmitting) "Submitting..." else "Submit")
+
+                    Button(
+                        onClick = viewModel::submit,
+                        enabled = !uiState.isSubmitting
+                    ) {
+                        Text(
+                            if (uiState.isSubmitting)
+                                "Submitting..."
+                            else
+                                "Submit"
+                        )
                     }
+
                 } else {
-                    Button(onClick = viewModel::nextQuestion) { Text("Next") }
+
+                    Button(
+                        onClick = viewModel::nextQuestion
+                    ) {
+                        Text("Next")
+                    }
                 }
             }
         }

@@ -32,6 +32,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.studyflix.android.core.ui.theme.StudyFlixBackground
 import com.studyflix.android.domain.model.Mark
+import androidx.compose.material3.CardDefaults
+import com.studyflix.android.ui.theme.AppColors
+import com.studyflix.android.ui.theme.StudentColors
 
 /** Equivalent of public/student/marks/results view: summary average + a scrollable list. */
 @OptIn(ExperimentalMaterial3Api::class)
@@ -40,23 +43,30 @@ fun MarksScreen(onBack: () -> Unit, viewModel: MarksViewModel = hiltViewModel())
     val uiState by viewModel.uiState.collectAsState()
 
     Scaffold(
-        containerColor = StudyFlixBackground,
+        containerColor = AppColors.Background,
         topBar = {
             TopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFF0F172A)
+                    containerColor = AppColors.TopBar
                 ),
-                title = { Text("Marks & Results", color = Color(0xFF00FFCC)) },
+                title = {
+                    Text(
+                        "Marks & Results",
+                        color = StudentColors.Primary
+                    )
+                },
                 navigationIcon = {
-                    IconButton(onClick = onBack) { Icon(
-                        Icons.Filled.ArrowBack,
-                        contentDescription = "Back",
-                        tint = Color(0xFF7C4DFF)
-                    ) }
+                    IconButton(onClick = onBack) {
+                        Icon(
+                            Icons.Filled.ArrowBack,
+                            contentDescription = "Back",
+                            tint = StudentColors.Primary
+                        )
+                    }
                 }
             )
         }
-    ) { padding: PaddingValues ->
+    ){ padding: PaddingValues ->
         if (uiState.isLoading) {
             CircularProgressIndicator(modifier = Modifier.padding(padding).padding(24.dp))
             return@Scaffold
@@ -67,7 +77,7 @@ fun MarksScreen(onBack: () -> Unit, viewModel: MarksViewModel = hiltViewModel())
                 Text(
                     text = "Average: ${uiState.averagePercentage}%",
                     style = MaterialTheme.typography.headlineSmall,
-                    color = Color(0xFF00FFCC)
+                    color = StudentColors.Primary
                 )
             }
             LazyColumn(
@@ -75,7 +85,13 @@ fun MarksScreen(onBack: () -> Unit, viewModel: MarksViewModel = hiltViewModel())
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 items(uiState.marks, key = Mark::id) { mark ->
-                    Card(modifier = Modifier.fillMaxWidth(),shape = RoundedCornerShape(20.dp)) {
+                    Card(
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(20.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = AppColors.Card
+                        )
+                    ) {
                         ListItem(
                             headlineContent = { Text(mark.name) },
                             supportingContent = {
@@ -86,7 +102,7 @@ fun MarksScreen(onBack: () -> Unit, viewModel: MarksViewModel = hiltViewModel())
                             trailingContent = {
                                 Text(
                                     text = "${mark.percentage}%",
-                                    color = Color(0xFF00FFCC),
+                                    color = StudentColors.Primary,
                                     style = MaterialTheme.typography.titleMedium
                                 )
                             }
