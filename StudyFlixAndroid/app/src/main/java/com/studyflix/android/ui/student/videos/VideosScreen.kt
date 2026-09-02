@@ -1,5 +1,9 @@
 package com.studyflix.android.ui.student.videos
 
+import android.content.Intent
+import android.net.Uri
+import androidx.compose.ui.platform.LocalContext
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -39,13 +43,18 @@ import com.studyflix.android.core.ui.theme.StudyFlixBackground
 import com.studyflix.android.domain.model.VideoContent
 import com.studyflix.android.ui.theme.AppColors
 import com.studyflix.android.ui.theme.StudentColors
+import androidx.compose.foundation.clickable
 
 /** Equivalent of public/student/videos.html + js/videos.js: season tabs + episode list. */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun VideosScreen(onBack: () -> Unit, viewModel: VideosViewModel = hiltViewModel()) {
+fun VideosScreen(
+    onBack: () -> Unit,
+    onOpenVideo: (String) -> Unit,
+    viewModel: VideosViewModel = hiltViewModel()
+) {
     val uiState by viewModel.uiState.collectAsState()
-
+    val context = LocalContext.current
     Scaffold(
         containerColor = StudyFlixBackground,
         topBar = {
@@ -102,7 +111,15 @@ fun VideosScreen(onBack: () -> Unit, viewModel: VideosViewModel = hiltViewModel(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 items(uiState.visibleVideos, key = VideoContent::id) { video ->
-                    VideoRow(video)
+                    VideoRow(
+                        video = video,
+                        onClick = {
+
+                            if (video.videoUrl.isNotBlank()) {
+                                onOpenVideo(video.videoUrl)
+                            }
+                        }
+                    )
                 }
             }
         }
@@ -110,16 +127,27 @@ fun VideosScreen(onBack: () -> Unit, viewModel: VideosViewModel = hiltViewModel(
 }
 
 @Composable
-private fun VideoRow(video: VideoContent) {
+private fun VideoRow(
+    video: VideoContent,
+    onClick: () -> Unit
+) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(
+                onClick = onClick
+            ),
         colors = CardDefaults.cardColors(
             containerColor = AppColors.Card
         )
     ) {
         ListItem(
             headlineContent = { Text(video.title) },
-            supportingContent = { Text("${video.subject} • ${video.duration}") },
+            supportingContent = {
+                Text(
+                    "${video.subject} • ${video.duration}"
+                )
+            },
             leadingContent = {
                 Icon(
                     imageVector = if (video.locked)

@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.studyflix.android.app-mergeDebugResources-69:/values-en-rXC/values-en-rXC.xml",
+            "outputFile": "com.studyflix.android.app-mergeDebugResources-73:/values-en-rXC/values-en-rXC.xml",
             "map": [
                 {
                     "source": "C:\\Users\\student\\.gradle\\caches\\9.0.0\\transforms\\c01c4ac5f41bb6f5027a600a31e44c73\\transformed\\foundation-release\\res\\values-en-rXC\\values-en-rXC.xml",

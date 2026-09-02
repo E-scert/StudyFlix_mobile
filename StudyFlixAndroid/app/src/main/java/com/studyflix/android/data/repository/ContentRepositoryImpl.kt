@@ -1,5 +1,6 @@
 package com.studyflix.android.data.repository
 
+
 import com.google.firebase.firestore.FirebaseFirestore
 import com.studyflix.android.core.util.FirestoreCollections
 import com.studyflix.android.core.util.Resource
@@ -35,19 +36,17 @@ class ContentRepositoryImpl @Inject constructor(
                 .await()
                 .also { snapshot ->
 
-                    android.util.Log.d(
-                        "VIDEOS",
-                        "Found ${snapshot.documents.size} videos"
-                    )
+
 
                     snapshot.documents.forEach { doc ->
 
                         android.util.Log.d(
                             "VIDEOS",
-                            "Doc = ${doc.id}, title = ${doc.getString("title")}, type = ${doc.getString("type")}, status = ${doc.getString("status")}"
+                            "Doc=${doc.id}, title=${doc.getString("title")}"
                         )
                     }
                 }
+
                 .documents
                 .map { doc ->
                     VideoEntity(

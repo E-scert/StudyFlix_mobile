@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.studyflix.android.app-mergeDebugResources-69:/values-or/values-or.xml",
+            "outputFile": "com.studyflix.android.app-mergeDebugResources-73:/values-or/values-or.xml",
             "map": [
                 {
                     "source": "C:\\Users\\student\\.gradle\\caches\\9.0.0\\transforms\\3569a29c0c2185fc0a919321b8cb9f0f\\transformed\\material3-release\\res\\values-or\\values-or.xml",

@@ -1,5 +1,6 @@
 package com.studyflix.android.ui.student.quizzes
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -28,6 +29,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.studyflix.android.ui.theme.AppColors
 import com.studyflix.android.ui.theme.StudentColors
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.Alignment
 
 /** Equivalent of public/student/take-quiz.html: one question at a time, prev/next, submit. */
 @OptIn(ExperimentalMaterial3Api::class)
@@ -38,11 +43,134 @@ fun TakeQuizScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
-    LaunchedEffect(uiState.finalScore) {
-        if (uiState.finalScore != null) onFinished()
-    }
+//    LaunchedEffect(uiState.finalScore) {
+//        if (uiState.finalScore != null) onFinished()
+//    }
 
     val quiz = uiState.quiz
+
+    if (uiState.finalScore != null && quiz != null) {
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(AppColors.Background),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        )
+             {
+
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth(0.9f),
+                shape = RoundedCornerShape(24.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = AppColors.Card
+                )
+            ) {
+
+                Column(
+                    modifier = Modifier.padding(24.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    Text(
+                        text = quiz.title,
+                        style = MaterialTheme.typography.headlineMedium,
+                        color = StudentColors.Primary
+                    )
+
+
+                    Text(
+                        text = "Subject: ${quiz.subject}"
+                        ,color = Color.White
+                    )
+
+                    Text(
+                        text = "Questions: ${quiz.questions.size}"
+                        ,color = Color.White
+                    )
+
+                    Text(
+                        text = "Time Limit: ${quiz.timeLimitMinutes} mins"
+                        ,color = Color.White
+                    )
+
+                    if (uiState.timedOut) {
+
+                        Text(
+                            text = "⏰ Time Expired",
+                            color = AppColors.Error
+                        )
+
+                        Text(
+                            text = "Your quiz was submitted automatically."
+                            ,color = Color.White
+                        )
+                    }
+
+                    val score = uiState.finalScore ?: 0
+
+                    val percentage =
+                        if (quiz.totalMarks > 0)
+                            (score * 100) / quiz.totalMarks
+                        else
+                            0
+
+                    val passed = percentage >= 50
+
+                    val correctAnswers =
+                        quiz.questions.mapIndexed { index, question ->
+
+                            if (
+                                uiState.answers.getOrNull(index) ==
+                                question.correctIndex
+                            ) 1 else 0
+
+                        }.sum()
+
+                    val wrongAnswers =
+                        quiz.questions.size - correctAnswers
+
+
+
+                    Text(
+                        text = "Score: $score / ${quiz.totalMarks}"
+                        ,color = Color.White
+                    )
+
+                    Text(
+                        text = "$percentage%",
+                        style = MaterialTheme.typography.displayLarge,
+                        color = StudentColors.Primary
+                    )
+
+                    Text(
+                        text = "Correct Answers: $correctAnswers"
+                        ,color = Color.White
+                    )
+
+                    Text(
+                        text = "Wrong Answers: $wrongAnswers"
+                        ,color = Color.White
+                    )
+
+                    Text(
+                        text = if (passed) "PASS ✅" else "FAIL ❌",
+                        style = MaterialTheme.typography.headlineLarge,
+                        color = if (passed) Color.Green else Color.Red
+                    )
+                    Button(
+                        onClick = onFinished
+                    ) {
+                        Text("Back to Quizzes")
+                    }
+                }
+            }
+        }
+        return
+    }
+
 
     Scaffold(
         containerColor = AppColors.Background,
@@ -84,6 +212,15 @@ fun TakeQuizScreen(
                 text = "Question ${uiState.currentIndex + 1} of ${quiz.questions.size}",
                 style = MaterialTheme.typography.titleSmall,
                 color = StudentColors.Primary
+            )
+            val minutes = uiState.timeRemainingSeconds / 60
+            val seconds = uiState.timeRemainingSeconds % 60
+
+            Text(
+                text = String.format(
+                    "Time Remaining: %02d:%02d", minutes, seconds),
+                style = MaterialTheme.typography.titleMedium,
+                color = Color.Yellow
             )
 
             question?.let {

@@ -29,7 +29,6 @@ class QuizRepositoryImpl @Inject constructor(
         fetch = {
             firestore.collection(FirestoreCollections.QUIZZES)
                 .whereEqualTo("status", "published")
-                .orderBy("createdAt", com.google.firebase.firestore.Query.Direction.DESCENDING)
                 .get()
                 .await()
                 .documents

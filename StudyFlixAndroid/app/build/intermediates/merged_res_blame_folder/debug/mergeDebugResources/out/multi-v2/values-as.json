@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.studyflix.android.app-mergeDebugResources-69:/values-as/values-as.xml",
+            "outputFile": "com.studyflix.android.app-mergeDebugResources-73:/values-as/values-as.xml",
             "map": [
                 {
                     "source": "C:\\Users\\student\\.gradle\\caches\\9.0.0\\transforms\\31b5d36ec9859ffd1c68cb7c302bf1d1\\transformed\\ui-release\\res\\values-as\\values-as.xml",

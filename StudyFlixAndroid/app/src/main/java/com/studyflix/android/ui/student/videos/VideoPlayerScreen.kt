@@ -1,0 +1,54 @@
+package com.studyflix.android.ui.student.videos
+
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.media3.common.MediaItem
+import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.ui.PlayerView
+
+@Composable
+fun VideoPlayerScreen(
+    videoUrl: String
+) {
+
+    val context = LocalContext.current
+
+    val exoPlayer = remember {
+
+        ExoPlayer.Builder(context)
+            .build()
+            .apply {
+
+                android.util.Log.d(
+                    "PLAYER_URL",
+                    videoUrl
+                )
+                setMediaItem(
+                    MediaItem.fromUri(videoUrl)
+                )
+
+                prepare()
+
+                playWhenReady = true
+            }
+    }
+
+    DisposableEffect(Unit) {
+
+        onDispose {
+            exoPlayer.release()
+        }
+    }
+
+    AndroidView(
+        factory = {
+
+            PlayerView(it).apply {
+                player = exoPlayer
+            }
+        }
+    )
+}

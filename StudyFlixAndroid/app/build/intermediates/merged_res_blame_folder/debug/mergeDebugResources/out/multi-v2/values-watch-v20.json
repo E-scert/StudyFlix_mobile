@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.studyflix.android.app-mergeDebugResources-69:/values-watch-v20/values-watch-v20.xml",
+            "outputFile": "com.studyflix.android.app-mergeDebugResources-73:/values-watch-v20/values-watch-v20.xml",
             "map": [
                 {
                     "source": "C:\\Users\\student\\.gradle\\caches\\9.0.0\\transforms\\5893a5aed141cd7ed294f35527e36f78\\transformed\\play-services-auth-21.3.0\\res\\values-watch-v20\\values.xml",

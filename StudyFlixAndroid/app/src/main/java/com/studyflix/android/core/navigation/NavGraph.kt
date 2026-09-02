@@ -22,6 +22,7 @@ import com.studyflix.android.ui.student.notes.NotesScreen
 import com.studyflix.android.ui.student.notes.NotesViewModel
 import com.studyflix.android.ui.student.quizzes.QuizzesScreen
 import com.studyflix.android.ui.student.quizzes.TakeQuizScreen
+import com.studyflix.android.ui.student.videos.VideoPlayerScreen
 import com.studyflix.android.ui.student.videos.VideosScreen
 import com.studyflix.android.ui.teacher.TeacherDashboardScreen
 
@@ -123,7 +124,50 @@ fun StudyFlixNavGraph(navController: NavHostController = rememberNavController()
                  }
             )
         }
-        composable(Screen.StudentVideos.route) { VideosScreen(onBack = { navController.popBackStack() }) }
+        composable(
+            Screen.StudentVideos.route
+        ) {
+
+            VideosScreen(
+                onBack = {
+                    navController.popBackStack()
+                },
+                onOpenVideo = { videoUrl ->
+
+                    val encodedUrl =
+                        java.net.URLEncoder.encode(
+                            videoUrl,
+                            "UTF-8"
+                        )
+
+                    navController.navigate(
+                        "student_video_player/$encodedUrl"
+                    )
+                }
+            )
+        }
+
+        composable(
+            route = "student_video_player/{videoUrl}",
+            arguments = listOf(
+                navArgument("videoUrl") {
+                    type = NavType.StringType
+                }
+            )
+        ) { backStackEntry ->
+
+            val videoUrl =
+                backStackEntry.arguments?.getString("videoUrl")
+                    ?: ""
+
+            VideoPlayerScreen(
+                videoUrl = java.net.URLDecoder.decode(
+                    videoUrl,
+                    "UTF-8"
+                )
+            )
+        }
+
         composable(
             Screen.StudentNotes.route
         ) {

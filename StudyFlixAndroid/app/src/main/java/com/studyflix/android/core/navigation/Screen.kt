@@ -36,9 +36,18 @@ sealed class Screen(val route: String) {
     data object StudentMarks : Screen("student/marks")
     data object StudentChat : Screen("student/chat")
 
+    object StudentVideoPlayer : Screen(
+        "student_video_player/{videoUrl}"
+    ) {
+        fun createRoute(videoUrl: String): String {
+            return "student_video_player/$videoUrl"
+        }
+    }
     // Teacher portal
     data object TeacherDashboard : Screen("teacher/dashboard")
 
     // Admin portal
     data object AdminDashboard : Screen("admin/dashboard")
+
+
 }

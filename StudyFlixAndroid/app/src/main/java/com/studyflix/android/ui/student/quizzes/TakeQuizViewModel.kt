@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlinx.coroutines.delay
 
 data class TakeQuizUiState(
     val quiz: Quiz? = null,
@@ -21,8 +22,11 @@ data class TakeQuizUiState(
     val answers: List<Int?> = emptyList(),
     val isSubmitting: Boolean = false,
     val finalScore: Int? = null,
-    val errorMessage: String? = null
-) {
+    val errorMessage: String? = null,
+    val timeRemainingSeconds: Int = 0,
+    val timedOut: Boolean = false
+
+    ) {
     val currentQuestion get() = quiz?.questions?.getOrNull(currentIndex)
     val isLastQuestion get() = quiz != null && currentIndex == quiz.questions.lastIndex
 }
@@ -46,8 +50,29 @@ class TakeQuizViewModel @Inject constructor(
             val quiz = quizRepository.getQuiz(quizId)
             _uiState.value = _uiState.value.copy(
                 quiz = quiz,
-                answers = quiz?.questions?.map { null } ?: emptyList()
+                answers = quiz?.questions?.map { null } ?: emptyList(),
+                timeRemainingSeconds =
+                    (quiz?.timeLimitMinutes ?: 0) * 60
             )
+            while (_uiState.value.timeRemainingSeconds > 0) {
+
+                kotlinx.coroutines.delay(1000)
+
+                _uiState.value = _uiState.value.copy(
+                    timeRemainingSeconds =
+                        _uiState.value.timeRemainingSeconds - 1
+                )
+            }
+
+            if (_uiState.value.finalScore == null) {
+
+                _uiState.value = _uiState.value.copy(
+                    timedOut = true
+                )
+
+                submit()
+            }
+
         }
     }
 
