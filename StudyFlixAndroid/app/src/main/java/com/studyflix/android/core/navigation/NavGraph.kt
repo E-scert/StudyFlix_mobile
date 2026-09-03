@@ -1,5 +1,6 @@
 package com.studyflix.android.core.navigation
 
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -13,6 +14,9 @@ import com.studyflix.android.ui.admin.AdminDashboardScreen
 import com.studyflix.android.ui.auth.LoginScreen
 import com.studyflix.android.ui.auth.SignUpStudentScreen
 import com.studyflix.android.ui.landing.LandingScreen
+import com.studyflix.android.ui.student.assignments.AssignmentDetailsScreen
+import com.studyflix.android.ui.student.assignments.AssignmentQuestionScreen
+import com.studyflix.android.ui.student.assignments.AssignmentsScreen
 import com.studyflix.android.ui.student.chat.ChatScreen
 import com.studyflix.android.ui.student.home.StudentHomeScreen
 import com.studyflix.android.ui.student.marks.MarksScreen
@@ -20,6 +24,7 @@ import com.studyflix.android.ui.student.notes.Note
 import com.studyflix.android.ui.student.notes.NoteDetailScreen
 import com.studyflix.android.ui.student.notes.NotesScreen
 import com.studyflix.android.ui.student.notes.NotesViewModel
+import com.studyflix.android.ui.student.pastpapers.PastPapersScreen
 import com.studyflix.android.ui.student.quizzes.QuizzesScreen
 import com.studyflix.android.ui.student.quizzes.TakeQuizScreen
 import com.studyflix.android.ui.student.videos.VideoPlayerScreen
@@ -109,17 +114,13 @@ fun StudyFlixNavGraph(navController: NavHostController = rememberNavController()
         composable(Screen.StudentHome.route) {
             StudentHomeScreen(
                 onOpenVideos = { navController.navigate(Screen.StudentVideos.route) },
-                onOpenNotes = {
-                    navController.navigate(
-                        Screen.StudentNotes.route
-                    )
-                },
+                onOpenAssignments = { navController.navigate(Screen.StudentAssignments.route) },
+                onOpenPastPapers = { navController.navigate(Screen.StudentPastPapers.route) },
+                onOpenNotes = { navController.navigate(Screen.StudentNotes.route) },
                 onOpenQuizzes = { navController.navigate(Screen.StudentQuizzes.route) },
                 onOpenMarks = { navController.navigate(Screen.StudentMarks.route) },
                 onOpenChat = { navController.navigate(Screen.StudentChat.route) },
-                onLogout = {
-                    navController.navigate(Screen.Landing.route) {
-                        popUpTo(0)
+                onLogout = { navController.navigate(Screen.Landing.route) {popUpTo(0)
                     }
                  }
             )
@@ -146,6 +147,67 @@ fun StudyFlixNavGraph(navController: NavHostController = rememberNavController()
                 }
             )
         }
+
+        composable(
+            Screen.StudentAssignments.route
+        ) {
+
+            AssignmentsScreen(
+                onBack = {
+                    navController.popBackStack()
+                },
+                onOpenAssignment = { assignmentId ->
+
+                    navController.navigate(
+                        Screen.AssignmentDetails.createRoute(
+                            assignmentId
+                        )
+                    )
+                }
+            )
+        }
+        composable(
+            route = Screen.AssignmentDetails.route
+        ) { backStackEntry ->
+
+            val assignmentId =
+                backStackEntry.arguments
+                    ?.getString("assignmentId")
+                    .orEmpty()
+
+            AssignmentDetailsScreen(
+                assignmentId = assignmentId,
+                onBack = {
+                    navController.popBackStack()
+                },
+                onStartAssignment = { id ->
+
+                    navController.navigate(
+                        Screen.AssignmentQuestions.createRoute(id)
+                    )
+                }
+            )
+
+        }
+
+        composable(
+            route = Screen.AssignmentQuestions.route
+        ) { backStackEntry ->
+
+            val assignmentId =
+                backStackEntry.arguments
+                    ?.getString("assignmentId")
+                    .orEmpty()
+
+            AssignmentQuestionScreen(
+                assignmentId = assignmentId,
+                onBack = {
+                    navController.popBackStack()
+                }
+            )
+
+        }
+
 
         composable(
             route = "student_video_player/{videoUrl}",
@@ -215,37 +277,15 @@ fun StudyFlixNavGraph(navController: NavHostController = rememberNavController()
             }
         }
 
-        composable(Screen.StudentQuizzes.route) {
-            QuizzesScreen(
-                onBack = { navController.popBackStack() },
-                onOpenQuiz = { quizId -> navController.navigate(Screen.TakeQuiz.createRoute(quizId)) }
-            )
-        }
-        composable(
-            route = Screen.TakeQuiz.route,
-            arguments = listOf(navArgument(Screen.TakeQuiz.ARG_QUIZ_ID) { type = NavType.StringType })
-        ) {
-            TakeQuizScreen(onFinished = { navController.popBackStack() })
-        }
+        composable(Screen.StudentQuizzes.route) { QuizzesScreen(onBack = { navController.popBackStack() }, onOpenQuiz = { quizId -> navController.navigate(Screen.TakeQuiz.createRoute(quizId)) }) }
+        composable(Screen.StudentPastPapers.route) { PastPapersScreen(onBack = { navController.popBackStack() }) }
+        composable(route = Screen.TakeQuiz.route, arguments = listOf(navArgument(Screen.TakeQuiz.ARG_QUIZ_ID) { type = NavType.StringType })) { TakeQuizScreen(onFinished = { navController.popBackStack() }) }
         composable(Screen.StudentMarks.route) { MarksScreen(onBack = { navController.popBackStack() }) }
         composable(Screen.StudentChat.route) { ChatScreen(onBack = { navController.popBackStack() }) }
 
         // ---- Teacher / Admin portal roots ----
-        composable(Screen.TeacherDashboard.route) {
-            TeacherDashboardScreen {
-                navController.navigate(Screen.Login.route) {
-                    popUpTo(0)
-                }
-            }
-        }
-        composable(Screen.AdminDashboard.route) {
-            AdminDashboardScreen(
-                onLogout = {
-                    navController.navigate(Screen.Login.route) {
-                        popUpTo(0)
-                    }
-                }
-            )
+        composable(Screen.TeacherDashboard.route) { TeacherDashboardScreen { navController.navigate(Screen.Login.route) { popUpTo(0) } } }
+        composable(Screen.AdminDashboard.route) { AdminDashboardScreen(onLogout = { navController.navigate(Screen.Login.route) { popUpTo(0) } })
         }
     }
 }

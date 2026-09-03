@@ -5,10 +5,13 @@ import com.studyflix.android.di.FirebaseModule;
 import com.studyflix.android.di.RepositoryModule;
 import com.studyflix.android.ui.auth.LoginViewModel_HiltModules;
 import com.studyflix.android.ui.auth.SignUpViewModel_HiltModules;
+import com.studyflix.android.ui.student.assignments.AssignmentDetailsViewModel_HiltModules;
+import com.studyflix.android.ui.student.assignments.AssignmentsViewModel_HiltModules;
 import com.studyflix.android.ui.student.chat.ChatViewModel_HiltModules;
 import com.studyflix.android.ui.student.home.StudentHomeViewModel_HiltModules;
 import com.studyflix.android.ui.student.marks.MarksViewModel_HiltModules;
 import com.studyflix.android.ui.student.notes.NotesViewModel_HiltModules;
+import com.studyflix.android.ui.student.pastpapers.PastPapersViewModel_HiltModules;
 import com.studyflix.android.ui.student.quizzes.QuizzesViewModel_HiltModules;
 import com.studyflix.android.ui.student.quizzes.TakeQuizViewModel_HiltModules;
 import com.studyflix.android.ui.student.videos.VideosViewModel_HiltModules;
@@ -165,12 +168,15 @@ public final class StudyFlixApplication_HiltComponents {
 
   @Subcomponent(
       modules = {
+          AssignmentDetailsViewModel_HiltModules.KeyModule.class,
+          AssignmentsViewModel_HiltModules.KeyModule.class,
           ChatViewModel_HiltModules.KeyModule.class,
           HiltWrapper_ActivityRetainedComponentManager_LifecycleModule.class,
           HiltWrapper_SavedStateHandleModule.class,
           LoginViewModel_HiltModules.KeyModule.class,
           MarksViewModel_HiltModules.KeyModule.class,
           NotesViewModel_HiltModules.KeyModule.class,
+          PastPapersViewModel_HiltModules.KeyModule.class,
           QuizzesViewModel_HiltModules.KeyModule.class,
           SignUpViewModel_HiltModules.KeyModule.class,
           StudentHomeViewModel_HiltModules.KeyModule.class,
@@ -213,11 +219,14 @@ public final class StudyFlixApplication_HiltComponents {
 
   @Subcomponent(
       modules = {
+          AssignmentDetailsViewModel_HiltModules.BindsModule.class,
+          AssignmentsViewModel_HiltModules.BindsModule.class,
           ChatViewModel_HiltModules.BindsModule.class,
           HiltWrapper_HiltViewModelFactory_ViewModelModule.class,
           LoginViewModel_HiltModules.BindsModule.class,
           MarksViewModel_HiltModules.BindsModule.class,
           NotesViewModel_HiltModules.BindsModule.class,
+          PastPapersViewModel_HiltModules.BindsModule.class,
           QuizzesViewModel_HiltModules.BindsModule.class,
           SignUpViewModel_HiltModules.BindsModule.class,
           StudentHomeViewModel_HiltModules.BindsModule.class,

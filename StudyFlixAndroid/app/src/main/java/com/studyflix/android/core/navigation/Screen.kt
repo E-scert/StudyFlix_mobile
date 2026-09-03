@@ -21,6 +21,8 @@ sealed class Screen(val route: String) {
     data object StudentHome : Screen("student/home")
     data object StudentVideos : Screen("student/videos")
     data object StudentQuizzes : Screen("student/quizzes")
+    object StudentPastPapers : Screen("student_past_papers"
+    )
 
     data object StudentNotes : Screen("student/notes")
 
@@ -35,6 +37,7 @@ sealed class Screen(val route: String) {
 
     data object StudentMarks : Screen("student/marks")
     data object StudentChat : Screen("student/chat")
+    object StudentAssignments : Screen("student_assignments")
 
     object StudentVideoPlayer : Screen(
         "student_video_player/{videoUrl}"
@@ -42,6 +45,23 @@ sealed class Screen(val route: String) {
         fun createRoute(videoUrl: String): String {
             return "student_video_player/$videoUrl"
         }
+    }
+    object AssignmentDetails : Screen(
+        "assignment_details/{assignmentId}"
+    ) {
+
+        fun createRoute(
+            assignmentId: String
+        ) = "assignment_details/$assignmentId"
+    }
+
+    object AssignmentQuestions : Screen(
+        "assignment_questions/{assignmentId}"
+    ) {
+
+        fun createRoute(
+            assignmentId: String
+        ) = "assignment_questions/$assignmentId"
     }
     // Teacher portal
     data object TeacherDashboard : Screen("teacher/dashboard")

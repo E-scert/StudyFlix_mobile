@@ -19,6 +19,10 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
+import com.studyflix.android.data.repository.PastPaperRepositoryImpl
+import com.studyflix.android.domain.repository.PastPaperRepository
+import com.studyflix.android.data.repository.AssignmentRepositoryImpl
+import com.studyflix.android.domain.repository.AssignmentRepository
 
 /**
  * Binds each interface in `domain.repository` to its concrete `data.repository`
@@ -54,7 +58,13 @@ abstract class RepositoryModule {
     abstract fun bindChatRepository(impl: ChatRepositoryImpl): ChatRepository
 
     @Binds
-    abstract fun bindNotesRepository(
-        impl: NotesRepositoryImpl
-    ): NotesRepository
+    abstract fun bindNotesRepository(impl: NotesRepositoryImpl): NotesRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindPastPaperRepository(impl: PastPaperRepositoryImpl): PastPaperRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindAssignmentRepository(impl: AssignmentRepositoryImpl): AssignmentRepository
 }

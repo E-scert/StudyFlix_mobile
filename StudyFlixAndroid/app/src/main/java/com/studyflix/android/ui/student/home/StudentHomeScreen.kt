@@ -1,5 +1,6 @@
 package com.studyflix.android.ui.student.home
 
+import androidx.compose.material.icons.filled.Assignment
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -39,6 +40,19 @@ import com.studyflix.android.core.ui.theme.StudyFlixBackground
 import com.studyflix.android.domain.model.AccountStatus
 import com.studyflix.android.ui.theme.AppColors
 import com.studyflix.android.ui.theme.StudentColors
+import androidx.compose.material.icons.filled.Folder
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+
+
+data class HomeMenuItem(
+    val title: String,
+    val subtitle: String,
+    val icon: ImageVector,
+    val onClick: () -> Unit
+)
+
 
 
 /** Equivalent of public/student/home.html: quick links into every student feature module. */
@@ -47,13 +61,60 @@ import com.studyflix.android.ui.theme.StudentColors
 fun StudentHomeScreen(
     onOpenVideos: () -> Unit,
     onOpenNotes: () -> Unit,
+    onOpenAssignments: () -> Unit,
     onOpenQuizzes: () -> Unit,
+    onOpenPastPapers: () -> Unit,
     onOpenMarks: () -> Unit,
     onOpenChat: () -> Unit,
     onLogout: () -> Unit,
     viewModel: StudentHomeViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
+
+    val menuItems = listOf(
+        HomeMenuItem(
+            "Videos",
+            "Watch lessons",
+            Icons.Filled.PlayCircle,
+            onOpenVideos
+        ),
+        HomeMenuItem(
+            "Notes",
+            "Study material",
+            Icons.Filled.Description,
+            onOpenNotes
+        ),
+        HomeMenuItem(
+            "Assignments",
+            "School work",
+            Icons.Filled.Assignment,
+            onOpenAssignments
+        ),
+        HomeMenuItem(
+            "Quizzes",
+            "Practice tests",
+            Icons.Filled.Quiz,
+            onOpenQuizzes
+        ),
+        HomeMenuItem(
+            "Past Papers",
+            "Exam papers",
+            Icons.Filled.Folder,
+            onOpenPastPapers
+        ),
+        HomeMenuItem(
+            "Results",
+            "Academic marks",
+            Icons.Filled.Grade,
+            onOpenMarks
+        ),
+        HomeMenuItem(
+            "Messages",
+            "Teacher chat",
+            Icons.AutoMirrored.Filled.Chat,
+            onOpenChat
+        )
+    )
 
     Scaffold(
         containerColor = AppColors.Background,
@@ -123,7 +184,7 @@ fun StudentHomeScreen(
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        text = "Plan: ${uiState.student?.subscription ?: "Trial"}",
+                        text = "Plan: ${uiState.student?.subscription}",
                         style = MaterialTheme.typography.bodySmall
                     )
 
@@ -142,39 +203,22 @@ fun StudentHomeScreen(
                 }
             }
 
-            HomeMenuCard(
-                "Learning Videos",
-                "Watch lessons and study content",
-                Icons.Filled.PlayCircle,
-                onOpenVideos
-            )
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(2),
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.spacedBy(12.dp),
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
 
-            HomeMenuCard(
-                "Practice Quizzes",
-                "Test your understanding",
-                Icons.Filled.Quiz,
-                onOpenQuizzes
-            )
+                items(menuItems) { item ->
 
-            HomeMenuCard(
-                "Academic Results",
-                "View marks and performance",
-                Icons.Filled.Grade,
-                onOpenMarks
-            )
-
-            HomeMenuCard(
-                "Messages",
-                "Communicate with teachers",
-                Icons.AutoMirrored.Filled.Chat,
-                onOpenChat
-            )
-            HomeMenuCard(
-                "Study Notes",
-                "Read notes and revision material",
-                Icons.Filled.Description,
-                onOpenNotes
-            )
+                    HomeGridCard(
+                        title = item.title,
+                        icon = item.icon,
+                        onClick = item.onClick
+                    )
+                }
+            }
 
         }
     }
@@ -221,5 +265,48 @@ private fun HomeMenuCard(
                 )
             }
         )
+    }
+}
+
+@Composable
+private fun HomeGridCard(
+    title: String,
+    icon: ImageVector,
+    onClick: () -> Unit
+) {
+
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(120.dp),
+        shape = RoundedCornerShape(20.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = AppColors.Card
+        ),
+        onClick = onClick
+    ) {
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.Center
+        ) {
+
+            Icon(
+                imageVector = icon,
+                contentDescription = null,
+                tint = StudentColors.Primary
+            )
+
+            Spacer(
+                modifier = Modifier.height(12.dp)
+            )
+
+            Text(
+                text = title,
+                color = Color.White
+            )
+        }
     }
 }
