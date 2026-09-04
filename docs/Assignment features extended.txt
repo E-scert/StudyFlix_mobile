@@ -1,0 +1,8 @@
+□ Multi-attempt assignments
+□ Highest score tracking
+□ Saved drafts
+□ Persistent timer across app restarts
+□ Teacher marking
+□ Assignment results
+□ Teacher feedback
+□ Memo viewing
