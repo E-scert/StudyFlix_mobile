@@ -162,6 +162,18 @@ fun AssignmentsScreen(
                                 Color.Yellow
                             }
                         )
+                        Text(
+                            text = if (assignment.memoPublished) {
+                                "📖 Memo Available"
+                            } else {
+                                "🔒 Memo Not Available"
+                            },
+                            color = if (assignment.memoPublished) {
+                                Color.Cyan
+                            } else {
+                                Color.LightGray
+                            }
+                        )
                     }
                 }
             }

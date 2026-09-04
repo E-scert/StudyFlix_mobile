@@ -1,5 +1,6 @@
 package com.studyflix.android.data.repository
 
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.studyflix.android.core.util.FirestoreCollections
@@ -11,6 +12,7 @@ import com.studyflix.android.data.local.entity.QuizEntity
 import com.studyflix.android.data.local.entity.toDomain
 import com.studyflix.android.domain.model.Quiz
 import com.studyflix.android.domain.repository.QuizRepository
+import com.studyflix.android.domain.repository.StudentRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.tasks.await
@@ -21,23 +23,37 @@ import javax.inject.Singleton
 @Singleton
 class QuizRepositoryImpl @Inject constructor(
     private val firestore: FirebaseFirestore,
-    private val quizDao: QuizDao
+    private val quizDao: QuizDao,
+    private val auth: FirebaseAuth,
+    private val studentRepository: StudentRepository
 ) : QuizRepository {
 
     override fun observePublishedQuizzes(): Flow<Resource<List<Quiz>>> = networkBoundResource(
         query = { quizDao.observeAll().map { list -> list.map { it.toDomain() } } },
         fetch = {
+            val uid = auth.currentUser?.uid
+                ?: return@networkBoundResource emptyList()
+
+            val student = studentRepository.getStudent(uid)
+                ?: return@networkBoundResource emptyList()
+
+            val studentGrade = student.grade
+
             firestore.collection(FirestoreCollections.QUIZZES)
                 .whereEqualTo("status", "published")
                 .get()
                 .await()
                 .documents
                 .map { doc ->
+
                     val questions = (doc.get("questions") as? List<*>)?.mapNotNull { raw ->
                         val q = raw as? Map<*, *> ?: return@mapNotNull null
+
                         QuestionDto(
                             text = q["text"] as? String ?: "",
-                            options = (q["options"] as? List<*>)?.filterIsInstance<String>().orEmpty(),
+                            options = (q["options"] as? List<*>)
+                                ?.filterIsInstance<String>()
+                                .orEmpty(),
                             correctIndex = ((q["correct"] as? Long) ?: 0L).toInt(),
                             marks = ((q["marks"] as? Long) ?: 2L).toInt()
                         )
@@ -53,6 +69,12 @@ class QuizRepositoryImpl @Inject constructor(
                         totalMarks = (doc.getLong("totalMarks") ?: 0L).toInt(),
                         timeLimitMinutes = (doc.getLong("timeLimit") ?: 15L).toInt()
                     )
+
+                }
+                .filter { quiz ->
+
+                    quiz.grade == studentGrade
+
                 }
         },
         saveFetchResult = { quizzes ->

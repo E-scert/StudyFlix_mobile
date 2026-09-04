@@ -143,7 +143,18 @@ fun AssignmentSubmissionScreen(
                             }"
                         )
                     }
+                    Text(
+                        text = "Questions Answered: ${
+                            submission?.answers?.count {
+                                it.value.isNotBlank()
+                            } ?: 0
+                        } / ${uiState.assignment?.questions?.size ?: 0}"
+                    )
+                    Text(
+                        text = "Total Marks: ${uiState.assignment?.totalMarks ?: 0}"
+                    )
                 }
+
             }
             Spacer(
                 modifier = Modifier.height(16.dp)
@@ -168,6 +179,10 @@ fun AssignmentSubmissionScreen(
                             style = MaterialTheme.typography.titleMedium,
                             color = Color.White
                         )
+                        Text(
+                            text = "Marks: ${question.marks}",
+                            color = StudentColors.Primary
+                        )
 
                         Spacer(
                             modifier = Modifier.height(8.dp)
@@ -186,21 +201,9 @@ fun AssignmentSubmissionScreen(
                             text = "My Answer:",
                             color = StudentColors.Primary
                         )
+
                         Spacer(
-                            modifier = Modifier.height(12.dp)
-                        )
-
-                        Text(
-                            text = "Model Answer:",
-                            color = StudentColors.Primary
-                        )
-
-                        Text(
-                            text = uiState.assignment
-                                ?.memoPerQuestion
-                                ?.getOrNull(question.number - 1)
-                                ?: "Memo not available",
-                            color = Color.White
+                            modifier = Modifier.height(8.dp)
                         )
 
                         Text(

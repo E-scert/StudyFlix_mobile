@@ -1,5 +1,6 @@
 package com.studyflix.android.data.local.entity
 
+
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.studyflix.android.domain.model.VideoContent
@@ -14,6 +15,7 @@ data class VideoEntity(
     val duration: String,
     val views: Int,
     val subject: String,
+    val grade: String,
     val locked: Boolean,
     val videoUrl: String,
     val thumbnailUrl: String
@@ -28,6 +30,7 @@ fun VideoEntity.toDomain() = VideoContent(
     duration = duration,
     views = views,
     subject = subject,
+    grade = grade,
     locked = locked,
     videoUrl = videoUrl,
     thumbnailUrl = thumbnailUrl
@@ -42,6 +45,7 @@ fun VideoContent.toEntity() = VideoEntity(
     duration = duration,
     views = views,
     subject = subject,
+    grade = grade,
     locked = locked,
     videoUrl = videoUrl,
     thumbnailUrl = thumbnailUrl

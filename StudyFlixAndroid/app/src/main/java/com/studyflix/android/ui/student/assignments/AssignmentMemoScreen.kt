@@ -63,183 +63,206 @@ fun AssignmentMemoScreen(
     ) {
         val assignment = uiState.assignment
 
-        if (assignment == null) {
-
-            Text("Loading Memo...")
-
-        } else if (!assignment.memoPublished) {
-
-            Text("Memo Not Yet Published")
-
-        } else {
-
-            Scaffold(
-                containerColor = AppColors.Background,
-                topBar = {
-                    TopAppBar(
-                        colors = TopAppBarDefaults.topAppBarColors(
-                            containerColor = AppColors.TopBar
-                        ),
-                        title = {
-                            Text(
-                                text = "Assignment Memo",
-                                color = StudentColors.Primary
-                            )
-                        },
-                        navigationIcon = {
-                            IconButton(
-                                onClick = onBack
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Default.ArrowBack,
-                                    contentDescription = "Back",
-                                    tint = StudentColors.Primary
-                                )
-                            }
-                        }
-                    )
-                }
-            ) { padding ->
-
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(padding),
-                    contentPadding = PaddingValues(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-
-                    item {
-
+        Scaffold(
+            containerColor = AppColors.Background,
+            topBar = {
+                TopAppBar(
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = AppColors.TopBar
+                    ),
+                    title = {
                         Text(
-                            text = assignment.title,
-                            style = MaterialTheme.typography.headlineSmall,
+                            text = "Assignment Memo",
                             color = StudentColors.Primary
                         )
-
-                    }
-                    item {
-
-                        Card(
-                            modifier = Modifier.fillMaxWidth(),
-                            shape = RoundedCornerShape(20.dp),
-                            colors = CardDefaults.cardColors(
-                                containerColor = AppColors.Card
-                            )
+                    },
+                    navigationIcon = {
+                        IconButton(
+                            onClick = onBack
                         ) {
-
-                            Column(
-                                modifier = Modifier.padding(16.dp)
-                            ) {
-
-                                Text(
-                                    text = "📖 Memo Published",
-                                    color = StudentColors.Primary,
-                                    style = MaterialTheme.typography.titleMedium
-                                )
-
-                                Spacer(
-                                    modifier = Modifier.height(12.dp)
-                                )
-
-                                Text(
-                                    text = "Subject: ${assignment.subject}",
-                                    color = Color.White
-                                )
-
-                                Text(
-                                    text = "Questions: ${assignment.questions.size}",
-                                    color = Color.White
-                                )
-
-                                Text(
-                                    text = "Total Marks: ${assignment.totalMarks}",
-                                    color = Color.White
-                                )
-
-                            }
+                            Icon(
+                                imageVector = Icons.Default.ArrowBack,
+                                contentDescription = "Back",
+                                tint = StudentColors.Primary
+                            )
                         }
                     }
+                )
+            }
+        ) { padding ->
 
-                    items(
-                        assignment.memoPerQuestion.size
-                    ) { index ->
+            when {
 
-                        val memo = assignment.memoPerQuestion[index]
+                assignment == null -> {
 
-                        Card(
-                            modifier = Modifier.fillMaxWidth(),
-                            shape = RoundedCornerShape(20.dp),
-                            colors = CardDefaults.cardColors(
-                                containerColor = AppColors.Card
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(padding),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = "Loading Memo...",
+                            color = StudentColors.Primary
+                        )
+                    }
+                }
+
+                !assignment.memoPublished -> {
+
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(padding)
+                            .padding(16.dp),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+
+                        Text(
+                            text = "📖 Memo Not Yet Published",
+                            color = StudentColors.Primary,
+                            style = MaterialTheme.typography.titleLarge
+                        )
+
+                        Spacer(
+                            modifier = Modifier.height(8.dp)
+                        )
+
+                        Text(
+                            text = "The teacher has not published the memo yet.",
+                            color = Color.White
+                        )
+                    }
+                }
+
+                else -> {
+
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(padding),
+                        contentPadding = PaddingValues(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+
+                        item {
+                            Text(
+                                text = assignment.title,
+                                style = MaterialTheme.typography.headlineSmall,
+                                color = StudentColors.Primary
                             )
-                        ) {
+                        }
 
+                        item {
 
-                            Column(
-                                modifier = Modifier.padding(16.dp)
+                            Card(
+                                modifier = Modifier.fillMaxWidth(),
+                                shape = RoundedCornerShape(20.dp),
+                                colors = CardDefaults.cardColors(
+                                    containerColor = AppColors.Card
+                                )
                             ) {
 
+                                Column(
+                                    modifier = Modifier.padding(16.dp)
+                                ) {
 
-                                Text(
-                                    text = "Question ${index + 1}",
-                                    color = StudentColors.Primary,
-                                    style = MaterialTheme.typography.titleMedium
+                                    Text(
+                                        text = "📖 Memo Published",
+                                        color = StudentColors.Primary,
+                                        style = MaterialTheme.typography.titleMedium
+                                    )
+
+                                    Spacer(
+                                        modifier = Modifier.height(12.dp)
+                                    )
+
+                                    Text(
+                                        text = "Subject: ${assignment.subject}",
+                                        color = Color.White
+                                    )
+
+                                    Text(
+                                        text = "Questions: ${assignment.questions.size}",
+                                        color = Color.White
+                                    )
+
+                                    Text(
+                                        text = "Total Marks: ${assignment.totalMarks}",
+                                        color = Color.White
+                                    )
+                                }
+                            }
+                        }
+
+                        items(
+                            assignment.memoPerQuestion.size
+                        ) { index ->
+
+                            val memo = assignment.memoPerQuestion[index]
+
+                            Card(
+                                modifier = Modifier.fillMaxWidth(),
+                                shape = RoundedCornerShape(20.dp),
+                                colors = CardDefaults.cardColors(
+                                    containerColor = AppColors.Card
                                 )
-                                Text(
-                                    text = "Marks: ${
-                                        assignment.questions
+                            ) {
+
+                                Column(
+                                    modifier = Modifier.padding(16.dp)
+                                ) {
+
+                                    Text(
+                                        text = "Question ${index + 1}",
+                                        color = StudentColors.Primary,
+                                        style = MaterialTheme.typography.titleMedium
+                                    )
+
+                                    Text(
+                                        text = "Marks: ${
+                                            assignment.questions
+                                                .getOrNull(index)
+                                                ?.marks ?: 0
+                                        }",
+                                        color = StudentColors.Primary
+                                    )
+
+                                    Spacer(
+                                        modifier = Modifier.height(8.dp)
+                                    )
+
+                                    Text(
+                                        text = assignment.questions
                                             .getOrNull(index)
-                                            ?.marks ?: 0
-                                    }",
-                                    color = StudentColors.Primary
-                                )
+                                            ?.text
+                                            ?: "Question not available",
+                                        color = Color.White
+                                    )
 
-                                Spacer(
-                                    modifier = Modifier.height(8.dp)
-                                )
+                                    Spacer(
+                                        modifier = Modifier.height(12.dp)
+                                    )
 
-                                Text(
-                                    text = assignment.questions
-                                        .getOrNull(index)
-                                        ?.text
-                                        ?: "Question not available",
-                                    color = Color.White
-                                )
-                                Text(
-                                    text = "Marks: ${
-                                        assignment.questions
-                                            .getOrNull(index)
-                                            ?.marks ?: 0
-                                    }",
-                                    color = StudentColors.Primary
-                                )
+                                    Text(
+                                        text = "✅ Model Answer",
+                                        color = StudentColors.Primary,
+                                        style = MaterialTheme.typography.titleMedium
+                                    )
 
-                                Spacer(
-                                    modifier = Modifier.height(12.dp)
-                                )
+                                    Spacer(
+                                        modifier = Modifier.height(4.dp)
+                                    )
 
-                                Text(
-                                    text = "✅ Model Answer",
-                                    color = StudentColors.Primary,
-                                    style = MaterialTheme.typography.titleMedium
-                                )
-
-                                Spacer(
-                                    modifier = Modifier.height(4.dp)
-                                )
-
-                                Text(
-                                    text = memo,
-                                    color = Color.White
-                                )
-
+                                    Text(
+                                        text = memo,
+                                        color = Color.White
+                                    )
+                                }
                             }
                         }
                     }
                 }
             }
-
-        }    }
-}
-
+        }   }   }

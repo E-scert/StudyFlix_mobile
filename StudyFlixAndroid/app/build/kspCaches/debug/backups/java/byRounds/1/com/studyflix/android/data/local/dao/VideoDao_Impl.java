@@ -41,7 +41,7 @@ public final class VideoDao_Impl implements VideoDao {
       @Override
       @NonNull
       protected String createQuery() {
-        return "INSERT OR REPLACE INTO `videos` (`id`,`title`,`season`,`seasonName`,`episode`,`duration`,`views`,`subject`,`locked`,`videoUrl`,`thumbnailUrl`) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+        return "INSERT OR REPLACE INTO `videos` (`id`,`title`,`season`,`seasonName`,`episode`,`duration`,`views`,`subject`,`grade`,`locked`,`videoUrl`,`thumbnailUrl`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
       }
 
       @Override
@@ -55,10 +55,11 @@ public final class VideoDao_Impl implements VideoDao {
         statement.bindString(6, entity.getDuration());
         statement.bindLong(7, entity.getViews());
         statement.bindString(8, entity.getSubject());
+        statement.bindString(9, entity.getGrade());
         final int _tmp = entity.getLocked() ? 1 : 0;
-        statement.bindLong(9, _tmp);
-        statement.bindString(10, entity.getVideoUrl());
-        statement.bindString(11, entity.getThumbnailUrl());
+        statement.bindLong(10, _tmp);
+        statement.bindString(11, entity.getVideoUrl());
+        statement.bindString(12, entity.getThumbnailUrl());
       }
     };
     this.__preparedStmtOfClear = new SharedSQLiteStatement(__db) {
@@ -131,6 +132,7 @@ public final class VideoDao_Impl implements VideoDao {
           final int _cursorIndexOfDuration = CursorUtil.getColumnIndexOrThrow(_cursor, "duration");
           final int _cursorIndexOfViews = CursorUtil.getColumnIndexOrThrow(_cursor, "views");
           final int _cursorIndexOfSubject = CursorUtil.getColumnIndexOrThrow(_cursor, "subject");
+          final int _cursorIndexOfGrade = CursorUtil.getColumnIndexOrThrow(_cursor, "grade");
           final int _cursorIndexOfLocked = CursorUtil.getColumnIndexOrThrow(_cursor, "locked");
           final int _cursorIndexOfVideoUrl = CursorUtil.getColumnIndexOrThrow(_cursor, "videoUrl");
           final int _cursorIndexOfThumbnailUrl = CursorUtil.getColumnIndexOrThrow(_cursor, "thumbnailUrl");
@@ -153,6 +155,8 @@ public final class VideoDao_Impl implements VideoDao {
             _tmpViews = _cursor.getInt(_cursorIndexOfViews);
             final String _tmpSubject;
             _tmpSubject = _cursor.getString(_cursorIndexOfSubject);
+            final String _tmpGrade;
+            _tmpGrade = _cursor.getString(_cursorIndexOfGrade);
             final boolean _tmpLocked;
             final int _tmp;
             _tmp = _cursor.getInt(_cursorIndexOfLocked);
@@ -161,7 +165,7 @@ public final class VideoDao_Impl implements VideoDao {
             _tmpVideoUrl = _cursor.getString(_cursorIndexOfVideoUrl);
             final String _tmpThumbnailUrl;
             _tmpThumbnailUrl = _cursor.getString(_cursorIndexOfThumbnailUrl);
-            _item = new VideoEntity(_tmpId,_tmpTitle,_tmpSeason,_tmpSeasonName,_tmpEpisode,_tmpDuration,_tmpViews,_tmpSubject,_tmpLocked,_tmpVideoUrl,_tmpThumbnailUrl);
+            _item = new VideoEntity(_tmpId,_tmpTitle,_tmpSeason,_tmpSeasonName,_tmpEpisode,_tmpDuration,_tmpViews,_tmpSubject,_tmpGrade,_tmpLocked,_tmpVideoUrl,_tmpThumbnailUrl);
             _result.add(_item);
           }
           return _result;

@@ -49,4 +49,13 @@ class StudentRepositoryImpl @Inject constructor(
             .update("subscription", plan)
             .await()
     }
+
+
+    override suspend fun getStudent(
+        uid: String
+    ): Student? {
+
+        return refreshStudent(uid)
+            .getOrNull()
+    }
 }

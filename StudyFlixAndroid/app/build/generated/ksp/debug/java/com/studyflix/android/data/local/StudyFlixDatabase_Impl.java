@@ -48,12 +48,12 @@ public final class StudyFlixDatabase_Impl extends StudyFlixDatabase {
     final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(config, new RoomOpenHelper.Delegate(1) {
       @Override
       public void createAllTables(@NonNull final SupportSQLiteDatabase db) {
-        db.execSQL("CREATE TABLE IF NOT EXISTS `videos` (`id` TEXT NOT NULL, `title` TEXT NOT NULL, `season` INTEGER NOT NULL, `seasonName` TEXT NOT NULL, `episode` INTEGER NOT NULL, `duration` TEXT NOT NULL, `views` INTEGER NOT NULL, `subject` TEXT NOT NULL, `locked` INTEGER NOT NULL, `videoUrl` TEXT NOT NULL, `thumbnailUrl` TEXT NOT NULL, PRIMARY KEY(`id`))");
+        db.execSQL("CREATE TABLE IF NOT EXISTS `videos` (`id` TEXT NOT NULL, `title` TEXT NOT NULL, `season` INTEGER NOT NULL, `seasonName` TEXT NOT NULL, `episode` INTEGER NOT NULL, `duration` TEXT NOT NULL, `views` INTEGER NOT NULL, `subject` TEXT NOT NULL, `grade` TEXT NOT NULL, `locked` INTEGER NOT NULL, `videoUrl` TEXT NOT NULL, `thumbnailUrl` TEXT NOT NULL, PRIMARY KEY(`id`))");
         db.execSQL("CREATE TABLE IF NOT EXISTS `quizzes` (`id` TEXT NOT NULL, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `subject` TEXT NOT NULL, `grade` TEXT NOT NULL, `questions` TEXT NOT NULL, `totalMarks` INTEGER NOT NULL, `timeLimitMinutes` INTEGER NOT NULL, PRIMARY KEY(`id`))");
         db.execSQL("CREATE TABLE IF NOT EXISTS `marks` (`id` TEXT NOT NULL, `studentId` TEXT NOT NULL, `name` TEXT NOT NULL, `dateIso` TEXT NOT NULL, `score` INTEGER NOT NULL, `total` INTEGER NOT NULL, `percentage` INTEGER NOT NULL, PRIMARY KEY(`id`))");
         db.execSQL("CREATE TABLE IF NOT EXISTS `students` (`uid` TEXT NOT NULL, `email` TEXT NOT NULL, `name` TEXT NOT NULL, `subscription` TEXT NOT NULL, `trialEnds` TEXT NOT NULL, `grade` TEXT NOT NULL, `school` TEXT NOT NULL, `schoolId` TEXT NOT NULL, `status` TEXT NOT NULL, `completedQuizzes` TEXT NOT NULL, `createdAtMillis` INTEGER, PRIMARY KEY(`uid`))");
         db.execSQL("CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)");
-        db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '65edc30cade7221b590b931381220711')");
+        db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '67cd68b58776fcdc1ab63fa2ad1325bb')");
       }
 
       @Override
@@ -105,7 +105,7 @@ public final class StudyFlixDatabase_Impl extends StudyFlixDatabase {
       @NonNull
       public RoomOpenHelper.ValidationResult onValidateSchema(
           @NonNull final SupportSQLiteDatabase db) {
-        final HashMap<String, TableInfo.Column> _columnsVideos = new HashMap<String, TableInfo.Column>(11);
+        final HashMap<String, TableInfo.Column> _columnsVideos = new HashMap<String, TableInfo.Column>(12);
         _columnsVideos.put("id", new TableInfo.Column("id", "TEXT", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsVideos.put("title", new TableInfo.Column("title", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsVideos.put("season", new TableInfo.Column("season", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
@@ -114,6 +114,7 @@ public final class StudyFlixDatabase_Impl extends StudyFlixDatabase {
         _columnsVideos.put("duration", new TableInfo.Column("duration", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsVideos.put("views", new TableInfo.Column("views", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsVideos.put("subject", new TableInfo.Column("subject", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsVideos.put("grade", new TableInfo.Column("grade", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsVideos.put("locked", new TableInfo.Column("locked", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsVideos.put("videoUrl", new TableInfo.Column("videoUrl", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsVideos.put("thumbnailUrl", new TableInfo.Column("thumbnailUrl", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
@@ -184,7 +185,7 @@ public final class StudyFlixDatabase_Impl extends StudyFlixDatabase {
         }
         return new RoomOpenHelper.ValidationResult(true, null);
       }
-    }, "65edc30cade7221b590b931381220711", "51350474c8da039ed6fbda2fad3959d9");
+    }, "67cd68b58776fcdc1ab63fa2ad1325bb", "f4a1d2bbbad827f67b73deb58793330b");
     final SupportSQLiteOpenHelper.Configuration _sqliteConfig = SupportSQLiteOpenHelper.Configuration.builder(config.context).name(config.name).callback(_openCallback).build();
     final SupportSQLiteOpenHelper _helper = config.sqliteOpenHelperFactory.create(_sqliteConfig);
     return _helper;

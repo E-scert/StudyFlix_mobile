@@ -1,10 +1,12 @@
 package com.studyflix.android.data.repository
 
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.studyflix.android.domain.model.Assignment
 import com.studyflix.android.domain.model.AssignmentQuestion
 import com.studyflix.android.domain.model.AssignmentSubmission
 import com.studyflix.android.domain.repository.AssignmentRepository
+import com.studyflix.android.domain.repository.StudentRepository
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -14,13 +16,35 @@ import kotlinx.coroutines.tasks.await
 import kotlin.text.get
 
 
+
 @Singleton
 class AssignmentRepositoryImpl @Inject constructor(
-    private val firestore: FirebaseFirestore
+    private val firestore: FirebaseFirestore,
+    private val studentRepository: StudentRepository,
+    private val auth: FirebaseAuth
 ) : AssignmentRepository {
 
     override fun observeAssignments(): Flow<List<Assignment>> =
         callbackFlow {
+
+            val uid = auth.currentUser?.uid
+
+            if (uid == null) {
+                trySend(emptyList())
+                close()
+                return@callbackFlow
+            }
+
+            val student = studentRepository.getStudent(uid)
+
+            if (student == null) {
+                trySend(emptyList())
+                close()
+                return@callbackFlow
+            }
+
+            val studentGrade = student.grade
+            val studentSchoolId = student.schoolId
 
             val listener =
                 firestore.collection("assignments")
@@ -70,7 +94,18 @@ class AssignmentRepositoryImpl @Inject constructor(
 
 
                                 )
-                            }.orEmpty()
+
+                            }
+                                ?.filter { assignment ->
+
+                                    assignment.grade == studentGrade &&
+                                            (
+                                                    studentSchoolId.isBlank() ||
+                                                            assignment.schoolId == studentSchoolId
+                                                    )
+
+                                }
+                                .orEmpty()
 
                         trySend(assignments)
                     }

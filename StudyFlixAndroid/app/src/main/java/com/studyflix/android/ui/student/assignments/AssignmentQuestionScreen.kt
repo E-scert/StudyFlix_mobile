@@ -207,6 +207,17 @@ fun AssignmentQuestionScreen(
                         text = "Total Questions: ${assignment?.questions?.size ?: 0}",
                         color = Color.White
                     )
+                    Text(
+                        text = "Status: Active ",
+                        color = Color.White
+                    )
+
+                    Text(
+                        text = "Answered: ${
+                            answers.count { it.value.isNotBlank() }
+                        } / ${assignment?.questions?.size ?: 0}",
+                        color = Color.White
+                    )
 
                     Text(
                         text = "Total Marks: ${assignment?.totalMarks ?: 0}",
@@ -244,20 +255,10 @@ fun AssignmentQuestionScreen(
                         Column(
                             modifier = Modifier.padding(12.dp)
                         ) {
-
                             Text(
-                                text = question.text,
-                                color = androidx.compose.ui.graphics.Color.White
-                            )
-
-
-                            Spacer(
-                                modifier = Modifier.height(8.dp)
-                            )
-
-                            Text(
-                                text = question.text,
-                                color = Color.White
+                                text = "Question ${question.number}",
+                                color = StudentColors.Primary,
+                                style = MaterialTheme.typography.titleMedium
                             )
 
                             Spacer(
@@ -266,8 +267,16 @@ fun AssignmentQuestionScreen(
 
                             Text(
                                 text = "Marks: ${question.marks}",
-                                color = StudentColors.Primary,
-                                style = MaterialTheme.typography.bodyMedium
+                                color = StudentColors.Primary
+                            )
+
+                            Spacer(
+                                modifier = Modifier.height(8.dp)
+                            )
+
+                            Text(
+                                text = question.text,
+                                color = Color.White
                             )
 
                             Spacer(

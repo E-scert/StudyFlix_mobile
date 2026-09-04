@@ -1,6 +1,8 @@
 package com.studyflix.android.data.repository;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.studyflix.android.domain.repository.StudentRepository;
 import dagger.internal.DaggerGenerated;
 import dagger.internal.Factory;
 import dagger.internal.QualifierMetadata;
@@ -26,21 +28,30 @@ import javax.inject.Provider;
 public final class AssignmentRepositoryImpl_Factory implements Factory<AssignmentRepositoryImpl> {
   private final Provider<FirebaseFirestore> firestoreProvider;
 
-  public AssignmentRepositoryImpl_Factory(Provider<FirebaseFirestore> firestoreProvider) {
+  private final Provider<StudentRepository> studentRepositoryProvider;
+
+  private final Provider<FirebaseAuth> authProvider;
+
+  public AssignmentRepositoryImpl_Factory(Provider<FirebaseFirestore> firestoreProvider,
+      Provider<StudentRepository> studentRepositoryProvider, Provider<FirebaseAuth> authProvider) {
     this.firestoreProvider = firestoreProvider;
+    this.studentRepositoryProvider = studentRepositoryProvider;
+    this.authProvider = authProvider;
   }
 
   @Override
   public AssignmentRepositoryImpl get() {
-    return newInstance(firestoreProvider.get());
+    return newInstance(firestoreProvider.get(), studentRepositoryProvider.get(), authProvider.get());
   }
 
   public static AssignmentRepositoryImpl_Factory create(
-      Provider<FirebaseFirestore> firestoreProvider) {
-    return new AssignmentRepositoryImpl_Factory(firestoreProvider);
+      Provider<FirebaseFirestore> firestoreProvider,
+      Provider<StudentRepository> studentRepositoryProvider, Provider<FirebaseAuth> authProvider) {
+    return new AssignmentRepositoryImpl_Factory(firestoreProvider, studentRepositoryProvider, authProvider);
   }
 
-  public static AssignmentRepositoryImpl newInstance(FirebaseFirestore firestore) {
-    return new AssignmentRepositoryImpl(firestore);
+  public static AssignmentRepositoryImpl newInstance(FirebaseFirestore firestore,
+      StudentRepository studentRepository, FirebaseAuth auth) {
+    return new AssignmentRepositoryImpl(firestore, studentRepository, auth);
   }
 }
