@@ -35,6 +35,7 @@ import androidx.compose.material3.*
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.ui.graphics.Color
+import java.time.LocalDate
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -71,6 +72,14 @@ fun AssignmentDetailsScreen(
             }
     }
     val assignment = uiState.assignment
+    val isOverdue = try {
+        assignment?.dueDate?.let {
+            java.time.LocalDate.parse(it)
+                .isBefore(java.time.LocalDate.now())
+        } ?: false
+    } catch (e: Exception) {
+        false
+    }
 
     Scaffold(
         containerColor = AppColors.Background,
@@ -170,6 +179,15 @@ fun AssignmentDetailsScreen(
                     ,color = androidx.compose.ui.graphics.Color.White
                     )
 
+                    Text(
+                        text = when {
+                            uiState.hasSubmitted -> "Status: Submitted ✅"
+                            isOverdue -> "Status: Closed 🔴"
+                            else -> "Status: Active 🟢"
+                        },
+                        color = Color.White
+                    )
+
                     if (uiState.submittedAt != null) {
 
                         Text(
@@ -230,8 +248,18 @@ fun AssignmentDetailsScreen(
                 modifier = Modifier.height(24.dp)
             )
 
-            if (!uiState.hasSubmitted) {
 
+            if (isOverdue) {
+
+                Button(
+                    onClick = {},
+                    enabled = false,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text("Assignment Closed")
+                }
+
+            } else if (!uiState.hasSubmitted) {
                 Button(
                     modifier = Modifier.fillMaxWidth(),
                     colors = ButtonDefaults.buttonColors(

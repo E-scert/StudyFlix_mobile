@@ -138,16 +138,31 @@ class AssignmentRepositoryImpl @Inject constructor(
             "ASSIGNMENT_SUBMIT",
             "Submitting: $submission"
         )
-        val docRef = firestore.collection("submissions")
-            .add(
-                mapOf(
-                    "assignmentId" to submission.assignmentId,
-                    "studentId" to submission.studentId,
-                    "submittedAt" to submission.submittedAt,
-                    "answers" to submission.answers,
-                    "status" to "submitted"
-                )
+        val docRef = firestore
+            .collection("submissions")
+            .document()
+
+        docRef.set(
+            mapOf(
+                "submissionId" to docRef.id,
+                "assignmentId" to submission.assignmentId,
+                "studentId" to submission.studentId,
+                "submittedAt" to submission.submittedAt,
+                "startedAt" to submission.startedAt,
+                "answers" to submission.answers,
+                "status" to "submitted",
+
+                "isMarked" to submission.isMarked,
+                "score" to submission.score,
+                "feedback" to submission.feedback,
+
+                "totalMarks" to submission.totalMarks,
+                "percentage" to submission.percentage,
+
+                "markedBy" to submission.markedBy,
+                "markedAt" to submission.markedAt,
             )
+        )
             .await()
 
         android.util.Log.d(
