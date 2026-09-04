@@ -87,6 +87,9 @@ fun AssignmentDetailsScreen(
 
         topBar = {
             TopAppBar(
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = AppColors.TopBar
+                ),
                 title = {
                     Text(
                         "Assignment Details",

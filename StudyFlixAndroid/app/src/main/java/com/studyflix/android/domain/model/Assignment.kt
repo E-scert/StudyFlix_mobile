@@ -21,5 +21,6 @@ data class Assignment(
 
 data class AssignmentQuestion(
     val number: Int,
-    val text: String
+    val text: String,
+    val marks: Int = 0
 )

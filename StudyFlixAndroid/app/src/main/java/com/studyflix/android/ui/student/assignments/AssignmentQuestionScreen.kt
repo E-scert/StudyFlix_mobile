@@ -32,6 +32,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.graphics.Color
 
 
+
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun AssignmentQuestionScreen(
@@ -119,6 +120,9 @@ fun AssignmentQuestionScreen(
         containerColor = AppColors.Background,
         topBar = {
             TopAppBar(
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = AppColors.TopBar
+                ),
                 title = {
                     Text(
                         "Assignment Questions",
@@ -162,6 +166,7 @@ fun AssignmentQuestionScreen(
                 style = MaterialTheme.typography.bodyMedium,
                 color = StudentColors.Primary
             )
+
 
             Spacer(
                 modifier = Modifier.height(8.dp)
@@ -253,6 +258,16 @@ fun AssignmentQuestionScreen(
                             Text(
                                 text = question.text,
                                 color = Color.White
+                            )
+
+                            Spacer(
+                                modifier = Modifier.height(4.dp)
+                            )
+
+                            Text(
+                                text = "Marks: ${question.marks}",
+                                color = StudentColors.Primary,
+                                style = MaterialTheme.typography.bodyMedium
                             )
 
                             Spacer(

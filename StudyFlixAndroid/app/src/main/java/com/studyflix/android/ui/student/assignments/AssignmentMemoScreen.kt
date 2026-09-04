@@ -34,6 +34,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.TopAppBarDefaults
 import com.studyflix.android.ui.theme.AppColors
 import androidx.compose.ui.graphics.Color
 
@@ -76,6 +77,9 @@ fun AssignmentMemoScreen(
                 containerColor = AppColors.Background,
                 topBar = {
                     TopAppBar(
+                        colors = TopAppBarDefaults.topAppBarColors(
+                            containerColor = AppColors.TopBar
+                        ),
                         title = {
                             Text(
                                 text = "Assignment Memo",
@@ -88,7 +92,8 @@ fun AssignmentMemoScreen(
                             ) {
                                 Icon(
                                     imageVector = Icons.Default.ArrowBack,
-                                    contentDescription = "Back"
+                                    contentDescription = "Back",
+                                    tint = StudentColors.Primary
                                 )
                             }
                         }
@@ -181,6 +186,14 @@ fun AssignmentMemoScreen(
                                     color = StudentColors.Primary,
                                     style = MaterialTheme.typography.titleMedium
                                 )
+                                Text(
+                                    text = "Marks: ${
+                                        assignment.questions
+                                            .getOrNull(index)
+                                            ?.marks ?: 0
+                                    }",
+                                    color = StudentColors.Primary
+                                )
 
                                 Spacer(
                                     modifier = Modifier.height(8.dp)
@@ -192,6 +205,14 @@ fun AssignmentMemoScreen(
                                         ?.text
                                         ?: "Question not available",
                                     color = Color.White
+                                )
+                                Text(
+                                    text = "Marks: ${
+                                        assignment.questions
+                                            .getOrNull(index)
+                                            ?.marks ?: 0
+                                    }",
+                                    color = StudentColors.Primary
                                 )
 
                                 Spacer(

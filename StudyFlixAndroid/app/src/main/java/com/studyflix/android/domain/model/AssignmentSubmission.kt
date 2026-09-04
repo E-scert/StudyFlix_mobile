@@ -16,5 +16,7 @@ data class AssignmentSubmission(
 
     val markedBy: String = "",
     val markedAt: Long = 0,
-    val startedAt: Long = 0
+    val startedAt: Long = 0,
+    val questionMarks: Map<String, Int> = emptyMap(),
+    val questionFeedback: Map<String, String> = emptyMap(),
 )

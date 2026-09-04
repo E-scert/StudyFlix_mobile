@@ -28,6 +28,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.graphics.Color
@@ -110,6 +111,9 @@ fun AssignmentsScreen(
             items(uiState.assignments) { assignment ->
 
                 Card(
+                    colors = CardDefaults.cardColors(
+                        containerColor = AppColors.Card
+                    ),
                     modifier = Modifier.fillMaxWidth(),
                     onClick = {
                         onOpenAssignment(
@@ -129,14 +133,17 @@ fun AssignmentsScreen(
 
                         Text(
                             text = assignment.subject
+                            ,color = androidx.compose.ui.graphics.Color.White
                         )
 
                         Text(
                             text = "Teacher: ${assignment.teacherName}"
+                        ,color = androidx.compose.ui.graphics.Color.White
                         )
 
                         Text(
                             text = "Marks: ${assignment.totalMarks}"
+                        ,color = androidx.compose.ui.graphics.Color.White
                         )
 
                         Text(

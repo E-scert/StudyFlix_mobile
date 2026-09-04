@@ -30,8 +30,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.studyflix.android.ui.theme.AppColors
 import com.studyflix.android.ui.theme.StudentColors
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.ui.graphics.Color
 
 
@@ -69,6 +71,9 @@ fun AssignmentSubmissionScreen(
         containerColor = AppColors.Background,
         topBar = {
             TopAppBar(
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = AppColors.TopBar
+                ),
                 title = {
                     Text(
                         "My Submission",
@@ -81,7 +86,8 @@ fun AssignmentSubmissionScreen(
                     ) {
                         Icon(
                             Icons.Default.ArrowBack,
-                            contentDescription = "Back"
+                            contentDescription = "Back",
+                            tint = StudentColors.Primary
                         )
                     }
                 }
@@ -100,9 +106,7 @@ fun AssignmentSubmissionScreen(
                 .padding(16.dp)
         ) {
 
-            Text(
-                text = "My Submission"
-            )
+
 
             Card(
                 modifier = Modifier.fillMaxWidth()
@@ -161,7 +165,8 @@ fun AssignmentSubmissionScreen(
 
                         Text(
                             text = "Question ${question.number}",
-                            style = MaterialTheme.typography.titleMedium
+                            style = MaterialTheme.typography.titleMedium,
+                            color = Color.White
                         )
 
                         Spacer(
@@ -181,11 +186,76 @@ fun AssignmentSubmissionScreen(
                             text = "My Answer:",
                             color = StudentColors.Primary
                         )
+                        Spacer(
+                            modifier = Modifier.height(12.dp)
+                        )
+
+                        Text(
+                            text = "Model Answer:",
+                            color = StudentColors.Primary
+                        )
+
+                        Text(
+                            text = uiState.assignment
+                                ?.memoPerQuestion
+                                ?.getOrNull(question.number - 1)
+                                ?: "Memo not available",
+                            color = Color.White
+                        )
 
                         Text(
                             text = submission?.answers?.get(
                                 question.number.toString()
                             ) ?: "No Answer",
+                            color = Color.White
+                        )
+                    }
+                }
+
+
+            }
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(20.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = AppColors.Card
+                )
+            ) {
+                Column(
+                    modifier = Modifier.padding(16.dp)
+                ) {
+
+                    Text(
+                        text = "Results Status",
+                        color = StudentColors.Primary,
+                        style = MaterialTheme.typography.titleMedium
+                    )
+
+                    Spacer(
+                        modifier = Modifier.height(8.dp)
+                    )
+
+                    Text(
+                        text = if (submission?.isMarked == true)
+                            "Marked ✅"
+                        else
+                            "Awaiting Marking ⏳",
+                        color = Color.White
+                    )
+
+                    if (submission?.isMarked == true) {
+
+                        Spacer(
+                            modifier = Modifier.height(8.dp)
+                        )
+
+                        Text(
+                            text = "Score: ${submission.score}",
+                            color = Color.White
+                        )
+
+                        Text(
+                            text = "Percentage: ${submission.percentage}%",
                             color = Color.White
                         )
                     }
