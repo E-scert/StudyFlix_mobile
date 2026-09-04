@@ -42,10 +42,12 @@ fun AssignmentDetailsScreen(
     assignmentId: String,
     onBack: () -> Unit,
     onStartAssignment: (String) -> Unit,
+    onViewSubmission: (String) -> Unit,
     viewModel: AssignmentDetailsViewModel = hiltViewModel()
 ) {
     val scrollState = rememberScrollState()
     val uiState by viewModel.uiState.collectAsState()
+
 
     val answers = remember {
         mutableStateMapOf<String, String>()
@@ -56,6 +58,17 @@ fun AssignmentDetailsScreen(
         viewModel.loadAssignment(
             assignmentId
         )
+
+        FirebaseAuth.getInstance()
+            .currentUser
+            ?.uid
+            ?.let { studentId ->
+
+                viewModel.checkSubmissionStatus(
+                    assignmentId,
+                    studentId
+                )
+            }
     }
     val assignment = uiState.assignment
 
@@ -149,7 +162,7 @@ fun AssignmentDetailsScreen(
 
                     Text(
                         text = "Duration: ${assignment?.examTime ?: ""}"
-                    ,color = MaterialTheme.colorScheme.onSurface
+                    ,color = androidx.compose.ui.graphics.Color.White
                     )
 
                     Text(
@@ -157,10 +170,21 @@ fun AssignmentDetailsScreen(
                     ,color = androidx.compose.ui.graphics.Color.White
                     )
 
-                    Text(
-                        text = "Status: ${assignment?.status ?: ""}"
-                    ,color = androidx.compose.ui.graphics.Color.White
-                    )
+                    if (uiState.submittedAt != null) {
+
+                        Text(
+                            text = "Submitted At: ${
+                                java.text.SimpleDateFormat(
+                                    "dd MMM yyyy HH:mm",
+                                    java.util.Locale.getDefault()
+                                ).format(
+                                    java.util.Date(uiState.submittedAt!!)
+                                )
+                            }",
+                            color = Color.White
+                        )
+                    }
+
                 }
 
             }
@@ -206,22 +230,46 @@ fun AssignmentDetailsScreen(
                 modifier = Modifier.height(24.dp)
             )
 
+            if (!uiState.hasSubmitted) {
+
+                Button(
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = StudentColors.Primary
+                    ),
+                    onClick = {
+                        onStartAssignment(
+                            assignmentId
+                        )
+                    }
+                ) {
+                    Text(
+                        text = "Continue To Assignment"
+                    )
+                }
+
+            } else {
+
+                Button(
+                    onClick = {},
+                    enabled = false,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text("Assignment Submitted")
+                }
+            }
+
             Button(
                 modifier = Modifier.fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = StudentColors.Primary
-                ),
                 onClick = {
-                    onStartAssignment(
+                    onViewSubmission(
                         assignmentId
                     )
                 }
             ) {
-                Text(
-                    text = "Continue To Assignment",
-                    style = MaterialTheme.typography.titleMedium
-                )
+                Text("View Submission")
             }
+
         }
     }
 }

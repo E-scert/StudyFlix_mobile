@@ -13,7 +13,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class AssignmentsUiState(
-    val assignments: List<Assignment> = emptyList()
+    val assignments: List<Assignment> = emptyList(),
+    val submittedAssignmentIds: Set<String> = emptySet()
 )
 
 
@@ -44,7 +45,19 @@ class AssignmentsViewModel @Inject constructor(
         }
     }
 
+    fun loadSubmittedAssignments(
+        studentId: String
+    ) {
+        viewModelScope.launch {
 
+            val submittedIds = repository
+                .getSubmittedAssignmentIds(studentId)
+
+            _uiState.value = _uiState.value.copy(
+                submittedAssignmentIds = submittedIds
+            )
+        }
+    }
 
 }
 

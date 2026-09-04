@@ -9,11 +9,16 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class AssignmentDetailsUiState(
-    val assignment: Assignment? = null
+    val assignment: Assignment? = null,
+    val isLoading: Boolean = false,
+    val hasSubmitted: Boolean = false,
+    val submittedAt: Long? = null,
+    val submission: AssignmentSubmission? = null
 )
 
 @HiltViewModel
@@ -28,6 +33,7 @@ class AssignmentDetailsViewModel @Inject constructor(
 
     val uiState: StateFlow<AssignmentDetailsUiState> =
         _uiState.asStateFlow()
+
 
     fun loadAssignment(
         assignmentId: String
@@ -59,4 +65,27 @@ class AssignmentDetailsViewModel @Inject constructor(
             )
         }
     }
+
+    fun checkSubmissionStatus(
+        assignmentId: String,
+        studentId: String
+    ) {
+        viewModelScope.launch {
+
+            val submission = repository.getSubmission(
+                assignmentId,
+                studentId
+            )
+
+            _uiState.update {
+                it.copy(
+                    hasSubmitted = submission != null,
+                    submittedAt = submission?.submittedAt,
+                    submission = submission
+                )
+            }
+        }
+    }
+
+
 }

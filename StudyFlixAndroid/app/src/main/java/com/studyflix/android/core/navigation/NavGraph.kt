@@ -16,6 +16,7 @@ import com.studyflix.android.ui.auth.SignUpStudentScreen
 import com.studyflix.android.ui.landing.LandingScreen
 import com.studyflix.android.ui.student.assignments.AssignmentDetailsScreen
 import com.studyflix.android.ui.student.assignments.AssignmentQuestionScreen
+import com.studyflix.android.ui.student.assignments.AssignmentSubmissionScreen
 import com.studyflix.android.ui.student.assignments.AssignmentsScreen
 import com.studyflix.android.ui.student.chat.ChatScreen
 import com.studyflix.android.ui.student.home.StudentHomeScreen
@@ -185,6 +186,11 @@ fun StudyFlixNavGraph(navController: NavHostController = rememberNavController()
                     navController.navigate(
                         Screen.AssignmentQuestions.createRoute(id)
                     )
+                },
+                onViewSubmission = {
+                    navController.navigate(
+                        Screen.AssignmentSubmission.createRoute(it)
+                    )
                 }
             )
 
@@ -206,6 +212,22 @@ fun StudyFlixNavGraph(navController: NavHostController = rememberNavController()
                 }
             )
 
+        }
+        composable(
+            route = Screen.AssignmentSubmission.route
+        ) { backStackEntry ->
+
+            val assignmentId =
+                backStackEntry.arguments
+                    ?.getString("assignmentId")
+                    .orEmpty()
+
+            AssignmentSubmissionScreen(
+                assignmentId = assignmentId,
+                onBack = {
+                    navController.popBackStack()
+                }
+            )
         }
 
 

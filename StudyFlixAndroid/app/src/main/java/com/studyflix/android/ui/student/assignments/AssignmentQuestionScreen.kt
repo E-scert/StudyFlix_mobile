@@ -134,16 +134,18 @@ fun AssignmentQuestionScreen(
                     )
 
                     Text(
-                        text = "Total Questions: ${assignment?.questions?.size ?: 0}"
-
+                        text = "Total Questions: ${assignment?.questions?.size ?: 0}",
+                        color = Color.White
                     )
 
                     Text(
-                        text = "Total Marks: ${assignment?.totalMarks ?: 0}"
+                        text = "Total Marks: ${assignment?.totalMarks ?: 0}",
+                        color = Color.White
                     )
 
                     Text(
-                        text = "Duration: ${assignment?.examTime ?: ""}"
+                        text = "Duration: ${assignment?.examTime ?: ""}",
+                        color = Color.White
                     )
                 }
             }
@@ -154,7 +156,7 @@ fun AssignmentQuestionScreen(
 
             LazyColumn(
                 modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+                verticalArrangement = Arrangement.spacedBy(20.dp)
             ) {
 
                 items(
@@ -170,7 +172,7 @@ fun AssignmentQuestionScreen(
                     ) {
 
                         Column(
-                            modifier = Modifier.padding(16.dp)
+                            modifier = Modifier.padding(12.dp)
                         ) {
 
                             Text(
@@ -199,7 +201,7 @@ fun AssignmentQuestionScreen(
                                 },
                                 modifier = Modifier.fillMaxWidth(),
                                 label = {
-                                    Text("Your Answer")
+                                    Text("Your Answer",color = androidx.compose.ui.graphics.Color.White)
                                 }
                             )
                         }
@@ -233,7 +235,7 @@ fun AssignmentQuestionScreen(
 
             Card(
                 modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(20.dp),
+                shape = RoundedCornerShape(15.dp),
                 colors = CardDefaults.cardColors(
                     containerColor = AppColors.Card
                 )
@@ -242,24 +244,6 @@ fun AssignmentQuestionScreen(
                 Column(
                     modifier = Modifier.padding(16.dp)
                 ) {
-
-                    Text(
-                        text = "Ready to submit?",
-                        style = MaterialTheme.typography.titleMedium,
-                        color = StudentColors.Primary
-                    )
-
-                    Spacer(
-                        modifier = Modifier.height(8.dp)
-                    )
-
-                    Text(
-                        text = "Review your answers before submitting."
-                    )
-
-                    Spacer(
-                        modifier = Modifier.height(16.dp)
-                    )
 
                     Button(
                         enabled = !submitted && !submitting,

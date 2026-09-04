@@ -26,7 +26,12 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.graphics.Color
+import com.google.firebase.auth.FirebaseAuth
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -37,6 +42,19 @@ fun AssignmentsScreen(
 ){
 
     val uiState by viewModel.uiState.collectAsState()
+
+    LaunchedEffect(Unit) {
+
+        FirebaseAuth.getInstance()
+            .currentUser
+            ?.uid
+            ?.let { studentId ->
+
+                viewModel.loadSubmittedAssignments(
+                    studentId
+                )
+            }
+    }
 
     Scaffold(
         containerColor = AppColors.Background,
@@ -66,11 +84,26 @@ fun AssignmentsScreen(
         }
     ) { padding: PaddingValues ->
 
-        LazyColumn(
+        Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
-                .padding(16.dp),
+                .padding(horizontal = 16.dp)
+        ) {
+           Text(
+               text = "${uiState.submittedAssignmentIds.size} of ${uiState.assignments.size} Assignments Submitted",
+               color = StudentColors.Primary,
+               style = MaterialTheme.typography.titleMedium
+           )
+
+        Spacer(
+            modifier = Modifier.height(10.dp)
+        )
+
+           LazyColumn(
+               modifier = Modifier
+                   .weight(1f)
+                   .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
 
@@ -107,15 +140,24 @@ fun AssignmentsScreen(
                         )
 
                         Text(
-                            text = "Status: ${assignment.status}",
-                            color = when (assignment.status.lowercase()) {
-                                "active" -> Color.Green
-                                else -> Color.Red
+                            text = if (
+                                assignment.id in uiState.submittedAssignmentIds
+                            ) {
+                                "✅ Submitted"
+                            } else {
+                                "🟡 Active"
+                            },
+                            color = if (
+                                assignment.id in uiState.submittedAssignmentIds
+                            ) {
+                                Color.Green
+                            } else {
+                                Color.Yellow
                             }
                         )
                     }
                 }
             }
-        }
+        } }
     }
 }

@@ -181,6 +181,12 @@
             android:name="com.google.android.gms.common.api.GoogleApiActivity"
             android:exported="false"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <service
+            android:name="androidx.room.MultiInstanceInvalidationService"
+            android:directBootAware="true"
+            android:exported="false" />
+
         <activity
             android:name="androidx.compose.ui.tooling.PreviewActivity"
             android:exported="true" />
@@ -199,12 +205,6 @@
                 android:name="androidx.profileinstaller.ProfileInstallerInitializer"
                 android:value="androidx.startup" />
         </provider>
-
-        <service
-            android:name="androidx.room.MultiInstanceInvalidationService"
-            android:directBootAware="true"
-            android:exported="false" />
-
         <provider
             android:name="com.google.firebase.provider.FirebaseInitProvider"
             android:authorities="com.studyflix.android.firebaseinitprovider"

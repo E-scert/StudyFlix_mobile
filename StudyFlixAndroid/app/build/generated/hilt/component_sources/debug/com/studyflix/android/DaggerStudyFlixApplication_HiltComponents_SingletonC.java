@@ -444,44 +444,29 @@ public final class DaggerStudyFlixApplication_HiltComponents_SingletonC {
 
     @IdentifierNameString
     private static final class LazyClassKeyProvider {
-      static String com_studyflix_android_ui_student_chat_ChatViewModel = "com.studyflix.android.ui.student.chat.ChatViewModel";
-
-      static String com_studyflix_android_ui_student_assignments_AssignmentDetailsViewModel = "com.studyflix.android.ui.student.assignments.AssignmentDetailsViewModel";
-
-      static String com_studyflix_android_ui_student_assignments_AssignmentsViewModel = "com.studyflix.android.ui.student.assignments.AssignmentsViewModel";
-
-      static String com_studyflix_android_ui_student_pastpapers_PastPapersViewModel = "com.studyflix.android.ui.student.pastpapers.PastPapersViewModel";
-
-      static String com_studyflix_android_ui_student_videos_VideosViewModel = "com.studyflix.android.ui.student.videos.VideosViewModel";
-
       static String com_studyflix_android_ui_auth_LoginViewModel = "com.studyflix.android.ui.auth.LoginViewModel";
 
       static String com_studyflix_android_ui_student_quizzes_QuizzesViewModel = "com.studyflix.android.ui.student.quizzes.QuizzesViewModel";
 
+      static String com_studyflix_android_ui_student_chat_ChatViewModel = "com.studyflix.android.ui.student.chat.ChatViewModel";
+
       static String com_studyflix_android_ui_student_quizzes_TakeQuizViewModel = "com.studyflix.android.ui.student.quizzes.TakeQuizViewModel";
-
-      static String com_studyflix_android_ui_student_marks_MarksViewModel = "com.studyflix.android.ui.student.marks.MarksViewModel";
-
-      static String com_studyflix_android_ui_student_notes_NotesViewModel = "com.studyflix.android.ui.student.notes.NotesViewModel";
 
       static String com_studyflix_android_ui_auth_SignUpViewModel = "com.studyflix.android.ui.auth.SignUpViewModel";
 
       static String com_studyflix_android_ui_student_home_StudentHomeViewModel = "com.studyflix.android.ui.student.home.StudentHomeViewModel";
 
-      @KeepFieldType
-      ChatViewModel com_studyflix_android_ui_student_chat_ChatViewModel2;
+      static String com_studyflix_android_ui_student_notes_NotesViewModel = "com.studyflix.android.ui.student.notes.NotesViewModel";
 
-      @KeepFieldType
-      AssignmentDetailsViewModel com_studyflix_android_ui_student_assignments_AssignmentDetailsViewModel2;
+      static String com_studyflix_android_ui_student_assignments_AssignmentDetailsViewModel = "com.studyflix.android.ui.student.assignments.AssignmentDetailsViewModel";
 
-      @KeepFieldType
-      AssignmentsViewModel com_studyflix_android_ui_student_assignments_AssignmentsViewModel2;
+      static String com_studyflix_android_ui_student_assignments_AssignmentsViewModel = "com.studyflix.android.ui.student.assignments.AssignmentsViewModel";
 
-      @KeepFieldType
-      PastPapersViewModel com_studyflix_android_ui_student_pastpapers_PastPapersViewModel2;
+      static String com_studyflix_android_ui_student_marks_MarksViewModel = "com.studyflix.android.ui.student.marks.MarksViewModel";
 
-      @KeepFieldType
-      VideosViewModel com_studyflix_android_ui_student_videos_VideosViewModel2;
+      static String com_studyflix_android_ui_student_videos_VideosViewModel = "com.studyflix.android.ui.student.videos.VideosViewModel";
+
+      static String com_studyflix_android_ui_student_pastpapers_PastPapersViewModel = "com.studyflix.android.ui.student.pastpapers.PastPapersViewModel";
 
       @KeepFieldType
       LoginViewModel com_studyflix_android_ui_auth_LoginViewModel2;
@@ -490,19 +475,34 @@ public final class DaggerStudyFlixApplication_HiltComponents_SingletonC {
       QuizzesViewModel com_studyflix_android_ui_student_quizzes_QuizzesViewModel2;
 
       @KeepFieldType
+      ChatViewModel com_studyflix_android_ui_student_chat_ChatViewModel2;
+
+      @KeepFieldType
       TakeQuizViewModel com_studyflix_android_ui_student_quizzes_TakeQuizViewModel2;
-
-      @KeepFieldType
-      MarksViewModel com_studyflix_android_ui_student_marks_MarksViewModel2;
-
-      @KeepFieldType
-      NotesViewModel com_studyflix_android_ui_student_notes_NotesViewModel2;
 
       @KeepFieldType
       SignUpViewModel com_studyflix_android_ui_auth_SignUpViewModel2;
 
       @KeepFieldType
       StudentHomeViewModel com_studyflix_android_ui_student_home_StudentHomeViewModel2;
+
+      @KeepFieldType
+      NotesViewModel com_studyflix_android_ui_student_notes_NotesViewModel2;
+
+      @KeepFieldType
+      AssignmentDetailsViewModel com_studyflix_android_ui_student_assignments_AssignmentDetailsViewModel2;
+
+      @KeepFieldType
+      AssignmentsViewModel com_studyflix_android_ui_student_assignments_AssignmentsViewModel2;
+
+      @KeepFieldType
+      MarksViewModel com_studyflix_android_ui_student_marks_MarksViewModel2;
+
+      @KeepFieldType
+      VideosViewModel com_studyflix_android_ui_student_videos_VideosViewModel2;
+
+      @KeepFieldType
+      PastPapersViewModel com_studyflix_android_ui_student_pastpapers_PastPapersViewModel2;
     }
   }
 
@@ -618,11 +618,17 @@ public final class DaggerStudyFlixApplication_HiltComponents_SingletonC {
 
     @IdentifierNameString
     private static final class LazyClassKeyProvider {
+      static String com_studyflix_android_ui_auth_LoginViewModel = "com.studyflix.android.ui.auth.LoginViewModel";
+
       static String com_studyflix_android_ui_student_notes_NotesViewModel = "com.studyflix.android.ui.student.notes.NotesViewModel";
 
-      static String com_studyflix_android_ui_student_assignments_AssignmentDetailsViewModel = "com.studyflix.android.ui.student.assignments.AssignmentDetailsViewModel";
+      static String com_studyflix_android_ui_student_quizzes_TakeQuizViewModel = "com.studyflix.android.ui.student.quizzes.TakeQuizViewModel";
+
+      static String com_studyflix_android_ui_student_assignments_AssignmentsViewModel = "com.studyflix.android.ui.student.assignments.AssignmentsViewModel";
 
       static String com_studyflix_android_ui_student_chat_ChatViewModel = "com.studyflix.android.ui.student.chat.ChatViewModel";
+
+      static String com_studyflix_android_ui_student_marks_MarksViewModel = "com.studyflix.android.ui.student.marks.MarksViewModel";
 
       static String com_studyflix_android_ui_student_quizzes_QuizzesViewModel = "com.studyflix.android.ui.student.quizzes.QuizzesViewModel";
 
@@ -630,26 +636,29 @@ public final class DaggerStudyFlixApplication_HiltComponents_SingletonC {
 
       static String com_studyflix_android_ui_student_home_StudentHomeViewModel = "com.studyflix.android.ui.student.home.StudentHomeViewModel";
 
-      static String com_studyflix_android_ui_student_marks_MarksViewModel = "com.studyflix.android.ui.student.marks.MarksViewModel";
-
-      static String com_studyflix_android_ui_student_quizzes_TakeQuizViewModel = "com.studyflix.android.ui.student.quizzes.TakeQuizViewModel";
+      static String com_studyflix_android_ui_student_assignments_AssignmentDetailsViewModel = "com.studyflix.android.ui.student.assignments.AssignmentDetailsViewModel";
 
       static String com_studyflix_android_ui_student_videos_VideosViewModel = "com.studyflix.android.ui.student.videos.VideosViewModel";
 
-      static String com_studyflix_android_ui_auth_LoginViewModel = "com.studyflix.android.ui.auth.LoginViewModel";
-
-      static String com_studyflix_android_ui_student_assignments_AssignmentsViewModel = "com.studyflix.android.ui.student.assignments.AssignmentsViewModel";
-
       static String com_studyflix_android_ui_auth_SignUpViewModel = "com.studyflix.android.ui.auth.SignUpViewModel";
+
+      @KeepFieldType
+      LoginViewModel com_studyflix_android_ui_auth_LoginViewModel2;
 
       @KeepFieldType
       NotesViewModel com_studyflix_android_ui_student_notes_NotesViewModel2;
 
       @KeepFieldType
-      AssignmentDetailsViewModel com_studyflix_android_ui_student_assignments_AssignmentDetailsViewModel2;
+      TakeQuizViewModel com_studyflix_android_ui_student_quizzes_TakeQuizViewModel2;
+
+      @KeepFieldType
+      AssignmentsViewModel com_studyflix_android_ui_student_assignments_AssignmentsViewModel2;
 
       @KeepFieldType
       ChatViewModel com_studyflix_android_ui_student_chat_ChatViewModel2;
+
+      @KeepFieldType
+      MarksViewModel com_studyflix_android_ui_student_marks_MarksViewModel2;
 
       @KeepFieldType
       QuizzesViewModel com_studyflix_android_ui_student_quizzes_QuizzesViewModel2;
@@ -661,19 +670,10 @@ public final class DaggerStudyFlixApplication_HiltComponents_SingletonC {
       StudentHomeViewModel com_studyflix_android_ui_student_home_StudentHomeViewModel2;
 
       @KeepFieldType
-      MarksViewModel com_studyflix_android_ui_student_marks_MarksViewModel2;
-
-      @KeepFieldType
-      TakeQuizViewModel com_studyflix_android_ui_student_quizzes_TakeQuizViewModel2;
+      AssignmentDetailsViewModel com_studyflix_android_ui_student_assignments_AssignmentDetailsViewModel2;
 
       @KeepFieldType
       VideosViewModel com_studyflix_android_ui_student_videos_VideosViewModel2;
-
-      @KeepFieldType
-      LoginViewModel com_studyflix_android_ui_auth_LoginViewModel2;
-
-      @KeepFieldType
-      AssignmentsViewModel com_studyflix_android_ui_student_assignments_AssignmentsViewModel2;
 
       @KeepFieldType
       SignUpViewModel com_studyflix_android_ui_auth_SignUpViewModel2;

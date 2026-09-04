@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.studyflix.android.app-mergeDebugResources-73:/values-v24/values-v24.xml",
+            "outputFile": "com.studyflix.android.app-mergeDebugResources-72:/values-v24/values-v24.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\student\\.gradle\\caches\\9.0.0\\transforms\\fc5d59aae8bdd38e79f25ee9053c02fb\\transformed\\media-1.7.0\\res\\values-v24\\values-v24.xml",
+                    "source": "C:\\Users\\student\\.gradle\\caches\\9.0.0\\transforms\\e6c2897b043704e8a98acb3ca020fe47\\transformed\\media-1.7.0\\res\\values-v24\\values-v24.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",

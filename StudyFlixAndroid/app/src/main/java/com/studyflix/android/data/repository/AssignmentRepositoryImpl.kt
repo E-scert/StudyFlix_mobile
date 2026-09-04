@@ -138,7 +138,7 @@ class AssignmentRepositoryImpl @Inject constructor(
             "ASSIGNMENT_SUBMIT",
             "Submitting: $submission"
         )
-        firestore.collection("submissions")
+        val docRef = firestore.collection("submissions")
             .add(
                 mapOf(
                     "assignmentId" to submission.assignmentId,
@@ -149,15 +149,74 @@ class AssignmentRepositoryImpl @Inject constructor(
                 )
             )
             .await()
+
         android.util.Log.d(
             "ASSIGNMENT_SUBMIT",
-            "Submission saved successfully"
+            "Saved document ID: ${docRef.id}"
         )
+
+
+
+
 
     }
 
 
+    override suspend fun hasSubmitted(
+        assignmentId: String,
+        studentId: String
+    ): Boolean {
 
+        val result = firestore
+            .collection("submissions")
+            .whereEqualTo("assignmentId", assignmentId)
+            .whereEqualTo("studentId", studentId)
+            .get()
+            .await()
+
+        return !result.isEmpty
+    }
+
+    override suspend fun getSubmission(
+        assignmentId: String,
+        studentId: String
+    ): AssignmentSubmission? {
+
+        val result = firestore
+            .collection("submissions")
+            .whereEqualTo("assignmentId", assignmentId)
+            .whereEqualTo("studentId", studentId)
+            .limit(1)
+            .get()
+            .await()
+
+        val document = result.documents.firstOrNull()
+            ?: return null
+
+        return AssignmentSubmission(
+            assignmentId = document.getString("assignmentId").orEmpty(),
+            studentId = document.getString("studentId").orEmpty(),
+            submittedAt = document.getLong("submittedAt") ?: 0L,
+            answers = document.get("answers") as? Map<String, String>
+                ?: emptyMap()
+        )
+    }
+    override suspend fun getSubmittedAssignmentIds(
+        studentId: String
+    ): Set<String> {
+
+        val result = firestore
+            .collection("submissions")
+            .whereEqualTo("studentId", studentId)
+            .get()
+            .await()
+
+        return result.documents
+            .mapNotNull {
+                it.getString("assignmentId")
+            }
+            .toSet()
+    }
 
 }
 
