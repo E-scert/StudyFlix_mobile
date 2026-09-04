@@ -105,26 +105,17 @@ class AssignmentRepositoryImpl @Inject constructor(
             examTime = doc.getString("examTime").orEmpty(),
             duration = (doc.getLong("duration") ?: 0L).toInt(),
             instructions = doc.get("instructions") as? List<String>?: emptyList(),
-            questions =
-                (doc.get("questions") as? List<*>)
-                    ?.mapNotNull { item ->
+            questions = (doc.get("questions") as? List<*>)?.mapNotNull { item -> val question = item as? Map<*, *> ?: return@mapNotNull null
+                AssignmentQuestion(number = (question["number"] as? Long)?.toInt() ?: 0, text = question["text"] as? String ?: "") } ?: emptyList()
+            ,
+            memoPublished =
+                doc.getBoolean("memoPublished")
+                    ?: false,
 
-                        val question =
-                            item as? Map<*, *>
-                                ?: return@mapNotNull null
-
-                        AssignmentQuestion(
-                            number =
-                                (question["number"] as? Long)
-                                    ?.toInt()
-                                    ?: 0,
-
-                            text =
-                                question["text"] as? String
-                                    ?: ""
-                        )
-                    }
-                    ?: emptyList()
+            memoPerQuestion =
+                doc.get("memoPerQuestion")
+                        as? List<String>
+                    ?: emptyList(),
 
         )
     }

@@ -44,6 +44,7 @@ fun AssignmentDetailsScreen(
     onBack: () -> Unit,
     onStartAssignment: (String) -> Unit,
     onViewSubmission: (String) -> Unit,
+    onViewMemo: (String) -> Unit,
     viewModel: AssignmentDetailsViewModel = hiltViewModel()
 ) {
     val scrollState = rememberScrollState()
@@ -296,6 +297,21 @@ fun AssignmentDetailsScreen(
                 }
             ) {
                 Text("View Submission")
+            }
+
+            Spacer(
+                modifier = Modifier.height(8.dp)
+            )
+
+            Button(
+                modifier = Modifier.fillMaxWidth(),
+                onClick = {
+                    onViewMemo(
+                        assignmentId
+                    )
+                }
+            ) {
+                Text("View Memo")
             }
 
         }

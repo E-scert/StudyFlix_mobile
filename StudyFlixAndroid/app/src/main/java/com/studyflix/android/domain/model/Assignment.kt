@@ -14,7 +14,9 @@ data class Assignment(
     val examTime: String,
     val duration: Int,
     val instructions: List<String>,
-    val questions: List<AssignmentQuestion>
+    val questions: List<AssignmentQuestion>,
+    val memoPublished: Boolean = false,
+    val memoPerQuestion: List<String> = emptyList()
 )
 
 data class AssignmentQuestion(

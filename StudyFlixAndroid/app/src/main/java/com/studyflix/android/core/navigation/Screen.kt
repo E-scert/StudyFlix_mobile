@@ -63,11 +63,15 @@ sealed class Screen(val route: String) {
             assignmentId: String
         ) = "assignment_questions/$assignmentId"
     }
-    object AssignmentSubmission :
-        Screen("assignment_submission/{assignmentId}"){
+    object AssignmentSubmission : Screen("assignment_submission/{assignmentId}"){
         fun createRoute(
             assignmentId: String
         ) = "assignment_submission/$assignmentId"
+    }
+    object AssignmentMemo : Screen("assignment_memo/{assignmentId}") {
+        fun createRoute(
+            assignmentId: String
+        ) = "assignment_memo/$assignmentId"
     }
     // Teacher portal
     data object TeacherDashboard : Screen("teacher/dashboard")
