@@ -1,6 +1,7 @@
 package com.studyflix.android.data.repository
 
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.studyflix.android.core.util.FirestoreCollections
 import com.studyflix.android.core.util.Resource
 import com.studyflix.android.core.util.networkBoundResource
@@ -25,24 +26,30 @@ class MarksRepositoryImpl @Inject constructor(
     override fun observeMarksForStudent(studentUid: String): Flow<Resource<List<Mark>>> =
         networkBoundResource(
             query = { markDao.observeForStudent(studentUid).map { list -> list.map { it.toDomain() } } },
+
             fetch = {
-                firestore.collection(FirestoreCollections.MARKS)
-                    .whereEqualTo("studentId", studentUid)
-                    .orderBy("date", com.google.firebase.firestore.Query.Direction.DESCENDING)
-                    .get()
-                    .await()
-                    .documents
-                    .map { doc ->
-                        MarkEntity(
-                            id = doc.id,
-                            studentId = studentUid,
-                            name = doc.getString("name").orEmpty(),
-                            dateIso = doc.getTimestamp("date")?.toDate()?.toInstant()?.toString().orEmpty(),
-                            score = (doc.getLong("score") ?: 0L).toInt(),
-                            total = (doc.getLong("total") ?: 0L).toInt(),
-                            percentage = (doc.getLong("percentage") ?: 0L).toInt()
-                        )
-                    }
+                val snapshot =
+                    firestore.collection(FirestoreCollections.MARKS)
+            .whereEqualTo("studentId", studentUid)
+            .get()
+            .await()
+
+
+    snapshot.documents.map { doc ->
+        MarkEntity(
+            id = doc.id,
+            studentId = studentUid,
+            name = doc.getString("name").orEmpty(),
+            dateIso = doc.getTimestamp("date")?.toDate()?.toInstant()?.toString().orEmpty(),
+            score = (doc.getLong("score") ?: 0L).toInt(),
+            total = (doc.getLong("total") ?: 0L).toInt(),
+            percentage = (doc.getLong("percentage") ?: 0L).toInt()
+        )
+
+    }
+
+
+
             },
             saveFetchResult = { marks ->
                 markDao.clearForStudent(studentUid)

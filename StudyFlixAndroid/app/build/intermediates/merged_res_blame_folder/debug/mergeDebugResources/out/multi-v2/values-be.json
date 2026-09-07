@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.studyflix.android.app-mergeDebugResources-72:/values-be/values-be.xml",
+            "outputFile": "com.studyflix.android.app-mergeDebugResources-75:/values-be/values-be.xml",
             "map": [
                 {
                     "source": "C:\\Users\\student\\.gradle\\caches\\9.0.0\\transforms\\8ee8a171b7e877a0a8138f39d6bf7d6c\\transformed\\core-1.15.0\\res\\values-be\\values-be.xml",

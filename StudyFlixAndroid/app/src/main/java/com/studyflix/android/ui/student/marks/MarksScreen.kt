@@ -72,13 +72,63 @@ fun MarksScreen(onBack: () -> Unit, viewModel: MarksViewModel = hiltViewModel())
             return@Scaffold
         }
 
-        Column(modifier = Modifier.fillMaxSize().padding(padding)) {
-            Row(modifier = Modifier.fillMaxWidth().padding(16.dp)) {
-                Text(
-                    text = "Average: ${uiState.averagePercentage}%",
-                    style = MaterialTheme.typography.headlineSmall,
-                    color = StudentColors.Primary
-                )
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+
+                Card(
+                    modifier = Modifier.weight(1f),
+                    colors = CardDefaults.cardColors(
+                        containerColor = AppColors.Card
+                    )
+                ) {
+                    Column(Modifier.padding(12.dp)) {
+                        Text("Items", color = Color.Gray)
+                        Text("${uiState.totalItems}")
+                    }
+                }
+
+                Card(
+                    modifier = Modifier.weight(1f),
+                    colors = CardDefaults.cardColors(
+                        containerColor = AppColors.Card
+                    )
+                ) {
+                    Column(Modifier.padding(12.dp)) {
+                        Text("Average", color = Color.Gray)
+                        Text("${uiState.averagePercentage}%")
+                    }
+                }
+                Card(
+                    modifier = Modifier.weight(1f),
+                    colors = CardDefaults.cardColors(
+                        containerColor = AppColors.Card
+                    )
+                ) {
+                    Column(Modifier.padding(12.dp)) {
+                        Text("Best", color = Color.Gray)
+                        Text("${uiState.bestScore}%")
+                    }
+                }
+                Card(
+                    modifier = Modifier.weight(1f),
+                    colors = CardDefaults.cardColors(
+                        containerColor = AppColors.Card
+                    )
+                ) {
+                    Column(Modifier.padding(12.dp)) {
+                        Text("Points", color = Color.Gray)
+                        Text("${uiState.totalPoints}")
+                    }
+                }
             }
             LazyColumn(
                 contentPadding = PaddingValues(horizontal = 12.dp),

@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.studyflix.android.app-mergeDebugResources-72:/values-si/values-si.xml",
+            "outputFile": "com.studyflix.android.app-mergeDebugResources-75:/values-si/values-si.xml",
             "map": [
                 {
                     "source": "C:\\Users\\student\\.gradle\\caches\\9.0.0\\transforms\\56251b4e04de74d8f72130638a361195\\transformed\\play-services-base-18.5.0\\res\\values-si\\values.xml",

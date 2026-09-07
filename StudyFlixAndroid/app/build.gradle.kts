@@ -91,6 +91,7 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.coroutines.play.services)
     implementation(libs.kotlinx.serialization.json)
+    implementation("androidx.datastore:datastore-preferences:1.1.1")
 
     // Room (offline-first local cache)
     implementation(libs.room.runtime)

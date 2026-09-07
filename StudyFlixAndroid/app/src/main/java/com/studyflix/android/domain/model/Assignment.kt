@@ -22,5 +22,6 @@ data class Assignment(
 data class AssignmentQuestion(
     val number: Int,
     val text: String,
-    val marks: Int = 0
+    val marks: Int = 0,
+    val imageUrl: String = ""
 )

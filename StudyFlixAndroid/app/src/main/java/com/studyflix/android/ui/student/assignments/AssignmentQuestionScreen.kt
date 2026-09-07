@@ -30,7 +30,18 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.graphics.Color
-
+import androidx.compose.ui.platform.LocalContext
+import kotlinx.coroutines.launch
+import com.studyflix.android.data.preferences.AssignmentTimerDataStore
+import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.window.Dialog
+import coil.compose.AsyncImage
+import kotlinx.coroutines.delay
+import coil.compose.AsyncImage
 
 
 @Composable
@@ -41,7 +52,14 @@ fun AssignmentQuestionScreen(
     viewModel: AssignmentDetailsViewModel = hiltViewModel()
 ) {
 
+
     val uiState by viewModel.uiState.collectAsState()
+
+    val context = LocalContext.current
+    val timerStore = remember {
+        AssignmentTimerDataStore(context)
+    }
+    val scope = rememberCoroutineScope()
 
     val answers = rememberSaveable {
         mutableStateMapOf<String, String>()
@@ -52,6 +70,10 @@ fun AssignmentQuestionScreen(
     }
 
     var showSubmitDialog by remember {
+        mutableStateOf(false)
+    }
+
+    var showExitDialog by remember {
         mutableStateOf(false)
     }
 
@@ -67,45 +89,168 @@ fun AssignmentQuestionScreen(
         mutableStateOf(false)
     }
 
+    var cursorPosition by remember {
+        mutableStateOf(0)
+    }
+
+    var selectedImage by remember {
+        mutableStateOf<String?>(null)
+    }
+
     val assignment = uiState.assignment
 
     LaunchedEffect(assignmentId) {
         viewModel.loadAssignment(assignmentId)
 
     }
+    LaunchedEffect(assignmentId) {
+
+        FirebaseAuth.getInstance()
+            .currentUser
+            ?.uid
+            ?.let { studentId ->
+
+                viewModel.checkSubmissionStatus(
+                    assignmentId,
+                    studentId
+                )
+            }
+    }
+
+    LaunchedEffect(assignment) {
+
+        assignment?.questions?.forEach { question ->
+
+            val savedAnswer =
+                timerStore.getAnswer(
+                    "${assignmentId}_${question.number}"
+                )
+
+            if (savedAnswer != null) {
+
+                answers[
+                    question.number.toString()
+                ] = savedAnswer
+            }
+        }
+    }
+
     LaunchedEffect(assignment?.duration) {
 
-        if (
-            assignment != null &&
-            timeLeft == 0L
-        ) {
+        if (assignment == null) return@LaunchedEffect
+
+        val savedEndTime =
+            timerStore.getEndTime(assignmentId)
+
+        if (savedEndTime != null) {
+
+            val remaining =
+                savedEndTime - System.currentTimeMillis()
+
+            timeLeft = remaining.coerceAtLeast(0L)
+
+        } else {
+
+            val endTime =
+                System.currentTimeMillis() +
+                        (assignment.duration * 60 * 1000L)
+
+            timerStore.saveEndTime(
+                assignmentId,
+                endTime
+            )
+
             timeLeft =
                 assignment.duration * 60 * 1000L
         }
     }
+
     LaunchedEffect(timeLeft) {
 
-        while (timeLeft > 0) {
-            kotlinx.coroutines.delay(1000)
-            timeLeft -= 1000
+        while (true) {
+
+            val savedEndTime =
+                timerStore.getEndTime(assignmentId)
+                    ?: break
+
+            val remaining =
+                savedEndTime - System.currentTimeMillis()
+
+            timeLeft = remaining.coerceAtLeast(0L)
+
+            if (timeLeft <= 0L) break
+
+            delay(1000)
         }
     }
+
 
     LaunchedEffect(timeLeft) {
 
         if (
             timeLeft == 0L &&
-            !submitted
+            !submitted &&
+            assignment != null
         ) {
+
+            val submission = AssignmentSubmission(
+                assignmentId = assignmentId,
+                assignmentTitle = assignment.title,
+
+                studentId = FirebaseAuth.getInstance()
+                    .currentUser
+                    ?.uid
+                    .orEmpty(),
+
+                studentName = FirebaseAuth.getInstance()
+                    .currentUser
+                    ?.displayName
+                    ?: "Unknown Student",
+
+                startedAt = System.currentTimeMillis(),
+                submittedAt = System.currentTimeMillis(),
+
+                answers = answers.toMap(),
+
+                isMarked = false,
+                score = 0,
+                feedback = ""
+            )
+
+            submitting = true
+
+            viewModel.submitAssignment(
+                submission
+            )
+
+            timerStore.clearEndTime(
+                assignmentId
+            )
+
+            assignment.questions.forEach { question ->
+
+                timerStore.clearAnswer(
+                    "${assignmentId}_${question.number}"
+                )
+            }
+
+            submitted = true
+            submitting = false
 
             showTimeExpiredDialog = true
         }
     }
 
+    BackHandler(
+        enabled = !submitted
+    ) {
+        showExitDialog = true
+    }
 
     val hours = timeLeft / 1000 / 60 / 60
     val minutes = (timeLeft / 1000 / 60) % 60
     val seconds = (timeLeft / 1000) % 60
+    val isWarning = timeLeft <= 5 * 60 * 1000L
 
     val formattedTime =
         String.format(
@@ -131,8 +276,14 @@ fun AssignmentQuestionScreen(
                 },
                 navigationIcon = {
                     IconButton(
-                        onClick = onBack
-                    ) {
+                        onClick = {
+                            if (submitted) {
+                                onBack()
+                            } else {
+                                showExitDialog = true
+                            }
+                        }
+                    ){
                         Icon(
                             Icons.Default.ArrowBack,
                             contentDescription = "Back",
@@ -174,9 +325,21 @@ fun AssignmentQuestionScreen(
 
             Text(
                 text = "⏰ Time Remaining: $formattedTime",
-                color = Color.Red,
+                color = if (isWarning) Color.Red else StudentColors.Primary,
                 style = MaterialTheme.typography.titleMedium
             )
+            if (isWarning) {
+
+                Spacer(
+                    modifier = Modifier.height(4.dp)
+                )
+
+                Text(
+                    text = "⚠️ Less than 5 minutes remaining!",
+                    color = Color.Red,
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            }
 
             Spacer(
                 modifier = Modifier.height(16.dp)
@@ -278,15 +441,98 @@ fun AssignmentQuestionScreen(
                                 text = question.text,
                                 color = Color.White
                             )
+                            if (question.imageUrl.isNotBlank()) {
+
+                                Spacer(
+                                    modifier = Modifier.height(12.dp)
+                                )
+
+                                AsyncImage(
+                                    model = question.imageUrl,
+                                    contentDescription = "Question Image",
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .clickable {
+                                            selectedImage = question.imageUrl
+                                        }
+                                )
+                            }
 
                             Spacer(
                                 modifier = Modifier.height(12.dp)
                             )
+                            Row(
+                                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .horizontalScroll(
+                                        rememberScrollState()
+                                    )
+                            ) {
+
+                                listOf("+", "-", "×", "÷", "=", "π", "θ", "√", "∛", "∞", "≠", "≤", "≥", "±", "%", "²", "³", "^", "_", "(", ")", "[", "]", "sin(", "cos(", "tan(", "log(", "ln(", "∫", "∂"
+                                ).forEach { symbol ->
+
+                                    OutlinedButton(
+                                        onClick = {
+
+                                            val current =
+                                                answers[question.number.toString()]
+                                                    ?: ""
+
+                                            val text =
+                                                answers[question.number.toString()]
+                                                    ?: ""
+
+                                            val newText =
+                                                text.substring(
+                                                    0,
+                                                    cursorPosition
+                                                ) +
+                                                        symbol +
+                                                        text.substring(
+                                                            cursorPosition
+                                                        )
+
+                                            answers[
+                                                question.number.toString()
+                                            ] = newText
+
+                                            cursorPosition += symbol.length
+                                        },
+                                        contentPadding = PaddingValues(
+                                            horizontal = 8.dp,
+                                            vertical = 2.dp
+                                        )
+                                    ) {
+                                        Text(symbol)
+                                    }
+                                }
+                            }
 
                             OutlinedTextField(
-                                value = answers[question.number.toString()] ?: "",
-                                onValueChange = {
-                                    answers[question.number.toString()] = it
+                                value = TextFieldValue(
+                                    text = answers[question.number.toString()] ?: "",
+                                    selection = TextRange(
+                                        cursorPosition
+                                    )
+                                ),
+                                onValueChange = { value ->
+                                    cursorPosition =
+                                        value.selection.start
+
+                                    answers[
+                                        question.number.toString()
+                                    ] = value.text
+
+                                    answers[question.number.toString()] = value.text
+
+                                    scope.launch {
+                                        timerStore.saveAnswer(
+                                            "${assignmentId}_${question.number}",
+                                            value.text
+                                        )
+                                    }
                                 },
                                 modifier = Modifier.fillMaxWidth(),
                                 label = {
@@ -400,12 +646,26 @@ fun AssignmentQuestionScreen(
 
                             submitting = true
 
-                            viewModel.submitAssignment(
-                                submission
-                            )
+                                        viewModel.submitAssignment(
+                                            submission
+                                        )
 
-                            submitted = true
-                            submitting = false
+                                        scope.launch {
+
+                                            timerStore.clearEndTime(
+                                                assignmentId
+                                            )
+
+                                            assignment?.questions?.forEach { question ->
+
+                                                timerStore.clearAnswer(
+                                                    "${assignmentId}_${question.number}"
+                                                )
+                                            }
+                                        }
+
+                                        submitted = true
+                                        submitting = false
                                     }
                                 ) {
                                     Text("Submit")
@@ -435,50 +695,14 @@ fun AssignmentQuestionScreen(
 
                             text = {
                                 Text(
-                                    "Your assignment time has expired. Your work will now be submitted."
+                                    "Time has expired. Your assignment was submitted automatically."
                                 )
                             },
 
                             confirmButton = {
                                 Button(
                                     onClick = {
-
                                         showTimeExpiredDialog = false
-
-                                        showTimeExpiredDialog = false
-
-                                        val submission = AssignmentSubmission(
-                                            assignmentId = assignmentId,
-                                            assignmentTitle = assignment?.title ?: "",
-
-                                            studentId = FirebaseAuth.getInstance()
-                                                .currentUser
-                                                ?.uid
-                                                .orEmpty(),
-
-                                            studentName = FirebaseAuth.getInstance()
-                                                .currentUser
-                                                ?.displayName
-                                                ?: "Unknown Student",
-
-                                            startedAt = System.currentTimeMillis(),
-                                            submittedAt = System.currentTimeMillis(),
-
-                                            answers = answers.toMap(),
-
-                                            isMarked = false,
-                                            score = 0,
-                                            feedback = ""
-                                        )
-
-                                        submitting = true
-
-                                        viewModel.submitAssignment(
-                                            submission
-                                        )
-
-                                        submitted = true
-                                        submitting = false
                                     }
                                 ) {
                                     Text("OK")
@@ -486,6 +710,62 @@ fun AssignmentQuestionScreen(
                             }
                         )
                     }
+                    if (showExitDialog) {
+
+                        AlertDialog(
+                            onDismissRequest = {
+                                showExitDialog = false
+                            },
+
+                            title = {
+                                Text("Leave Assignment?")
+                            },
+
+                            text = {
+                                Text(
+                                    "Your timer will continue running even if you leave this screen."
+                                )
+                            },
+
+                            confirmButton = {
+                                Button(
+                                    onClick = {
+                                        showExitDialog = false
+                                        onBack()
+                                    }
+                                ) {
+                                    Text("Leave")
+                                }
+                            },
+
+                            dismissButton = {
+                                Button(
+                                    onClick = {
+                                        showExitDialog = false
+                                    }
+                                ) {
+                                    Text("Stay")
+                                }
+                            }
+                        )
+                    }
+
+                    if (selectedImage != null) {
+
+                        Dialog(
+                            onDismissRequest = {
+                                selectedImage = null
+                            }
+                        ) {
+
+                            AsyncImage(
+                                model = selectedImage,
+                                contentDescription = "Fullscreen Image",
+                                modifier = Modifier.fillMaxSize()
+                            )
+                        }
+                    }
+
 
                 }
             }

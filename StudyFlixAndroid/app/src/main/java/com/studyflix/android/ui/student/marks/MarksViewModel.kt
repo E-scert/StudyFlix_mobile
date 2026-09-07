@@ -16,6 +16,9 @@ import javax.inject.Inject
 data class MarksUiState(
     val marks: List<Mark> = emptyList(),
     val averagePercentage: Int = 0,
+    val totalItems: Int = 0,
+    val bestScore: Int = 0,
+    val totalPoints: Int = 0,
     val isLoading: Boolean = true,
     val errorMessage: String? = null
 )
@@ -31,7 +34,9 @@ class MarksViewModel @Inject constructor(
     val uiState: StateFlow<MarksUiState> = _uiState.asStateFlow()
 
     init {
+
         val uid = firebaseAuth.currentUser?.uid
+
         if (uid != null) {
             viewModelScope.launch {
                 getMarksUseCase(uid).collect { resource ->
@@ -42,10 +47,24 @@ class MarksViewModel @Inject constructor(
                             averagePercentage = resource.data.map { it.percentage }.average().let {
                                 if (it.isNaN()) 0 else it.toInt()
                             },
+                            totalItems = resource.data.size,
+
+                            bestScore = resource.data.maxOfOrNull {
+                                it.percentage
+                            } ?: 0,
+
+                            totalPoints = resource.data.sumOf {
+                                it.score
+                            },
                             isLoading = false,
                             errorMessage = null
                         )
-                        is Resource.Error -> _uiState.value.copy(isLoading = false, errorMessage = resource.message)
+
+                        is Resource.Error ->
+                            _uiState.value.copy(
+                                isLoading = false,
+                                errorMessage = resource.message
+                            )
                     }
                 }
             }

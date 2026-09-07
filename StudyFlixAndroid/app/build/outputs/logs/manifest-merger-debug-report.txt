@@ -84,6 +84,9 @@ MERGED from [androidx.activity:activity-ktx:1.9.3] C:\Users\student\.gradle\cach
 MERGED from [androidx.activity:activity-compose:1.9.3] C:\Users\student\.gradle\caches\9.0.0\transforms\031da6c388b677f2787a790511cb7530\transformed\activity-compose-1.9.3\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.compose.runtime:runtime-android:1.9.0] C:\Users\student\.gradle\caches\9.0.0\transforms\556ec44bd49cc7806ffc3b6b180492be\transformed\runtime\AndroidManifest.xml:2:1-7:12
 MERGED from [com.google.android.recaptcha:recaptcha:18.5.1] C:\Users\student\.gradle\caches\9.0.0\transforms\3621f796913311b94bc0159f3348ba21\transformed\recaptcha-18.5.1\AndroidManifest.xml:2:1-11:12
+MERGED from [androidx.datastore:datastore-core-android:1.1.1] C:\Users\student\.gradle\caches\9.0.0\transforms\fb18b065e7acced666419155aca46189\transformed\datastore-core-release\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.datastore:datastore-android:1.1.1] C:\Users\student\.gradle\caches\9.0.0\transforms\cae24365259a9e92454066a2abd4ec61\transformed\datastore-release\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.datastore:datastore-preferences-android:1.1.1] C:\Users\student\.gradle\caches\9.0.0\transforms\3f68698830dee29b572d532c8fb2d9d1\transformed\datastore-preferences-release\AndroidManifest.xml:17:1-22:12
 MERGED from [com.google.firebase:firebase-iid:21.1.0] C:\Users\student\.gradle\caches\9.0.0\transforms\d2001c6d1f5f95896fe533efe5a99b9b\transformed\firebase-iid-21.1.0\AndroidManifest.xml:17:1-38:12
 MERGED from [com.google.firebase:firebase-installations:18.0.0] C:\Users\student\.gradle\caches\9.0.0\transforms\b9547ad616145aafe784151a3dd65290\transformed\firebase-installations-18.0.0\AndroidManifest.xml:2:1-24:12
 MERGED from [com.google.firebase:firebase-common-ktx:21.0.0] C:\Users\student\.gradle\caches\9.0.0\transforms\edc8bf76df9a19eabb3ca8fdf7cc477e\transformed\firebase-common-ktx-21.0.0\AndroidManifest.xml:2:1-18:12
@@ -454,6 +457,12 @@ MERGED from [androidx.compose.runtime:runtime-android:1.9.0] C:\Users\student\.g
 MERGED from [androidx.compose.runtime:runtime-android:1.9.0] C:\Users\student\.gradle\caches\9.0.0\transforms\556ec44bd49cc7806ffc3b6b180492be\transformed\runtime\AndroidManifest.xml:5:5-44
 MERGED from [com.google.android.recaptcha:recaptcha:18.5.1] C:\Users\student\.gradle\caches\9.0.0\transforms\3621f796913311b94bc0159f3348ba21\transformed\recaptcha-18.5.1\AndroidManifest.xml:5:5-44
 MERGED from [com.google.android.recaptcha:recaptcha:18.5.1] C:\Users\student\.gradle\caches\9.0.0\transforms\3621f796913311b94bc0159f3348ba21\transformed\recaptcha-18.5.1\AndroidManifest.xml:5:5-44
+MERGED from [androidx.datastore:datastore-core-android:1.1.1] C:\Users\student\.gradle\caches\9.0.0\transforms\fb18b065e7acced666419155aca46189\transformed\datastore-core-release\AndroidManifest.xml:5:5-44
+MERGED from [androidx.datastore:datastore-core-android:1.1.1] C:\Users\student\.gradle\caches\9.0.0\transforms\fb18b065e7acced666419155aca46189\transformed\datastore-core-release\AndroidManifest.xml:5:5-44
+MERGED from [androidx.datastore:datastore-android:1.1.1] C:\Users\student\.gradle\caches\9.0.0\transforms\cae24365259a9e92454066a2abd4ec61\transformed\datastore-release\AndroidManifest.xml:20:5-44
+MERGED from [androidx.datastore:datastore-android:1.1.1] C:\Users\student\.gradle\caches\9.0.0\transforms\cae24365259a9e92454066a2abd4ec61\transformed\datastore-release\AndroidManifest.xml:20:5-44
+MERGED from [androidx.datastore:datastore-preferences-android:1.1.1] C:\Users\student\.gradle\caches\9.0.0\transforms\3f68698830dee29b572d532c8fb2d9d1\transformed\datastore-preferences-release\AndroidManifest.xml:20:5-44
+MERGED from [androidx.datastore:datastore-preferences-android:1.1.1] C:\Users\student\.gradle\caches\9.0.0\transforms\3f68698830dee29b572d532c8fb2d9d1\transformed\datastore-preferences-release\AndroidManifest.xml:20:5-44
 MERGED from [com.google.firebase:firebase-iid:21.1.0] C:\Users\student\.gradle\caches\9.0.0\transforms\d2001c6d1f5f95896fe533efe5a99b9b\transformed\firebase-iid-21.1.0\AndroidManifest.xml:20:5-44
 MERGED from [com.google.firebase:firebase-iid:21.1.0] C:\Users\student\.gradle\caches\9.0.0\transforms\d2001c6d1f5f95896fe533efe5a99b9b\transformed\firebase-iid-21.1.0\AndroidManifest.xml:20:5-44
 MERGED from [com.google.firebase:firebase-installations:18.0.0] C:\Users\student\.gradle\caches\9.0.0\transforms\b9547ad616145aafe784151a3dd65290\transformed\firebase-installations-18.0.0\AndroidManifest.xml:5:5-44
