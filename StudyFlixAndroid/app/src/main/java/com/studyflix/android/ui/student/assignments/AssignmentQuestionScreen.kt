@@ -42,6 +42,9 @@ import androidx.compose.ui.window.Dialog
 import coil.compose.AsyncImage
 import kotlinx.coroutines.delay
 import coil.compose.AsyncImage
+import java.time.LocalDate
+import java.time.ZoneId
+
 
 
 @Composable
@@ -56,9 +59,11 @@ fun AssignmentQuestionScreen(
     val uiState by viewModel.uiState.collectAsState()
 
     val context = LocalContext.current
+
     val timerStore = remember {
         AssignmentTimerDataStore(context)
     }
+
     val scope = rememberCoroutineScope()
 
     val answers = rememberSaveable {
@@ -151,9 +156,26 @@ fun AssignmentQuestionScreen(
 
         } else {
 
-            val endTime =
+            val durationEndTime =
                 System.currentTimeMillis() +
                         (assignment.duration * 60 * 1000L)
+
+            val dueDateEndTime =
+                LocalDate.parse(
+                    assignment.dueDate
+                )
+                    .atTime(23, 59, 59)
+                    .atZone(
+                        ZoneId.systemDefault()
+                    )
+                    .toInstant()
+                    .toEpochMilli()
+
+            val endTime =
+                minOf(
+                    durationEndTime,
+                    dueDateEndTime
+                )
 
             timerStore.saveEndTime(
                 assignmentId,
