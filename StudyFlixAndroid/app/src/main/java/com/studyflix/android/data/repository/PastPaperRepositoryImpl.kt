@@ -1,9 +1,11 @@
 package com.studyflix.android.data.repository
 
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.studyflix.android.core.util.FirestoreCollections
 import com.studyflix.android.domain.model.PastPaper
 import com.studyflix.android.domain.repository.PastPaperRepository
+import com.studyflix.android.domain.repository.StudentRepository
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -13,11 +15,31 @@ import javax.inject.Singleton
 
 @Singleton
 class PastPaperRepositoryImpl @Inject constructor(
-    private val firestore: FirebaseFirestore
+    private val firestore: FirebaseFirestore,
+    private val auth: FirebaseAuth,
+    private val studentRepository: StudentRepository
 ) : PastPaperRepository {
 
     override fun observePastPapers(): Flow<List<PastPaper>> =
         callbackFlow {
+
+            val uid = auth.currentUser?.uid
+
+            if (uid == null) {
+                trySend(emptyList())
+                close()
+                return@callbackFlow
+            }
+
+            val student = studentRepository.getStudent(uid)
+
+            if (student == null) {
+                trySend(emptyList())
+                close()
+                return@callbackFlow
+            }
+
+            val studentGrade = student.grade
 
             val listener =
                 firestore.collection(FirestoreCollections.CONTENT)
@@ -26,7 +48,11 @@ class PastPaperRepositoryImpl @Inject constructor(
                     .addSnapshotListener { snapshot, _ ->
 
                         val papers =
-                            snapshot?.documents?.map { doc ->
+                            snapshot?.documents?.mapNotNull { doc ->
+
+                                if (doc.getString("grade") != studentGrade) {
+                                    return@mapNotNull null
+                                }
 
                                 val rawUrl = doc.getString("fileUrl").orEmpty()
                                 android.util.Log.d(
@@ -53,6 +79,8 @@ class PastPaperRepositoryImpl @Inject constructor(
                                     term = doc.getString("term").orEmpty(),
                                     fileUrl = cleanUrl
                                 )
+
+                            }?.filter{ doc -> doc.subject.isNotBlank()
 
                             }.orEmpty()
 

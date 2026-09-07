@@ -18,7 +18,8 @@ data class VideoEntity(
     val grade: String,
     val locked: Boolean,
     val videoUrl: String,
-    val thumbnailUrl: String
+    val thumbnailUrl: String,
+    val status: String,
 )
 
 fun VideoEntity.toDomain() = VideoContent(
@@ -33,7 +34,8 @@ fun VideoEntity.toDomain() = VideoContent(
     grade = grade,
     locked = locked,
     videoUrl = videoUrl,
-    thumbnailUrl = thumbnailUrl
+    thumbnailUrl = thumbnailUrl,
+    status = status,
 )
 
 fun VideoContent.toEntity() = VideoEntity(
@@ -48,5 +50,7 @@ fun VideoContent.toEntity() = VideoEntity(
     grade = grade,
     locked = locked,
     videoUrl = videoUrl,
-    thumbnailUrl = thumbnailUrl
+    thumbnailUrl = thumbnailUrl,
+    status = status,
+
 )

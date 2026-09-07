@@ -41,7 +41,7 @@ public final class VideoDao_Impl implements VideoDao {
       @Override
       @NonNull
       protected String createQuery() {
-        return "INSERT OR REPLACE INTO `videos` (`id`,`title`,`season`,`seasonName`,`episode`,`duration`,`views`,`subject`,`grade`,`locked`,`videoUrl`,`thumbnailUrl`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+        return "INSERT OR REPLACE INTO `videos` (`id`,`title`,`season`,`seasonName`,`episode`,`duration`,`views`,`subject`,`grade`,`locked`,`videoUrl`,`thumbnailUrl`,`status`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
       }
 
       @Override
@@ -60,6 +60,7 @@ public final class VideoDao_Impl implements VideoDao {
         statement.bindLong(10, _tmp);
         statement.bindString(11, entity.getVideoUrl());
         statement.bindString(12, entity.getThumbnailUrl());
+        statement.bindString(13, entity.getStatus());
       }
     };
     this.__preparedStmtOfClear = new SharedSQLiteStatement(__db) {
@@ -136,6 +137,7 @@ public final class VideoDao_Impl implements VideoDao {
           final int _cursorIndexOfLocked = CursorUtil.getColumnIndexOrThrow(_cursor, "locked");
           final int _cursorIndexOfVideoUrl = CursorUtil.getColumnIndexOrThrow(_cursor, "videoUrl");
           final int _cursorIndexOfThumbnailUrl = CursorUtil.getColumnIndexOrThrow(_cursor, "thumbnailUrl");
+          final int _cursorIndexOfStatus = CursorUtil.getColumnIndexOrThrow(_cursor, "status");
           final List<VideoEntity> _result = new ArrayList<VideoEntity>(_cursor.getCount());
           while (_cursor.moveToNext()) {
             final VideoEntity _item;
@@ -165,7 +167,9 @@ public final class VideoDao_Impl implements VideoDao {
             _tmpVideoUrl = _cursor.getString(_cursorIndexOfVideoUrl);
             final String _tmpThumbnailUrl;
             _tmpThumbnailUrl = _cursor.getString(_cursorIndexOfThumbnailUrl);
-            _item = new VideoEntity(_tmpId,_tmpTitle,_tmpSeason,_tmpSeasonName,_tmpEpisode,_tmpDuration,_tmpViews,_tmpSubject,_tmpGrade,_tmpLocked,_tmpVideoUrl,_tmpThumbnailUrl);
+            final String _tmpStatus;
+            _tmpStatus = _cursor.getString(_cursorIndexOfStatus);
+            _item = new VideoEntity(_tmpId,_tmpTitle,_tmpSeason,_tmpSeasonName,_tmpEpisode,_tmpDuration,_tmpViews,_tmpSubject,_tmpGrade,_tmpLocked,_tmpVideoUrl,_tmpThumbnailUrl,_tmpStatus);
             _result.add(_item);
           }
           return _result;

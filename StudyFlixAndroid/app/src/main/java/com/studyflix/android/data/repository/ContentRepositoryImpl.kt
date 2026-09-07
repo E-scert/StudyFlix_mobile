@@ -42,9 +42,14 @@ class ContentRepositoryImpl @Inject constructor(
 
             val studentGrade = student.grade
 
+            android.util.Log.d(
+                "VIDEO_FILTER",
+                "Student grade = '$studentGrade'"
+            )
+
+
             firestore.collection(FirestoreCollections.CONTENT)
                 .whereEqualTo("type", "video")
-                .whereEqualTo("status", "live")
                 .get()
                 .await()
                 .also { snapshot ->
@@ -54,9 +59,14 @@ class ContentRepositoryImpl @Inject constructor(
                     snapshot.documents.forEach { doc ->
 
                         android.util.Log.d(
+                            "VIDEO_FILTER",
+                            "Video '${doc.getString("title")}' grade = '${doc.getString("grade")}'"
+                        )
+                        android.util.Log.d(
                             "VIDEOS",
                             "Doc=${doc.id}, title=${doc.getString("title")}"
                         )
+
                     }
                 }
 
@@ -73,14 +83,14 @@ class ContentRepositoryImpl @Inject constructor(
                         subject = doc.getString("subject").orEmpty(),
                         grade = doc.getString("grade").orEmpty(),
                         locked = doc.getBoolean("locked") ?: false,
-                        videoUrl =
-                            doc.getString("videoUrl")
-                                ?: doc.getString("fileUrl")
-                                ?: "",
-                        thumbnailUrl = doc.getString("thumbnailUrl").orEmpty()
+                        videoUrl = doc.getString("videoUrl") ?: doc.getString("fileUrl") ?: "",
+                        thumbnailUrl = doc.getString("thumbnailUrl").orEmpty(),
+                        status = doc.getString("status").orEmpty()
                     )
+
                 }.filter {
-                    video -> video.grade == studentGrade
+                    video -> video.grade == studentGrade &&
+                        (video.status == "approved" || video.status == "live")
             }
         },
         saveFetchResult = { videos ->

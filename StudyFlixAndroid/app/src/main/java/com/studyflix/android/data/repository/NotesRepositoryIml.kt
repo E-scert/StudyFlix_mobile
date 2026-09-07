@@ -1,21 +1,28 @@
 package com.studyflix.android.data.repository
 
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.studyflix.android.core.util.FirestoreCollections
 import com.studyflix.android.domain.model.StudyNote
 import com.studyflix.android.domain.repository.NotesRepository
+import com.studyflix.android.domain.repository.StudentRepository
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class NotesRepositoryImpl @Inject constructor(
-    private val firestore: FirebaseFirestore
-) : NotesRepository {
+    private val firestore: FirebaseFirestore,
+    private val auth: FirebaseAuth,
+    private val studentRepository: StudentRepository
+)  : NotesRepository {
 
     override suspend fun getNotes(): List<StudyNote> {
 
         val results = mutableListOf<StudyNote>()
+        val uid = auth.currentUser?.uid ?: return emptyList()
+        val student = studentRepository.getStudent(uid) ?: return emptyList()
+        val studentGrade = student.grade
 
         // notes collection
         val notesDocs = firestore
@@ -24,6 +31,11 @@ class NotesRepositoryImpl @Inject constructor(
             .await()
 
         notesDocs.documents.forEach { doc ->
+
+
+            if (doc.getString("grade") != studentGrade) {
+                return@forEach
+            }
 
             results.add(
                 StudyNote(
@@ -38,6 +50,7 @@ class NotesRepositoryImpl @Inject constructor(
                         ?: "StudyFlix"
                 )
             )
+
         }
 
         // content collection notes
@@ -49,6 +62,9 @@ class NotesRepositoryImpl @Inject constructor(
 
         teacherNotes.documents.forEach { doc ->
 
+            if (doc.getString("grade") != studentGrade) {
+                return@forEach
+            }
             results.add(
                 StudyNote(
                     id = doc.id,
@@ -69,6 +85,8 @@ class NotesRepositoryImpl @Inject constructor(
                             ?: doc.getString("teacherId")
                 )
             )
+
+
         }
 
         return results

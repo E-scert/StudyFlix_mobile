@@ -16,5 +16,6 @@ data class VideoContent(
     val grade: String,
     val locked: Boolean,
     val videoUrl: String,
-    val thumbnailUrl: String
+    val thumbnailUrl: String,
+    val status: String
 )
