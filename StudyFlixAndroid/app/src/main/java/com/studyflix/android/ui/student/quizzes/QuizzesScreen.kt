@@ -34,6 +34,17 @@ import com.studyflix.android.core.ui.theme.StudyFlixBackground
 import com.studyflix.android.domain.model.Quiz
 import com.studyflix.android.ui.theme.AppColors
 import com.studyflix.android.ui.theme.StudentColors
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
+import kotlinx.coroutines.launch
+
+import com.studyflix.android.domain.model.AccessResult
+import com.studyflix.android.ui.components.SubscriptionDialog
+import com.studyflix.android.ui.student.videos.SubscriptionViewModel
+
 
 /** Equivalent of public/student/quizzes.html: list of published quizzes. */
 @OptIn(ExperimentalMaterial3Api::class)
@@ -44,6 +55,14 @@ fun QuizzesScreen(
     viewModel: QuizzesViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
+
+    val accessViewModel: SubscriptionViewModel = hiltViewModel()
+
+    val scope = rememberCoroutineScope()
+
+    var dialogMessage by remember {
+        mutableStateOf<String?>(null)
+    }
 
     Scaffold(
         containerColor = StudyFlixBackground,
@@ -82,7 +101,36 @@ fun QuizzesScreen(
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(20.dp),
-                    onClick = { onOpenQuiz(quiz.id) }
+                    onClick = {
+
+                        scope.launch {
+
+                            when (
+                                val result =
+                                    accessViewModel.checkQuizAccess()
+                            ) {
+
+                                is AccessResult.Allowed -> {
+
+                                    accessViewModel.recordQuizUsage()
+
+                                    onOpenQuiz(quiz.id)
+                                }
+
+                                is AccessResult.LimitReached -> {
+
+                                    dialogMessage =
+                                        result.message
+                                }
+
+                                is AccessResult.UpgradeRequired -> {
+
+                                    dialogMessage =
+                                        result.message
+                                }
+                            }
+                        }
+                    }
                 )
                  {
                     ListItem(
@@ -114,5 +162,14 @@ fun QuizzesScreen(
                 }
             }
         }
+    }
+    dialogMessage?.let { message ->
+
+        SubscriptionDialog(
+            message = message,
+            onDismiss = {
+                dialogMessage = null
+            }
+        )
     }
 }

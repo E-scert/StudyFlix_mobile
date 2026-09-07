@@ -27,15 +27,45 @@ data class StudentEntity(
     val schoolId: String,
     val status: String,
     val completedQuizzes: List<String>,
-    val createdAtMillis: Long?
+    val createdAtMillis: Long?,
+
+    val videosUsed: Int,
+    val quizzesUsed: Int,
+    val papersUsed: Int
 )
 
 fun StudentEntity.toDomain() = Student(
-    uid, email, name, subscription, trialEnds, grade, school, schoolId,
-    AccountStatus.fromRaw(status), completedQuizzes, createdAtMillis
+    uid = uid,
+    email = email,
+    name = name,
+    subscription = subscription,
+    trialEnds = trialEnds,
+    grade = grade,
+    school = school,
+    schoolId = schoolId,
+    status = AccountStatus.fromRaw(status),
+    completedQuizzes = completedQuizzes,
+    createdAtMillis = createdAtMillis,
+
+    videosUsed = videosUsed,
+    quizzesUsed = quizzesUsed,
+    papersUsed = papersUsed
 )
 
 fun Student.toEntity() = StudentEntity(
-    uid, email, name, subscription, trialEnds, grade, school, schoolId,
-    status.name.lowercase(), completedQuizzes, createdAtMillis
+    uid = uid,
+    email = email,
+    name = name,
+    subscription = subscription,
+    trialEnds = trialEnds,
+    grade = grade,
+    school = school,
+    schoolId = schoolId,
+    status = status.name.lowercase(),
+    completedQuizzes = completedQuizzes,
+    createdAtMillis = createdAtMillis,
+
+    videosUsed = videosUsed,
+    quizzesUsed = quizzesUsed,
+    papersUsed = papersUsed
 )

@@ -22,7 +22,7 @@ import com.studyflix.android.data.local.entity.VideoEntity
  */
 @Database(
     entities = [VideoEntity::class, QuizEntity::class, MarkEntity::class, StudentEntity::class],
-    version = 3,
+    version = 4,
     exportSchema = true
 )
 @TypeConverters(QuestionListConverter::class, StringListConverter::class)

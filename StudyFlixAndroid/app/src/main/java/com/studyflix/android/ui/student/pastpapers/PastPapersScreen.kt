@@ -42,6 +42,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.runtime.rememberCoroutineScope
+import kotlinx.coroutines.launch
+import com.studyflix.android.domain.model.AccessResult
+import com.studyflix.android.ui.components.SubscriptionDialog
+import com.studyflix.android.ui.student.videos.SubscriptionViewModel
+
 
 data class PastPaperUi(
     val title: String,
@@ -66,6 +72,13 @@ fun PastPapersScreen(
         mutableStateOf("All Years")
     }
 
+    val accessViewModel: SubscriptionViewModel = hiltViewModel()
+
+    val scope = rememberCoroutineScope()
+
+    var dialogMessage by remember {
+        mutableStateOf<String?>(null)
+    }
 
     var yearExpanded by remember {
         mutableStateOf(false)
@@ -117,7 +130,7 @@ fun PastPapersScreen(
                 .padding(padding)
                 .padding(16.dp)
         ) {
-Box {
+        Box {
     OutlinedButton(
         modifier = Modifier.fillMaxWidth(),
         onClick = {
@@ -168,6 +181,15 @@ Box {
             }
         )
     }
+            dialogMessage?.let { message ->
+
+                SubscriptionDialog(
+                    message = message,
+                    onDismiss = {
+                        dialogMessage = null
+                    }
+                )
+            }
 }
 
             Box {
@@ -320,19 +342,39 @@ Box {
                                 modifier = Modifier.fillMaxWidth(),
                                 onClick = {
 
-                                    android.util.Log.d(
-                                        "PAPER_URL",
-                                        paper.fileUrl
-                                    )
+                                    scope.launch {
 
-                                    if (paper.fileUrl.isNotBlank()) {
+                                        when (
+                                            val result =
+                                                accessViewModel.checkPastPaperAccess()
+                                        ) {
 
-                                        val intent = Intent(
-                                            Intent.ACTION_VIEW,
-                                            Uri.parse(paper.fileUrl)
-                                        )
+                                            is AccessResult.Allowed -> {
+                                                accessViewModel.recordPaperUsage()
 
-                                        context.startActivity(intent)
+                                                if (paper.fileUrl.isNotBlank()) {
+
+                                                    val intent = Intent(
+                                                        Intent.ACTION_VIEW,
+                                                        Uri.parse(paper.fileUrl)
+                                                    )
+
+                                                    context.startActivity(intent)
+                                                }
+                                            }
+
+                                            is AccessResult.LimitReached -> {
+
+                                                dialogMessage =
+                                                    result.message
+                                            }
+
+                                            is AccessResult.UpgradeRequired -> {
+
+                                                dialogMessage =
+                                                    result.message
+                                            }
+                                        }
                                     }
                                 }
                             ) {

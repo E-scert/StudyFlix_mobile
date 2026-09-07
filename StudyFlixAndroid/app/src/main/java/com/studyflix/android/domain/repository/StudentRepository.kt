@@ -17,4 +17,10 @@ interface StudentRepository {
     suspend fun getStudent(
         uid: String
     ): Student?
+
+    suspend fun incrementVideosUsed()
+
+    suspend fun incrementQuizzesUsed()
+
+    suspend fun incrementPapersUsed()
 }

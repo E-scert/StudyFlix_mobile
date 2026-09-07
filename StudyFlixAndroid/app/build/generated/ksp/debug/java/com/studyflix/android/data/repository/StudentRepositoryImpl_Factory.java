@@ -1,5 +1,6 @@
 package com.studyflix.android.data.repository;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.studyflix.android.data.local.dao.StudentDao;
 import dagger.internal.DaggerGenerated;
@@ -29,24 +30,27 @@ public final class StudentRepositoryImpl_Factory implements Factory<StudentRepos
 
   private final Provider<StudentDao> studentDaoProvider;
 
+  private final Provider<FirebaseAuth> firebaseAuthProvider;
+
   public StudentRepositoryImpl_Factory(Provider<FirebaseFirestore> firestoreProvider,
-      Provider<StudentDao> studentDaoProvider) {
+      Provider<StudentDao> studentDaoProvider, Provider<FirebaseAuth> firebaseAuthProvider) {
     this.firestoreProvider = firestoreProvider;
     this.studentDaoProvider = studentDaoProvider;
+    this.firebaseAuthProvider = firebaseAuthProvider;
   }
 
   @Override
   public StudentRepositoryImpl get() {
-    return newInstance(firestoreProvider.get(), studentDaoProvider.get());
+    return newInstance(firestoreProvider.get(), studentDaoProvider.get(), firebaseAuthProvider.get());
   }
 
   public static StudentRepositoryImpl_Factory create(Provider<FirebaseFirestore> firestoreProvider,
-      Provider<StudentDao> studentDaoProvider) {
-    return new StudentRepositoryImpl_Factory(firestoreProvider, studentDaoProvider);
+      Provider<StudentDao> studentDaoProvider, Provider<FirebaseAuth> firebaseAuthProvider) {
+    return new StudentRepositoryImpl_Factory(firestoreProvider, studentDaoProvider, firebaseAuthProvider);
   }
 
   public static StudentRepositoryImpl newInstance(FirebaseFirestore firestore,
-      StudentDao studentDao) {
-    return new StudentRepositoryImpl(firestore, studentDao);
+      StudentDao studentDao, FirebaseAuth firebaseAuth) {
+    return new StudentRepositoryImpl(firestore, studentDao, firebaseAuth);
   }
 }

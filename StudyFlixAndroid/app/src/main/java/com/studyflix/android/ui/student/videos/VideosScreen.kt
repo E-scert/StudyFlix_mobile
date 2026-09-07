@@ -44,6 +44,15 @@ import com.studyflix.android.domain.model.VideoContent
 import com.studyflix.android.ui.theme.AppColors
 import com.studyflix.android.ui.theme.StudentColors
 import androidx.compose.foundation.clickable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
+import com.studyflix.android.domain.model.AccessResult
+import com.studyflix.android.ui.components.SubscriptionDialog
 
 /** Equivalent of public/student/videos.html + js/videos.js: season tabs + episode list. */
 @OptIn(ExperimentalMaterial3Api::class)
@@ -55,6 +64,14 @@ fun VideosScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
+
+    val accessViewModel: SubscriptionViewModel = hiltViewModel()
+
+    val scope = rememberCoroutineScope()
+
+    var dialogMessage by remember {
+        mutableStateOf<String?>(null)
+    }
     Scaffold(
         containerColor = StudyFlixBackground,
         topBar = {
@@ -116,13 +133,52 @@ fun VideosScreen(
                         onClick = {
 
                             if (video.videoUrl.isNotBlank()) {
-                                onOpenVideo(video.videoUrl)
+
+                                scope.launch {
+
+                                    when (
+                                        val result =
+                                            accessViewModel.checkAccess()
+                                    ) {
+
+                                        is AccessResult.Allowed -> {
+
+                                            accessViewModel.recordUsage()
+
+                                            onOpenVideo(
+                                                video.videoUrl
+                                            )
+                                        }
+
+                                        is AccessResult.LimitReached -> {
+
+                                            dialogMessage =
+                                                result.message
+                                        }
+
+                                        is AccessResult.UpgradeRequired -> {
+
+                                            dialogMessage =
+                                                result.message
+                                        }
+                                    }
+                                }
                             }
                         }
                     )
                 }
             }
         }
+
+    }
+    dialogMessage?.let { message ->
+
+        SubscriptionDialog(
+            message = message,
+            onDismiss = {
+                dialogMessage = null
+            }
+        )
     }
 }
 

@@ -9,14 +9,17 @@ data class Student(
     val uid: String = "",
     val email: String = "",
     val name: String = "",
-    val subscription: String = "trial",       // "trial" | "active" | "expired" ...
+    val subscription: String = "FREE",       // "trial" | "active" | "expired" ...
     val trialEnds: String = "",                // ISO-8601 string, matches web
     val grade: String = "Grade 8",
     val school: String = "",
     val schoolId: String = "",
     val status: AccountStatus = AccountStatus.PENDING,
     val completedQuizzes: List<String> = emptyList(),
-    val createdAtMillis: Long? = null
+    val createdAtMillis: Long? = null,
+    val videosUsed: Int = 0,
+    val quizzesUsed: Int = 0,
+    val papersUsed: Int = 0
 )
 
 enum class AccountStatus {

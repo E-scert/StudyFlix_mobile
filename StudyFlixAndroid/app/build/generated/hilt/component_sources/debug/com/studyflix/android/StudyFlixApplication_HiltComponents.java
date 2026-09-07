@@ -3,6 +3,7 @@ package com.studyflix.android;
 import com.studyflix.android.di.DatabaseModule;
 import com.studyflix.android.di.FirebaseModule;
 import com.studyflix.android.di.RepositoryModule;
+import com.studyflix.android.di.SubscriptionModule;
 import com.studyflix.android.ui.auth.LoginViewModel_HiltModules;
 import com.studyflix.android.ui.auth.SignUpViewModel_HiltModules;
 import com.studyflix.android.ui.student.assignments.AssignmentDetailsViewModel_HiltModules;
@@ -14,6 +15,7 @@ import com.studyflix.android.ui.student.notes.NotesViewModel_HiltModules;
 import com.studyflix.android.ui.student.pastpapers.PastPapersViewModel_HiltModules;
 import com.studyflix.android.ui.student.quizzes.QuizzesViewModel_HiltModules;
 import com.studyflix.android.ui.student.quizzes.TakeQuizViewModel_HiltModules;
+import com.studyflix.android.ui.student.videos.SubscriptionViewModel_HiltModules;
 import com.studyflix.android.ui.student.videos.VideosViewModel_HiltModules;
 import dagger.Binds;
 import dagger.Component;
@@ -145,7 +147,8 @@ public final class StudyFlixApplication_HiltComponents {
           HiltWrapper_FragmentGetContextFix_FragmentGetContextFixModule.class,
           RepositoryModule.class,
           ActivityRetainedCBuilderModule.class,
-          ServiceCBuilderModule.class
+          ServiceCBuilderModule.class,
+          SubscriptionModule.class
       }
   )
   @Singleton
@@ -182,6 +185,7 @@ public final class StudyFlixApplication_HiltComponents {
           StudentHomeViewModel_HiltModules.KeyModule.class,
           ActivityCBuilderModule.class,
           ViewModelCBuilderModule.class,
+          SubscriptionViewModel_HiltModules.KeyModule.class,
           TakeQuizViewModel_HiltModules.KeyModule.class,
           VideosViewModel_HiltModules.KeyModule.class
       }
@@ -230,6 +234,7 @@ public final class StudyFlixApplication_HiltComponents {
           QuizzesViewModel_HiltModules.BindsModule.class,
           SignUpViewModel_HiltModules.BindsModule.class,
           StudentHomeViewModel_HiltModules.BindsModule.class,
+          SubscriptionViewModel_HiltModules.BindsModule.class,
           TakeQuizViewModel_HiltModules.BindsModule.class,
           VideosViewModel_HiltModules.BindsModule.class
       }

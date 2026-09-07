@@ -13,11 +13,14 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import javax.inject.Singleton
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 
 @Singleton
 class StudentRepositoryImpl @Inject constructor(
     private val firestore: FirebaseFirestore,
-    private val studentDao: StudentDao
+    private val studentDao: StudentDao,
+    private val firebaseAuth: FirebaseAuth
 ) : StudentRepository {
 
     override fun observeStudent(uid: String): Flow<Student?> =
@@ -38,6 +41,10 @@ class StudentRepositoryImpl @Inject constructor(
             completedQuizzes = (snapshot.get("completedQuizzes") as? List<*>)
                 ?.filterIsInstance<String>().orEmpty(),
             createdAtMillis = snapshot.getTimestamp("createdAt")?.toDate()?.time
+        ,
+            videosUsed = snapshot.getLong("videosUsed")?.toInt() ?: 0,
+            quizzesUsed = snapshot.getLong("quizzesUsed")?.toInt() ?: 0,
+            papersUsed = snapshot.getLong("papersUsed")?.toInt() ?: 0,
         )
         studentDao.upsert(student.toEntity())
         student
@@ -58,4 +65,43 @@ class StudentRepositoryImpl @Inject constructor(
         return refreshStudent(uid)
             .getOrNull()
     }
+
+    override suspend fun incrementVideosUsed() {
+
+        val uid = firebaseAuth.currentUser?.uid ?: return
+
+        firestore.collection(FirestoreCollections.STUDENTS)
+            .document(uid)
+            .update(
+                "videosUsed",
+                FieldValue.increment(1)
+            )
+            .await()
+    }
+    override suspend fun incrementQuizzesUsed() {
+
+        val uid = firebaseAuth.currentUser?.uid ?: return
+
+        firestore.collection(FirestoreCollections.STUDENTS)
+            .document(uid)
+            .update(
+                "quizzesUsed",
+                FieldValue.increment(1)
+            )
+            .await()
+    }
+
+    override suspend fun incrementPapersUsed() {
+
+        val uid = firebaseAuth.currentUser?.uid ?: return
+
+        firestore.collection(FirestoreCollections.STUDENTS)
+            .document(uid)
+            .update(
+                "papersUsed",
+                FieldValue.increment(1)
+            )
+            .await()
+    }
+
 }

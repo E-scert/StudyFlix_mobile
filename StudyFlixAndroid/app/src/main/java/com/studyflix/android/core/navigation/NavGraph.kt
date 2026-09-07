@@ -2,6 +2,11 @@ package com.studyflix.android.core.navigation
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -13,6 +18,7 @@ import com.studyflix.android.domain.model.UserRole
 import com.studyflix.android.ui.admin.AdminDashboardScreen
 import com.studyflix.android.ui.auth.LoginScreen
 import com.studyflix.android.ui.auth.SignUpStudentScreen
+import com.studyflix.android.ui.components.SubscriptionDialog
 import com.studyflix.android.ui.landing.LandingScreen
 import com.studyflix.android.ui.student.assignments.AssignmentDetailsScreen
 import com.studyflix.android.ui.student.assignments.AssignmentMemoScreen
@@ -32,6 +38,9 @@ import com.studyflix.android.ui.student.quizzes.TakeQuizScreen
 import com.studyflix.android.ui.student.videos.VideoPlayerScreen
 import com.studyflix.android.ui.student.videos.VideosScreen
 import com.studyflix.android.ui.teacher.TeacherDashboardScreen
+import kotlinx.coroutines.launch
+import com.studyflix.android.domain.model.AccessResult
+import com.studyflix.android.ui.student.videos.SubscriptionViewModel
 
 
 /**
@@ -114,6 +123,13 @@ fun StudyFlixNavGraph(navController: NavHostController = rememberNavController()
 
                         // ---- Student portal ----
         composable(Screen.StudentHome.route) {
+            val accessViewModel: SubscriptionViewModel = hiltViewModel()
+
+            val scope = rememberCoroutineScope()
+
+            var dialogMessage by remember {
+                mutableStateOf<String?>(null)
+            }
             StudentHomeScreen(
                 onOpenVideos = { navController.navigate(Screen.StudentVideos.route) },
                 onOpenAssignments = { navController.navigate(Screen.StudentAssignments.route) },
@@ -121,11 +137,49 @@ fun StudyFlixNavGraph(navController: NavHostController = rememberNavController()
                 onOpenNotes = { navController.navigate(Screen.StudentNotes.route) },
                 onOpenQuizzes = { navController.navigate(Screen.StudentQuizzes.route) },
                 onOpenMarks = { navController.navigate(Screen.StudentMarks.route) },
-                onOpenChat = { navController.navigate(Screen.StudentChat.route) },
+                onOpenChat = {
+
+                    scope.launch {
+
+                        when (
+                            val result =
+                                accessViewModel.checkTeacherChatAccess()
+                        ) {
+
+                            is AccessResult.Allowed -> {
+
+                                navController.navigate(
+                                    Screen.StudentChat.route
+                                )
+                            }
+
+                            is AccessResult.LimitReached -> {
+
+                                dialogMessage =
+                                    result.message
+                            }
+
+                            is AccessResult.UpgradeRequired -> {
+
+                                dialogMessage =
+                                    result.message
+                            }
+                        }
+                    }
+                },
                 onLogout = { navController.navigate(Screen.Landing.route) {popUpTo(0)
                     }
                  }
             )
+            dialogMessage?.let { message ->
+
+                SubscriptionDialog(
+                    message = message,
+                    onDismiss = {
+                        dialogMessage = null
+                    }
+                )
+            }
         }
         composable(
             Screen.StudentVideos.route

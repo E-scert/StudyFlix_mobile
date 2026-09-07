@@ -42,7 +42,7 @@ public final class StudentDao_Impl implements StudentDao {
       @Override
       @NonNull
       protected String createQuery() {
-        return "INSERT OR REPLACE INTO `students` (`uid`,`email`,`name`,`subscription`,`trialEnds`,`grade`,`school`,`schoolId`,`status`,`completedQuizzes`,`createdAtMillis`) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+        return "INSERT OR REPLACE INTO `students` (`uid`,`email`,`name`,`subscription`,`trialEnds`,`grade`,`school`,`schoolId`,`status`,`completedQuizzes`,`createdAtMillis`,`videosUsed`,`quizzesUsed`,`papersUsed`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
       }
 
       @Override
@@ -64,6 +64,9 @@ public final class StudentDao_Impl implements StudentDao {
         } else {
           statement.bindLong(11, entity.getCreatedAtMillis());
         }
+        statement.bindLong(12, entity.getVideosUsed());
+        statement.bindLong(13, entity.getQuizzesUsed());
+        statement.bindLong(14, entity.getPapersUsed());
       }
     };
   }
@@ -109,6 +112,9 @@ public final class StudentDao_Impl implements StudentDao {
           final int _cursorIndexOfStatus = CursorUtil.getColumnIndexOrThrow(_cursor, "status");
           final int _cursorIndexOfCompletedQuizzes = CursorUtil.getColumnIndexOrThrow(_cursor, "completedQuizzes");
           final int _cursorIndexOfCreatedAtMillis = CursorUtil.getColumnIndexOrThrow(_cursor, "createdAtMillis");
+          final int _cursorIndexOfVideosUsed = CursorUtil.getColumnIndexOrThrow(_cursor, "videosUsed");
+          final int _cursorIndexOfQuizzesUsed = CursorUtil.getColumnIndexOrThrow(_cursor, "quizzesUsed");
+          final int _cursorIndexOfPapersUsed = CursorUtil.getColumnIndexOrThrow(_cursor, "papersUsed");
           final StudentEntity _result;
           if (_cursor.moveToFirst()) {
             final String _tmpUid;
@@ -139,7 +145,13 @@ public final class StudentDao_Impl implements StudentDao {
             } else {
               _tmpCreatedAtMillis = _cursor.getLong(_cursorIndexOfCreatedAtMillis);
             }
-            _result = new StudentEntity(_tmpUid,_tmpEmail,_tmpName,_tmpSubscription,_tmpTrialEnds,_tmpGrade,_tmpSchool,_tmpSchoolId,_tmpStatus,_tmpCompletedQuizzes,_tmpCreatedAtMillis);
+            final int _tmpVideosUsed;
+            _tmpVideosUsed = _cursor.getInt(_cursorIndexOfVideosUsed);
+            final int _tmpQuizzesUsed;
+            _tmpQuizzesUsed = _cursor.getInt(_cursorIndexOfQuizzesUsed);
+            final int _tmpPapersUsed;
+            _tmpPapersUsed = _cursor.getInt(_cursorIndexOfPapersUsed);
+            _result = new StudentEntity(_tmpUid,_tmpEmail,_tmpName,_tmpSubscription,_tmpTrialEnds,_tmpGrade,_tmpSchool,_tmpSchoolId,_tmpStatus,_tmpCompletedQuizzes,_tmpCreatedAtMillis,_tmpVideosUsed,_tmpQuizzesUsed,_tmpPapersUsed);
           } else {
             _result = null;
           }
