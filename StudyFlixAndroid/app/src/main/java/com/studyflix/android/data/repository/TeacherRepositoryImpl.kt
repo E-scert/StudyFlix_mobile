@@ -19,6 +19,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 import com.studyflix.android.domain.model.TeacherChatMessage
 import com.google.firebase.firestore.FieldValue
+import com.studyflix.android.domain.model.TeacherAssignment
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
 
@@ -580,5 +581,51 @@ class TeacherRepositoryImpl @Inject constructor(
                 )
             )
             .await()
+    }
+    override suspend fun getAssignments(
+        teacherUid: String
+    ): List<TeacherAssignment> {
+
+        val snapshot =
+            firestore.collection("assignments")
+                .whereEqualTo(
+                    "teacherId",
+                    teacherUid
+                )
+                .get()
+                .await()
+
+        return snapshot.documents.map { document ->
+
+            TeacherAssignment(
+
+                id = document.id,
+
+                title =
+                    document.getString("title")
+                        .orEmpty(),
+
+                subject =
+                    document.getString("subject")
+                        .orEmpty(),
+
+                grade =
+                    document.getString("grade")
+                        .orEmpty(),
+
+                totalMarks =
+                    document.getLong("totalMarks")
+                        ?.toInt()
+                        ?: 0,
+
+                dueDate =
+                    document.getString("dueDate")
+                        .orEmpty(),
+
+                status =
+                    document.getString("status")
+                        .orEmpty()
+            )
+        }
     }
 }

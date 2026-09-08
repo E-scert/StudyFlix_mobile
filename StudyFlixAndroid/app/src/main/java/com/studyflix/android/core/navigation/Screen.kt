@@ -104,7 +104,19 @@ sealed class Screen(val route: String) {
     object TeacherCreateAssignment : Screen(
         "teacher_create_assignment"
     )
+    object TeacherAssignments : Screen(
+        "teacher_assignments"
+    )
 
+
+    object TeacherAssignmentDetails : Screen(
+        "teacher_assignment_details/{assignmentId}"
+    ) {
+
+        fun createRoute(
+            assignmentId: String
+        ) = "teacher_assignment_details/$assignmentId"
+    }
 
 
 

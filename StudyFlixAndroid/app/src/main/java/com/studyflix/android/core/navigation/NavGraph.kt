@@ -41,6 +41,8 @@ import com.studyflix.android.ui.teacher.TeacherDashboardScreen
 import kotlinx.coroutines.launch
 import com.studyflix.android.domain.model.AccessResult
 import com.studyflix.android.ui.student.videos.SubscriptionViewModel
+import com.studyflix.android.ui.teacher.assignments.TeacherAssignmentDetailsScreen
+import com.studyflix.android.ui.teacher.assignments.TeacherAssignmentsScreen
 import com.studyflix.android.ui.teacher.assignments.TeacherCreateAssignmentScreen
 import com.studyflix.android.ui.teacher.chat.TeacherLearnerConversationScreen
 import com.studyflix.android.ui.teacher.chat.TeacherLearnersChatScreen
@@ -346,8 +348,8 @@ fun StudyFlixNavGraph(navController: NavHostController = rememberNavController()
                 onOpenOverview = { navController.navigate(Screen.TeacherOverview.route) },
                 onOpenLearners = { navController.navigate(Screen.TeacherLearners.route) },
                 onOpenLearnersChat = { navController.navigate(Screen.TeacherLearnersChat.route) },
-                onOpenCreateAssignment = { navController.navigate(Screen.TeacherCreateAssignment.route)
-                },
+                onOpenCreateAssignment = { navController.navigate(Screen.TeacherAssignments.route) },
+
             )
         }
 
@@ -419,10 +421,45 @@ fun StudyFlixNavGraph(navController: NavHostController = rememberNavController()
         }
 
         composable(
-            Screen.TeacherCreateAssignment.route
+            Screen.TeacherAssignments.route
         ) {
 
-            TeacherCreateAssignmentScreen()
+            TeacherAssignmentsScreen(
+
+                onOpenCreateAssignment = {
+
+                    navController.navigate(
+                        Screen.TeacherCreateAssignment.route
+                    )
+                },
+
+                onOpenAssignment = { assignmentId ->
+
+                    navController.navigate(
+
+                        Screen.TeacherAssignmentDetails
+
+                            .createRoute(assignmentId)
+
+                    )
+
+                }
+            )
+        }
+
+
+        composable(
+            route = Screen.TeacherAssignmentDetails.route
+        ) { backStackEntry ->
+
+            val assignmentId =
+                backStackEntry.arguments
+                    ?.getString("assignmentId")
+                    .orEmpty()
+
+            TeacherAssignmentDetailsScreen(
+                assignmentId = assignmentId
+            )
         }
 
 

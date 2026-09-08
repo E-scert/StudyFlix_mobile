@@ -18,6 +18,7 @@ import com.studyflix.android.ui.student.quizzes.TakeQuizViewModel_HiltModules;
 import com.studyflix.android.ui.student.videos.SubscriptionViewModel_HiltModules;
 import com.studyflix.android.ui.student.videos.VideosViewModel_HiltModules;
 import com.studyflix.android.ui.teacher.TeacherDashboardViewModel_HiltModules;
+import com.studyflix.android.ui.teacher.assignments.TeacherAssignmentsViewModel_HiltModules;
 import com.studyflix.android.ui.teacher.assignments.TeacherCreateAssignmentViewModel_HiltModules;
 import com.studyflix.android.ui.teacher.chat.TeacherConversationViewModel_HiltModules;
 import com.studyflix.android.ui.teacher.chat.TeacherLearnersChatViewModel_HiltModules;
@@ -195,6 +196,7 @@ public final class StudyFlixApplication_HiltComponents {
           ViewModelCBuilderModule.class,
           SubscriptionViewModel_HiltModules.KeyModule.class,
           TakeQuizViewModel_HiltModules.KeyModule.class,
+          TeacherAssignmentsViewModel_HiltModules.KeyModule.class,
           TeacherConversationViewModel_HiltModules.KeyModule.class,
           TeacherCreateAssignmentViewModel_HiltModules.KeyModule.class,
           TeacherDashboardViewModel_HiltModules.KeyModule.class,
@@ -252,6 +254,7 @@ public final class StudyFlixApplication_HiltComponents {
           StudentHomeViewModel_HiltModules.BindsModule.class,
           SubscriptionViewModel_HiltModules.BindsModule.class,
           TakeQuizViewModel_HiltModules.BindsModule.class,
+          TeacherAssignmentsViewModel_HiltModules.BindsModule.class,
           TeacherConversationViewModel_HiltModules.BindsModule.class,
           TeacherCreateAssignmentViewModel_HiltModules.BindsModule.class,
           TeacherDashboardViewModel_HiltModules.BindsModule.class,

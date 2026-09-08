@@ -2,6 +2,7 @@ package com.studyflix.android.domain.repository
 
 
 import com.studyflix.android.domain.model.Teacher
+import com.studyflix.android.domain.model.TeacherAssignment
 import com.studyflix.android.domain.model.TeacherChatMessage
 import com.studyflix.android.domain.model.TeacherLearner
 import com.studyflix.android.domain.model.TeacherLearnerAssignment
@@ -57,4 +58,7 @@ interface TeacherRepository {
         totalMarks: Int,
         dueDate: String
     )
+    suspend fun getAssignments(
+        teacherUid: String
+    ): List<TeacherAssignment>
 }
