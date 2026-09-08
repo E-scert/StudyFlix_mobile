@@ -1,5 +1,6 @@
 package com.studyflix.android.ui.teacher
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -16,8 +17,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 
 
 //  Scaffold for the teacher portal root. Follows the same MVVM + Clean
@@ -32,7 +36,17 @@ import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TeacherDashboardScreen(onLogout: () -> Unit) {
+fun TeacherDashboardScreen(
+
+    onLogout: () -> Unit,
+
+    onOpenOverview: () -> Unit,
+
+    onOpenLearners: () -> Unit,
+
+    viewModel: TeacherDashboardViewModel = hiltViewModel()
+) {
+    val uiState by viewModel.uiState.collectAsState()
     Scaffold(
         topBar = {
             TopAppBar(
@@ -49,16 +63,86 @@ fun TeacherDashboardScreen(onLogout: () -> Unit) {
             modifier = Modifier.fillMaxSize().padding(padding).padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
+
             Text(
-                text = "Learner management, assignments, marks and messaging modules " +
-                    "plug in here using the same repository/use case pattern as the " +
-                    "student portal.",
+                text = uiState.teacher?.name
+                    ?: "Loading Teacher...",
+                style = MaterialTheme.typography.headlineSmall
+            )
+
+            Text(
+                text = uiState.teacher?.schoolName
+                    ?: "",
                 style = MaterialTheme.typography.bodyMedium
             )
-            ListItem(headlineContent = { Text("My Learners") })
-            ListItem(headlineContent = { Text("Assignments") })
-            ListItem(headlineContent = { Text("Marks & Results") })
-            ListItem(headlineContent = { Text("Messaging") })
+
+            Text(
+                text = uiState.teacher?.selectedSubject
+                    ?: "",
+                style = MaterialTheme.typography.bodyMedium
+            )
+
+            Text(
+                text = uiState.teacher?.selectedGrade
+                    ?: "",
+                style = MaterialTheme.typography.bodyMedium
+            )
+
+            ListItem(
+                headlineContent = {
+                    Text("Overview")
+                },
+                modifier = Modifier.clickable(
+                    onClick = onOpenOverview
+                )
+            )
+
+            ListItem(
+                headlineContent = {
+                    Text("My Learners")
+                },
+
+                modifier = Modifier.clickable(
+                    onClick = onOpenLearners
+                )
+            )
+
+            ListItem(
+                headlineContent = {
+                    Text("Assignments")
+                }
+            )
+
+            ListItem(
+                headlineContent = {
+                    Text("Student Submissions")
+                }
+            )
+
+            ListItem(
+                headlineContent = {
+                    Text("Marks & Results")
+                }
+            )
+
+            ListItem(
+                headlineContent = {
+                    Text("Learners Chat")
+                }
+            )
+
+            ListItem(
+                headlineContent = {
+                    Text("Admin Chat")
+                }
+            )
+
+            ListItem(
+                headlineContent = {
+                    Text("Settings")
+                }
+            )
+
         }
     }
 }

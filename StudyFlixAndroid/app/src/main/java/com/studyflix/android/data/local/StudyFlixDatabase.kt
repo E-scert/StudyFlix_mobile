@@ -6,6 +6,7 @@ import androidx.room.TypeConverters
 import com.studyflix.android.data.local.dao.MarkDao
 import com.studyflix.android.data.local.dao.QuizDao
 import com.studyflix.android.data.local.dao.StudentDao
+import com.studyflix.android.data.local.dao.TeacherDao
 import com.studyflix.android.data.local.dao.VideoDao
 import com.studyflix.android.data.local.entity.MarkEntity
 import com.studyflix.android.data.local.entity.QuestionListConverter
@@ -13,6 +14,7 @@ import com.studyflix.android.data.local.entity.QuizEntity
 import com.studyflix.android.data.local.entity.StringListConverter
 import com.studyflix.android.data.local.entity.StudentEntity
 import com.studyflix.android.data.local.entity.VideoEntity
+import com.studyflix.android.data.local.entity.TeacherEntity
 
 /**
  * Local offline cache. This is what makes the app "offline-first": every
@@ -21,8 +23,8 @@ import com.studyflix.android.data.local.entity.VideoEntity
  * conceptually equivalent to the web app's `db.enablePersistence()` call.
  */
 @Database(
-    entities = [VideoEntity::class, QuizEntity::class, MarkEntity::class, StudentEntity::class],
-    version = 4,
+    entities = [VideoEntity::class, QuizEntity::class, MarkEntity::class, StudentEntity::class,TeacherEntity::class],
+    version = 5,
     exportSchema = true
 )
 @TypeConverters(QuestionListConverter::class, StringListConverter::class)
@@ -32,6 +34,7 @@ abstract class StudyFlixDatabase : RoomDatabase() {
     abstract fun markDao(): MarkDao
     abstract fun studentDao(): StudentDao
 
+    abstract fun teacherDao(): TeacherDao
     companion object {
         const val DATABASE_NAME = "studyflix.db"
     }

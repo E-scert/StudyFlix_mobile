@@ -17,6 +17,8 @@ import com.studyflix.android.data.local.dao.QuizDao;
 import com.studyflix.android.data.local.dao.QuizDao_Impl;
 import com.studyflix.android.data.local.dao.StudentDao;
 import com.studyflix.android.data.local.dao.StudentDao_Impl;
+import com.studyflix.android.data.local.dao.TeacherDao;
+import com.studyflix.android.data.local.dao.TeacherDao_Impl;
 import com.studyflix.android.data.local.dao.VideoDao;
 import com.studyflix.android.data.local.dao.VideoDao_Impl;
 import java.lang.Class;
@@ -42,18 +44,21 @@ public final class StudyFlixDatabase_Impl extends StudyFlixDatabase {
 
   private volatile StudentDao _studentDao;
 
+  private volatile TeacherDao _teacherDao;
+
   @Override
   @NonNull
   protected SupportSQLiteOpenHelper createOpenHelper(@NonNull final DatabaseConfiguration config) {
-    final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(config, new RoomOpenHelper.Delegate(4) {
+    final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(config, new RoomOpenHelper.Delegate(5) {
       @Override
       public void createAllTables(@NonNull final SupportSQLiteDatabase db) {
         db.execSQL("CREATE TABLE IF NOT EXISTS `videos` (`id` TEXT NOT NULL, `title` TEXT NOT NULL, `season` INTEGER NOT NULL, `seasonName` TEXT NOT NULL, `episode` INTEGER NOT NULL, `duration` TEXT NOT NULL, `views` INTEGER NOT NULL, `subject` TEXT NOT NULL, `grade` TEXT NOT NULL, `locked` INTEGER NOT NULL, `videoUrl` TEXT NOT NULL, `thumbnailUrl` TEXT NOT NULL, `status` TEXT NOT NULL, PRIMARY KEY(`id`))");
         db.execSQL("CREATE TABLE IF NOT EXISTS `quizzes` (`id` TEXT NOT NULL, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `subject` TEXT NOT NULL, `grade` TEXT NOT NULL, `questions` TEXT NOT NULL, `totalMarks` INTEGER NOT NULL, `timeLimitMinutes` INTEGER NOT NULL, PRIMARY KEY(`id`))");
         db.execSQL("CREATE TABLE IF NOT EXISTS `marks` (`id` TEXT NOT NULL, `studentId` TEXT NOT NULL, `name` TEXT NOT NULL, `dateIso` TEXT NOT NULL, `score` INTEGER NOT NULL, `total` INTEGER NOT NULL, `percentage` INTEGER NOT NULL, PRIMARY KEY(`id`))");
         db.execSQL("CREATE TABLE IF NOT EXISTS `students` (`uid` TEXT NOT NULL, `email` TEXT NOT NULL, `name` TEXT NOT NULL, `subscription` TEXT NOT NULL, `trialEnds` TEXT NOT NULL, `grade` TEXT NOT NULL, `school` TEXT NOT NULL, `schoolId` TEXT NOT NULL, `status` TEXT NOT NULL, `completedQuizzes` TEXT NOT NULL, `createdAtMillis` INTEGER, `videosUsed` INTEGER NOT NULL, `quizzesUsed` INTEGER NOT NULL, `papersUsed` INTEGER NOT NULL, PRIMARY KEY(`uid`))");
+        db.execSQL("CREATE TABLE IF NOT EXISTS `teachers` (`uid` TEXT NOT NULL, `email` TEXT NOT NULL, `name` TEXT NOT NULL, `phone` TEXT NOT NULL, `role` TEXT NOT NULL, `schoolId` TEXT NOT NULL, `schoolName` TEXT NOT NULL, `schoolCode` TEXT NOT NULL, `grade` TEXT NOT NULL, `selectedGrade` TEXT NOT NULL, `subject` TEXT NOT NULL, `selectedSubject` TEXT NOT NULL, `grades` TEXT NOT NULL, `subjects` TEXT NOT NULL, `subscription` TEXT NOT NULL, `status` TEXT NOT NULL, PRIMARY KEY(`uid`))");
         db.execSQL("CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)");
-        db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '57a8c187be453a3993aac23898aa92c3')");
+        db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0245e3cf194c5e94005edd3686fa3be2')");
       }
 
       @Override
@@ -62,6 +67,7 @@ public final class StudyFlixDatabase_Impl extends StudyFlixDatabase {
         db.execSQL("DROP TABLE IF EXISTS `quizzes`");
         db.execSQL("DROP TABLE IF EXISTS `marks`");
         db.execSQL("DROP TABLE IF EXISTS `students`");
+        db.execSQL("DROP TABLE IF EXISTS `teachers`");
         final List<? extends RoomDatabase.Callback> _callbacks = mCallbacks;
         if (_callbacks != null) {
           for (RoomDatabase.Callback _callback : _callbacks) {
@@ -187,9 +193,35 @@ public final class StudyFlixDatabase_Impl extends StudyFlixDatabase {
                   + " Expected:\n" + _infoStudents + "\n"
                   + " Found:\n" + _existingStudents);
         }
+        final HashMap<String, TableInfo.Column> _columnsTeachers = new HashMap<String, TableInfo.Column>(16);
+        _columnsTeachers.put("uid", new TableInfo.Column("uid", "TEXT", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsTeachers.put("email", new TableInfo.Column("email", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsTeachers.put("name", new TableInfo.Column("name", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsTeachers.put("phone", new TableInfo.Column("phone", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsTeachers.put("role", new TableInfo.Column("role", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsTeachers.put("schoolId", new TableInfo.Column("schoolId", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsTeachers.put("schoolName", new TableInfo.Column("schoolName", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsTeachers.put("schoolCode", new TableInfo.Column("schoolCode", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsTeachers.put("grade", new TableInfo.Column("grade", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsTeachers.put("selectedGrade", new TableInfo.Column("selectedGrade", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsTeachers.put("subject", new TableInfo.Column("subject", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsTeachers.put("selectedSubject", new TableInfo.Column("selectedSubject", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsTeachers.put("grades", new TableInfo.Column("grades", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsTeachers.put("subjects", new TableInfo.Column("subjects", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsTeachers.put("subscription", new TableInfo.Column("subscription", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsTeachers.put("status", new TableInfo.Column("status", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        final HashSet<TableInfo.ForeignKey> _foreignKeysTeachers = new HashSet<TableInfo.ForeignKey>(0);
+        final HashSet<TableInfo.Index> _indicesTeachers = new HashSet<TableInfo.Index>(0);
+        final TableInfo _infoTeachers = new TableInfo("teachers", _columnsTeachers, _foreignKeysTeachers, _indicesTeachers);
+        final TableInfo _existingTeachers = TableInfo.read(db, "teachers");
+        if (!_infoTeachers.equals(_existingTeachers)) {
+          return new RoomOpenHelper.ValidationResult(false, "teachers(com.studyflix.android.data.local.entity.TeacherEntity).\n"
+                  + " Expected:\n" + _infoTeachers + "\n"
+                  + " Found:\n" + _existingTeachers);
+        }
         return new RoomOpenHelper.ValidationResult(true, null);
       }
-    }, "57a8c187be453a3993aac23898aa92c3", "b02d3c344a46eaf6999f0d5c864474bf");
+    }, "0245e3cf194c5e94005edd3686fa3be2", "4eca518dd32d52840767d6b20df74789");
     final SupportSQLiteOpenHelper.Configuration _sqliteConfig = SupportSQLiteOpenHelper.Configuration.builder(config.context).name(config.name).callback(_openCallback).build();
     final SupportSQLiteOpenHelper _helper = config.sqliteOpenHelperFactory.create(_sqliteConfig);
     return _helper;
@@ -200,7 +232,7 @@ public final class StudyFlixDatabase_Impl extends StudyFlixDatabase {
   protected InvalidationTracker createInvalidationTracker() {
     final HashMap<String, String> _shadowTablesMap = new HashMap<String, String>(0);
     final HashMap<String, Set<String>> _viewTables = new HashMap<String, Set<String>>(0);
-    return new InvalidationTracker(this, _shadowTablesMap, _viewTables, "videos","quizzes","marks","students");
+    return new InvalidationTracker(this, _shadowTablesMap, _viewTables, "videos","quizzes","marks","students","teachers");
   }
 
   @Override
@@ -213,6 +245,7 @@ public final class StudyFlixDatabase_Impl extends StudyFlixDatabase {
       _db.execSQL("DELETE FROM `quizzes`");
       _db.execSQL("DELETE FROM `marks`");
       _db.execSQL("DELETE FROM `students`");
+      _db.execSQL("DELETE FROM `teachers`");
       super.setTransactionSuccessful();
     } finally {
       super.endTransaction();
@@ -231,6 +264,7 @@ public final class StudyFlixDatabase_Impl extends StudyFlixDatabase {
     _typeConvertersMap.put(QuizDao.class, QuizDao_Impl.getRequiredConverters());
     _typeConvertersMap.put(MarkDao.class, MarkDao_Impl.getRequiredConverters());
     _typeConvertersMap.put(StudentDao.class, StudentDao_Impl.getRequiredConverters());
+    _typeConvertersMap.put(TeacherDao.class, TeacherDao_Impl.getRequiredConverters());
     return _typeConvertersMap;
   }
 
@@ -301,6 +335,20 @@ public final class StudyFlixDatabase_Impl extends StudyFlixDatabase {
           _studentDao = new StudentDao_Impl(this);
         }
         return _studentDao;
+      }
+    }
+  }
+
+  @Override
+  public TeacherDao teacherDao() {
+    if (_teacherDao != null) {
+      return _teacherDao;
+    } else {
+      synchronized(this) {
+        if(_teacherDao == null) {
+          _teacherDao = new TeacherDao_Impl(this);
+        }
+        return _teacherDao;
       }
     }
   }

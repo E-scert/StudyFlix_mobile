@@ -22,7 +22,9 @@ import javax.inject.Singleton
 import com.studyflix.android.data.repository.PastPaperRepositoryImpl
 import com.studyflix.android.domain.repository.PastPaperRepository
 import com.studyflix.android.data.repository.AssignmentRepositoryImpl
+import com.studyflix.android.data.repository.TeacherRepositoryImpl
 import com.studyflix.android.domain.repository.AssignmentRepository
+import com.studyflix.android.domain.repository.TeacherRepository
 
 /**
  * Binds each interface in `domain.repository` to its concrete `data.repository`
@@ -44,6 +46,9 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindContentRepository(impl: ContentRepositoryImpl): ContentRepository
+
+    @Binds
+    abstract fun bindTeacherRepository(impl: TeacherRepositoryImpl): TeacherRepository
 
     @Binds
     @Singleton

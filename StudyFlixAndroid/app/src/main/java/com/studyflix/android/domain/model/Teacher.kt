@@ -1,13 +1,30 @@
 package com.studyflix.android.domain.model
 
-/** Domain model for a document in the `teachers` Firestore collection. */
 data class Teacher(
     val uid: String = "",
+
     val email: String = "",
+
     val name: String = "",
-    val school: String = "",
-    val province: String = "",
-    val gradesTaught: List<String> = emptyList(),
-    val subjectsOffered: List<String> = emptyList(),
+
+    val phone: String = "",
+
+    val role: String = "teacher",
+
+    val schoolId: String = "",
+    val schoolName: String = "",
+    val schoolCode: String = "",
+
+    val grade: String = "",
+    val selectedGrade: String = "",
+
+    val subject: String = "",
+    val selectedSubject: String = "",
+
+    val grades: List<String> = emptyList(),
+    val subjects: List<String> = emptyList(),
+
+    val subscription: String = "trial",
+
     val status: AccountStatus = AccountStatus.PENDING
 )

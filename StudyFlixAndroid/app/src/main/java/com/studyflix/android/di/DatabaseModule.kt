@@ -6,6 +6,7 @@ import com.studyflix.android.data.local.StudyFlixDatabase
 import com.studyflix.android.data.local.dao.MarkDao
 import com.studyflix.android.data.local.dao.QuizDao
 import com.studyflix.android.data.local.dao.StudentDao
+import com.studyflix.android.data.local.dao.TeacherDao
 import com.studyflix.android.data.local.dao.VideoDao
 import dagger.Module
 import dagger.Provides
@@ -36,4 +37,7 @@ object DatabaseModule {
 
     @Provides
     fun provideStudentDao(db: StudyFlixDatabase): StudentDao = db.studentDao()
+    @Provides
+    fun provideTeacherDao(db: StudyFlixDatabase): TeacherDao { return db.teacherDao() }
+
 }

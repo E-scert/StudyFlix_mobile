@@ -41,6 +41,10 @@ import com.studyflix.android.ui.teacher.TeacherDashboardScreen
 import kotlinx.coroutines.launch
 import com.studyflix.android.domain.model.AccessResult
 import com.studyflix.android.ui.student.videos.SubscriptionViewModel
+import com.studyflix.android.ui.teacher.learners.TeacherLearnerAssignmentsScreen
+import com.studyflix.android.ui.teacher.learners.TeacherLearnerProfileScreen
+import com.studyflix.android.ui.teacher.learners.TeacherLearnersScreen
+import com.studyflix.android.ui.teacher.overview.TeacherOverviewScreen
 
 
 /**
@@ -67,19 +71,10 @@ fun StudyFlixNavGraph(navController: NavHostController = rememberNavController()
             )
         }
 
-        composable(
-            route = Screen.Login.route,
-            arguments = listOf(
-                navArgument(Screen.Login.ARG_PORTAL) {
-                    type = NavType.StringType
-                }
-            )
+        composable(route = Screen.Login.route, arguments = listOf(navArgument(Screen.Login.ARG_PORTAL) { type = NavType.StringType })
         ) { backStackEntry ->
 
-            val portal =
-                backStackEntry.arguments
-                    ?.getString(Screen.Login.ARG_PORTAL)
-                    ?: "student"
+            val portal = backStackEntry.arguments?.getString(Screen.Login.ARG_PORTAL) ?: "student"
 
             LoginScreen(
                 portal = portal,
@@ -98,22 +93,7 @@ fun StudyFlixNavGraph(navController: NavHostController = rememberNavController()
             )
         }
 
-        composable(Screen.SignUpStudent.route) {
-            SignUpStudentScreen(
-                onSignedUp = {
-
-                    // After successful registration,
-                    // return to Login instead of Student Home
-
-                    navController.navigate(
-                        Screen.Login.createRoute("student")
-                    ) {
-                        popUpTo(Screen.SignUpStudent.route) {
-                            inclusive = true
-                        }
-                    }
-                },
-
+        composable(Screen.SignUpStudent.route) { SignUpStudentScreen(onSignedUp = { navController.navigate(Screen.Login.createRoute("student")) { popUpTo(Screen.SignUpStudent.route) { inclusive = true } } },
                 onBack = {
                     navController.popBackStack()
                 }
@@ -122,11 +102,8 @@ fun StudyFlixNavGraph(navController: NavHostController = rememberNavController()
 
 
                         // ---- Student portal ----
-        composable(Screen.StudentHome.route) {
-            val accessViewModel: SubscriptionViewModel = hiltViewModel()
-
+        composable(Screen.StudentHome.route) { val accessViewModel: SubscriptionViewModel = hiltViewModel()
             val scope = rememberCoroutineScope()
-
             var dialogMessage by remember {
                 mutableStateOf<String?>(null)
             }
@@ -328,14 +305,7 @@ fun StudyFlixNavGraph(navController: NavHostController = rememberNavController()
             )
         }
 
-        composable(
-            Screen.StudentNotes.route
-        ) {
-
-            NotesScreen(
-                onBack = {
-                    navController.popBackStack()
-                },
+        composable(Screen.StudentNotes.route) { NotesScreen(onBack = { navController.popBackStack() },
 
                 onOpenNote = { noteId ->
                     navController.navigate(
@@ -344,34 +314,17 @@ fun StudyFlixNavGraph(navController: NavHostController = rememberNavController()
                 }
             )
         }
-        composable(
-            route = Screen.StudentNoteDetail.route,
-            arguments = listOf(
-                navArgument(
-                    Screen.StudentNoteDetail.ARG_NOTE_ID
-                ) {
-                    type = NavType.StringType
-                }
-            )
+        composable(route = Screen.StudentNoteDetail.route, arguments = listOf(navArgument(Screen.StudentNoteDetail.ARG_NOTE_ID) { type = NavType.StringType })
         ) { backStackEntry ->
 
             val noteId =
-                backStackEntry.arguments?.getString(
-                    Screen.StudentNoteDetail.ARG_NOTE_ID
-                ) ?: ""
+                backStackEntry.arguments?.getString(Screen.StudentNoteDetail.ARG_NOTE_ID) ?: ""
 
             val viewModel: NotesViewModel = hiltViewModel()
 
             val note = viewModel.getNoteById(noteId)
 
-            if (note != null) {
-
-                NoteDetailScreen(
-                    note = note,
-                    onBack = {
-                        navController.popBackStack()
-                    }
-                )
+            if (note != null) { NoteDetailScreen(note = note, onBack = { navController.popBackStack() })
             }
         }
 
@@ -382,11 +335,62 @@ fun StudyFlixNavGraph(navController: NavHostController = rememberNavController()
         composable(Screen.StudentChat.route) { ChatScreen(onBack = { navController.popBackStack() }) }
 
         // ---- Teacher / Admin portal roots ----
-        composable(Screen.TeacherDashboard.route) { TeacherDashboardScreen { navController.navigate(Screen.Login.route) { popUpTo(0) } } }
+        composable(Screen.TeacherDashboard.route) {
+
+            TeacherDashboardScreen(
+
+                onLogout = { navController.navigate(Screen.Landing.route) { popUpTo(0) } },
+
+                onOpenOverview = { navController.navigate(Screen.TeacherOverview.route) },
+
+                onOpenLearners = { navController.navigate(Screen.TeacherLearners.route) }
+            )
+        }
+
+        composable(Screen.TeacherOverview.route) { TeacherOverviewScreen() }
+
+        composable(Screen.TeacherLearners.route) { TeacherLearnersScreen(
+
+            onOpenProfile = { learnerId -> navController.navigate(Screen.TeacherLearnerProfile.createRoute(learnerId))
+            },
+            onOpenAssignments = { learnerId -> navController.navigate(Screen.TeacherLearnerAssignments.createRoute(learnerId))
+            }
+        ) }
+
+        composable(
+            route = Screen.TeacherLearnerProfile.route
+        ) { backStackEntry ->
+
+            val learnerId =
+                backStackEntry.arguments
+                    ?.getString("learnerId")
+                    .orEmpty()
+
+            TeacherLearnerProfileScreen(
+                learnerId = learnerId
+            )
+        }
+        composable(
+            route = Screen.TeacherLearnerAssignments.route
+        ) { backStackEntry ->
+
+            val learnerId =
+                backStackEntry.arguments
+                    ?.getString("learnerId")
+                    .orEmpty()
+
+            TeacherLearnerAssignmentsScreen(
+                learnerId = learnerId
+            )
+        }
+
+
+        //admin portal root
         composable(Screen.AdminDashboard.route) { AdminDashboardScreen(onLogout = { navController.navigate(Screen.Login.route) { popUpTo(0) } })
         }
     }
 }
+//navController.navigate(Screen.Landing.route) {popUpTo(0)
 
 private fun navigateToPortalRoot(navController: NavHostController, role: UserRole) {
     val destination = when (role) {

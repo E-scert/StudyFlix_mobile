@@ -1,0 +1,73 @@
+Register School
+      ↓
+Admin Approval
+      ↓
+Teacher Login
+      ↓
+Select Subject/Grade
+      ↓
+Dashboard
+      ↓
+Overview
+      ↓
+My Learners
+      ↓
+Write Homework
+      ↓
+Student Submission
+      ↓
+Grade Submission
+      ↓
+Marks & Results
+      ↓
+Publications
+
+At Any Time:
+    ↔ Learners Chat
+    ↔ Admin Chat
+    ↔ Settings
+
+
+Day 1
+↓
+Authentication
+
+Day 2
+↓
+Dashboard
+
+Day 3
+↓
+My Learners
+
+Day 4
+↓
+Learners Chat
+
+Day 5
+↓
+Write Homework
+
+Day 6
+↓
+Student Submissions
+
+Day 7
+↓
+View Submission
+
+Day 8
+↓
+Marks & Results
+
+Day 9
+↓
+Publications
+
+Day 10
+↓
+Admin Chat
+
+Day 11
+↓
+Settings
