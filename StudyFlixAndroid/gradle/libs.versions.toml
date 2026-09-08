@@ -17,6 +17,7 @@ kotlinxSerializationJson = "1.7.3"
 googleServices = "4.4.2"
 playServicesAuth = "21.3.0"
 material3 = "1.4.0"
+remoteCreationCompose = "1.0.0-alpha18"
 
 
 
@@ -63,6 +64,7 @@ room-compiler = { group = "androidx.room", name = "room-compiler", version.ref =
 
 coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coilCompose" }
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
+androidx-compose-remote-creation-compose = { group = "androidx.compose.remote", name = "remote-creation-compose", version.ref = "remoteCreationCompose" }
 
 
 

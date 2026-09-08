@@ -331,60 +331,98 @@ class TeacherRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getLearnerAssignments(
+        teacherUid: String,
         learnerId: String
     ): List<TeacherLearnerAssignment> {
 
-        val assignmentsSnapshot =
-            firestore.collection("assignments")
-                .get()
-                .await()
+        Log.d(
+            "LEARNER_ASSIGNMENTS",
+            "Loading assignments for learner = $learnerId"
+        )
 
-        val submissionsSnapshot =
-            firestore.collection("submissions")
-                .whereEqualTo(
-                    "studentId",
-                    learnerId
-                )
-                .get()
-                .await()
+        try {
 
-        val submittedMap =
-            submissionsSnapshot.documents.associateBy {
-                it.getString("assignmentId")
-            }
 
-        return assignmentsSnapshot.documents.map { document ->
 
-            val assignmentId = document.id
+            val assignmentsSnapshot =
+                firestore.collection("assignments")
+                    .whereEqualTo(
+                        "teacherId",
+                        teacherUid
+                    )
+                    .get()
+                    .await()
 
-            val submission =
-                submittedMap[assignmentId]
-
-            val submitted =
-                submission != null
-
-            val score =
-                submission
-                    ?.get("score")
-                    ?.toString()
-                    ?: "-"
-
-            TeacherLearnerAssignment(
-
-                assignmentId = assignmentId,
-
-                title =
-                    document.getString("title")
-                        .orEmpty(),
-
-                dueDate =
-                    document.getString("dueDate")
-                        .orEmpty(),
-
-                submitted = submitted,
-
-                score = score
+            Log.d(
+                "LEARNER_ASSIGNMENTS",
+                "Assignments in Firestore = ${assignmentsSnapshot.size()}"
             )
+
+            val submissionsSnapshot =
+                firestore.collection("submissions")
+                    .whereEqualTo(
+                        "studentId",
+                        learnerId
+                    )
+                    .get()
+                    .await()
+
+            Log.d(
+                "LEARNER_ASSIGNMENTS",
+                "Submissions found = ${submissionsSnapshot.size()}"
+            )
+
+            val submittedMap =
+                submissionsSnapshot.documents.associateBy {
+                    it.getString("assignmentId")
+                }
+
+            val results =
+                assignmentsSnapshot.documents.map { document ->
+
+                    val assignmentId = document.id
+
+                    val submission =
+                        submittedMap[assignmentId]
+
+                    TeacherLearnerAssignment(
+
+                        assignmentId = assignmentId,
+
+                        title =
+                            document.getString("title")
+                                .orEmpty(),
+
+                        dueDate =
+                            document.getString("dueDate")
+                                .orEmpty(),
+
+                        submitted =
+                            submission != null,
+
+                        score =
+                            submission?.get("score")
+                                ?.toString()
+                                ?: "-"
+                    )
+                }
+
+            Log.d(
+                "LEARNER_ASSIGNMENTS",
+                "Assignments returned = ${results.size}"
+            )
+
+            return results
+
+        } catch (e: Exception) {
+
+            Log.e(
+                "LEARNER_ASSIGNMENTS",
+                "FAILED",
+                e
+            )
+
+            return emptyList()
         }
     }
 }

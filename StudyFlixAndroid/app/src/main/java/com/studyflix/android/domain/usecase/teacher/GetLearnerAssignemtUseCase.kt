@@ -9,11 +9,14 @@ class GetLearnerAssignmentsUseCase @Inject constructor(
 ) {
 
     suspend operator fun invoke(
+        teacherUid: String,
         learnerId: String
     ): List<TeacherLearnerAssignment> {
 
         return repository.getLearnerAssignments(
+            teacherUid,
             learnerId
         )
+
     }
 }

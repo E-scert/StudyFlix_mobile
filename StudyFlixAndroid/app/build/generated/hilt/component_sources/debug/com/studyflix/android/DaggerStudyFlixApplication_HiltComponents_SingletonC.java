@@ -471,95 +471,95 @@ public final class DaggerStudyFlixApplication_HiltComponents_SingletonC {
 
     @IdentifierNameString
     private static final class LazyClassKeyProvider {
-      static String com_studyflix_android_ui_auth_LoginViewModel = "com.studyflix.android.ui.auth.LoginViewModel";
-
-      static String com_studyflix_android_ui_student_marks_MarksViewModel = "com.studyflix.android.ui.student.marks.MarksViewModel";
-
-      static String com_studyflix_android_ui_student_assignments_AssignmentDetailsViewModel = "com.studyflix.android.ui.student.assignments.AssignmentDetailsViewModel";
-
-      static String com_studyflix_android_ui_student_pastpapers_PastPapersViewModel = "com.studyflix.android.ui.student.pastpapers.PastPapersViewModel";
-
-      static String com_studyflix_android_ui_teacher_overview_TeacherOverviewViewModel = "com.studyflix.android.ui.teacher.overview.TeacherOverviewViewModel";
-
-      static String com_studyflix_android_ui_student_home_StudentHomeViewModel = "com.studyflix.android.ui.student.home.StudentHomeViewModel";
-
-      static String com_studyflix_android_ui_teacher_learners_TeacherLearnersViewModel = "com.studyflix.android.ui.teacher.learners.TeacherLearnersViewModel";
-
-      static String com_studyflix_android_ui_student_videos_SubscriptionViewModel = "com.studyflix.android.ui.student.videos.SubscriptionViewModel";
-
-      static String com_studyflix_android_ui_student_notes_NotesViewModel = "com.studyflix.android.ui.student.notes.NotesViewModel";
+      static String com_studyflix_android_ui_teacher_learners_TeacherLearnerAssignmentsViewModel = "com.studyflix.android.ui.teacher.learners.TeacherLearnerAssignmentsViewModel";
 
       static String com_studyflix_android_ui_student_quizzes_TakeQuizViewModel = "com.studyflix.android.ui.student.quizzes.TakeQuizViewModel";
 
-      static String com_studyflix_android_ui_teacher_TeacherDashboardViewModel = "com.studyflix.android.ui.teacher.TeacherDashboardViewModel";
-
-      static String com_studyflix_android_ui_student_videos_VideosViewModel = "com.studyflix.android.ui.student.videos.VideosViewModel";
-
-      static String com_studyflix_android_ui_student_chat_ChatViewModel = "com.studyflix.android.ui.student.chat.ChatViewModel";
-
-      static String com_studyflix_android_ui_auth_SignUpViewModel = "com.studyflix.android.ui.auth.SignUpViewModel";
-
-      static String com_studyflix_android_ui_teacher_learners_TeacherLearnerAssignmentsViewModel = "com.studyflix.android.ui.teacher.learners.TeacherLearnerAssignmentsViewModel";
-
-      static String com_studyflix_android_ui_student_assignments_AssignmentsViewModel = "com.studyflix.android.ui.student.assignments.AssignmentsViewModel";
+      static String com_studyflix_android_ui_teacher_learners_TeacherLearnersViewModel = "com.studyflix.android.ui.teacher.learners.TeacherLearnersViewModel";
 
       static String com_studyflix_android_ui_student_quizzes_QuizzesViewModel = "com.studyflix.android.ui.student.quizzes.QuizzesViewModel";
 
+      static String com_studyflix_android_ui_student_pastpapers_PastPapersViewModel = "com.studyflix.android.ui.student.pastpapers.PastPapersViewModel";
+
+      static String com_studyflix_android_ui_teacher_TeacherDashboardViewModel = "com.studyflix.android.ui.teacher.TeacherDashboardViewModel";
+
+      static String com_studyflix_android_ui_student_notes_NotesViewModel = "com.studyflix.android.ui.student.notes.NotesViewModel";
+
+      static String com_studyflix_android_ui_student_videos_SubscriptionViewModel = "com.studyflix.android.ui.student.videos.SubscriptionViewModel";
+
       static String com_studyflix_android_ui_teacher_learners_TeacherLearnerProfileViewModel = "com.studyflix.android.ui.teacher.learners.TeacherLearnerProfileViewModel";
 
-      @KeepFieldType
-      LoginViewModel com_studyflix_android_ui_auth_LoginViewModel2;
+      static String com_studyflix_android_ui_student_chat_ChatViewModel = "com.studyflix.android.ui.student.chat.ChatViewModel";
 
-      @KeepFieldType
-      MarksViewModel com_studyflix_android_ui_student_marks_MarksViewModel2;
+      static String com_studyflix_android_ui_auth_LoginViewModel = "com.studyflix.android.ui.auth.LoginViewModel";
 
-      @KeepFieldType
-      AssignmentDetailsViewModel com_studyflix_android_ui_student_assignments_AssignmentDetailsViewModel2;
+      static String com_studyflix_android_ui_student_videos_VideosViewModel = "com.studyflix.android.ui.student.videos.VideosViewModel";
 
-      @KeepFieldType
-      PastPapersViewModel com_studyflix_android_ui_student_pastpapers_PastPapersViewModel2;
+      static String com_studyflix_android_ui_student_assignments_AssignmentDetailsViewModel = "com.studyflix.android.ui.student.assignments.AssignmentDetailsViewModel";
 
-      @KeepFieldType
-      TeacherOverviewViewModel com_studyflix_android_ui_teacher_overview_TeacherOverviewViewModel2;
+      static String com_studyflix_android_ui_student_home_StudentHomeViewModel = "com.studyflix.android.ui.student.home.StudentHomeViewModel";
 
-      @KeepFieldType
-      StudentHomeViewModel com_studyflix_android_ui_student_home_StudentHomeViewModel2;
+      static String com_studyflix_android_ui_auth_SignUpViewModel = "com.studyflix.android.ui.auth.SignUpViewModel";
 
-      @KeepFieldType
-      TeacherLearnersViewModel com_studyflix_android_ui_teacher_learners_TeacherLearnersViewModel2;
+      static String com_studyflix_android_ui_student_marks_MarksViewModel = "com.studyflix.android.ui.student.marks.MarksViewModel";
 
-      @KeepFieldType
-      SubscriptionViewModel com_studyflix_android_ui_student_videos_SubscriptionViewModel2;
+      static String com_studyflix_android_ui_student_assignments_AssignmentsViewModel = "com.studyflix.android.ui.student.assignments.AssignmentsViewModel";
 
-      @KeepFieldType
-      NotesViewModel com_studyflix_android_ui_student_notes_NotesViewModel2;
-
-      @KeepFieldType
-      TakeQuizViewModel com_studyflix_android_ui_student_quizzes_TakeQuizViewModel2;
-
-      @KeepFieldType
-      TeacherDashboardViewModel com_studyflix_android_ui_teacher_TeacherDashboardViewModel2;
-
-      @KeepFieldType
-      VideosViewModel com_studyflix_android_ui_student_videos_VideosViewModel2;
-
-      @KeepFieldType
-      ChatViewModel com_studyflix_android_ui_student_chat_ChatViewModel2;
-
-      @KeepFieldType
-      SignUpViewModel com_studyflix_android_ui_auth_SignUpViewModel2;
+      static String com_studyflix_android_ui_teacher_overview_TeacherOverviewViewModel = "com.studyflix.android.ui.teacher.overview.TeacherOverviewViewModel";
 
       @KeepFieldType
       TeacherLearnerAssignmentsViewModel com_studyflix_android_ui_teacher_learners_TeacherLearnerAssignmentsViewModel2;
 
       @KeepFieldType
-      AssignmentsViewModel com_studyflix_android_ui_student_assignments_AssignmentsViewModel2;
+      TakeQuizViewModel com_studyflix_android_ui_student_quizzes_TakeQuizViewModel2;
+
+      @KeepFieldType
+      TeacherLearnersViewModel com_studyflix_android_ui_teacher_learners_TeacherLearnersViewModel2;
 
       @KeepFieldType
       QuizzesViewModel com_studyflix_android_ui_student_quizzes_QuizzesViewModel2;
 
       @KeepFieldType
+      PastPapersViewModel com_studyflix_android_ui_student_pastpapers_PastPapersViewModel2;
+
+      @KeepFieldType
+      TeacherDashboardViewModel com_studyflix_android_ui_teacher_TeacherDashboardViewModel2;
+
+      @KeepFieldType
+      NotesViewModel com_studyflix_android_ui_student_notes_NotesViewModel2;
+
+      @KeepFieldType
+      SubscriptionViewModel com_studyflix_android_ui_student_videos_SubscriptionViewModel2;
+
+      @KeepFieldType
       TeacherLearnerProfileViewModel com_studyflix_android_ui_teacher_learners_TeacherLearnerProfileViewModel2;
+
+      @KeepFieldType
+      ChatViewModel com_studyflix_android_ui_student_chat_ChatViewModel2;
+
+      @KeepFieldType
+      LoginViewModel com_studyflix_android_ui_auth_LoginViewModel2;
+
+      @KeepFieldType
+      VideosViewModel com_studyflix_android_ui_student_videos_VideosViewModel2;
+
+      @KeepFieldType
+      AssignmentDetailsViewModel com_studyflix_android_ui_student_assignments_AssignmentDetailsViewModel2;
+
+      @KeepFieldType
+      StudentHomeViewModel com_studyflix_android_ui_student_home_StudentHomeViewModel2;
+
+      @KeepFieldType
+      SignUpViewModel com_studyflix_android_ui_auth_SignUpViewModel2;
+
+      @KeepFieldType
+      MarksViewModel com_studyflix_android_ui_student_marks_MarksViewModel2;
+
+      @KeepFieldType
+      AssignmentsViewModel com_studyflix_android_ui_student_assignments_AssignmentsViewModel2;
+
+      @KeepFieldType
+      TeacherOverviewViewModel com_studyflix_android_ui_teacher_overview_TeacherOverviewViewModel2;
     }
   }
 
@@ -725,95 +725,95 @@ public final class DaggerStudyFlixApplication_HiltComponents_SingletonC {
 
     @IdentifierNameString
     private static final class LazyClassKeyProvider {
-      static String com_studyflix_android_ui_student_assignments_AssignmentsViewModel = "com.studyflix.android.ui.student.assignments.AssignmentsViewModel";
-
-      static String com_studyflix_android_ui_teacher_learners_TeacherLearnerAssignmentsViewModel = "com.studyflix.android.ui.teacher.learners.TeacherLearnerAssignmentsViewModel";
-
-      static String com_studyflix_android_ui_teacher_learners_TeacherLearnerProfileViewModel = "com.studyflix.android.ui.teacher.learners.TeacherLearnerProfileViewModel";
+      static String com_studyflix_android_ui_student_quizzes_TakeQuizViewModel = "com.studyflix.android.ui.student.quizzes.TakeQuizViewModel";
 
       static String com_studyflix_android_ui_student_chat_ChatViewModel = "com.studyflix.android.ui.student.chat.ChatViewModel";
 
-      static String com_studyflix_android_ui_student_notes_NotesViewModel = "com.studyflix.android.ui.student.notes.NotesViewModel";
-
-      static String com_studyflix_android_ui_teacher_learners_TeacherLearnersViewModel = "com.studyflix.android.ui.teacher.learners.TeacherLearnersViewModel";
-
-      static String com_studyflix_android_ui_student_pastpapers_PastPapersViewModel = "com.studyflix.android.ui.student.pastpapers.PastPapersViewModel";
-
-      static String com_studyflix_android_ui_auth_SignUpViewModel = "com.studyflix.android.ui.auth.SignUpViewModel";
-
-      static String com_studyflix_android_ui_student_videos_SubscriptionViewModel = "com.studyflix.android.ui.student.videos.SubscriptionViewModel";
-
       static String com_studyflix_android_ui_teacher_overview_TeacherOverviewViewModel = "com.studyflix.android.ui.teacher.overview.TeacherOverviewViewModel";
-
-      static String com_studyflix_android_ui_teacher_TeacherDashboardViewModel = "com.studyflix.android.ui.teacher.TeacherDashboardViewModel";
-
-      static String com_studyflix_android_ui_student_marks_MarksViewModel = "com.studyflix.android.ui.student.marks.MarksViewModel";
-
-      static String com_studyflix_android_ui_student_assignments_AssignmentDetailsViewModel = "com.studyflix.android.ui.student.assignments.AssignmentDetailsViewModel";
-
-      static String com_studyflix_android_ui_student_home_StudentHomeViewModel = "com.studyflix.android.ui.student.home.StudentHomeViewModel";
-
-      static String com_studyflix_android_ui_student_quizzes_QuizzesViewModel = "com.studyflix.android.ui.student.quizzes.QuizzesViewModel";
-
-      static String com_studyflix_android_ui_student_quizzes_TakeQuizViewModel = "com.studyflix.android.ui.student.quizzes.TakeQuizViewModel";
 
       static String com_studyflix_android_ui_auth_LoginViewModel = "com.studyflix.android.ui.auth.LoginViewModel";
 
+      static String com_studyflix_android_ui_student_pastpapers_PastPapersViewModel = "com.studyflix.android.ui.student.pastpapers.PastPapersViewModel";
+
+      static String com_studyflix_android_ui_student_notes_NotesViewModel = "com.studyflix.android.ui.student.notes.NotesViewModel";
+
+      static String com_studyflix_android_ui_student_videos_SubscriptionViewModel = "com.studyflix.android.ui.student.videos.SubscriptionViewModel";
+
+      static String com_studyflix_android_ui_teacher_learners_TeacherLearnerAssignmentsViewModel = "com.studyflix.android.ui.teacher.learners.TeacherLearnerAssignmentsViewModel";
+
+      static String com_studyflix_android_ui_student_assignments_AssignmentDetailsViewModel = "com.studyflix.android.ui.student.assignments.AssignmentDetailsViewModel";
+
+      static String com_studyflix_android_ui_student_quizzes_QuizzesViewModel = "com.studyflix.android.ui.student.quizzes.QuizzesViewModel";
+
       static String com_studyflix_android_ui_student_videos_VideosViewModel = "com.studyflix.android.ui.student.videos.VideosViewModel";
 
-      @KeepFieldType
-      AssignmentsViewModel com_studyflix_android_ui_student_assignments_AssignmentsViewModel2;
+      static String com_studyflix_android_ui_auth_SignUpViewModel = "com.studyflix.android.ui.auth.SignUpViewModel";
 
-      @KeepFieldType
-      TeacherLearnerAssignmentsViewModel com_studyflix_android_ui_teacher_learners_TeacherLearnerAssignmentsViewModel2;
+      static String com_studyflix_android_ui_teacher_TeacherDashboardViewModel = "com.studyflix.android.ui.teacher.TeacherDashboardViewModel";
 
-      @KeepFieldType
-      TeacherLearnerProfileViewModel com_studyflix_android_ui_teacher_learners_TeacherLearnerProfileViewModel2;
+      static String com_studyflix_android_ui_teacher_learners_TeacherLearnerProfileViewModel = "com.studyflix.android.ui.teacher.learners.TeacherLearnerProfileViewModel";
 
-      @KeepFieldType
-      ChatViewModel com_studyflix_android_ui_student_chat_ChatViewModel2;
+      static String com_studyflix_android_ui_student_marks_MarksViewModel = "com.studyflix.android.ui.student.marks.MarksViewModel";
 
-      @KeepFieldType
-      NotesViewModel com_studyflix_android_ui_student_notes_NotesViewModel2;
+      static String com_studyflix_android_ui_teacher_learners_TeacherLearnersViewModel = "com.studyflix.android.ui.teacher.learners.TeacherLearnersViewModel";
 
-      @KeepFieldType
-      TeacherLearnersViewModel com_studyflix_android_ui_teacher_learners_TeacherLearnersViewModel2;
+      static String com_studyflix_android_ui_student_assignments_AssignmentsViewModel = "com.studyflix.android.ui.student.assignments.AssignmentsViewModel";
 
-      @KeepFieldType
-      PastPapersViewModel com_studyflix_android_ui_student_pastpapers_PastPapersViewModel2;
-
-      @KeepFieldType
-      SignUpViewModel com_studyflix_android_ui_auth_SignUpViewModel2;
-
-      @KeepFieldType
-      SubscriptionViewModel com_studyflix_android_ui_student_videos_SubscriptionViewModel2;
-
-      @KeepFieldType
-      TeacherOverviewViewModel com_studyflix_android_ui_teacher_overview_TeacherOverviewViewModel2;
-
-      @KeepFieldType
-      TeacherDashboardViewModel com_studyflix_android_ui_teacher_TeacherDashboardViewModel2;
-
-      @KeepFieldType
-      MarksViewModel com_studyflix_android_ui_student_marks_MarksViewModel2;
-
-      @KeepFieldType
-      AssignmentDetailsViewModel com_studyflix_android_ui_student_assignments_AssignmentDetailsViewModel2;
-
-      @KeepFieldType
-      StudentHomeViewModel com_studyflix_android_ui_student_home_StudentHomeViewModel2;
-
-      @KeepFieldType
-      QuizzesViewModel com_studyflix_android_ui_student_quizzes_QuizzesViewModel2;
+      static String com_studyflix_android_ui_student_home_StudentHomeViewModel = "com.studyflix.android.ui.student.home.StudentHomeViewModel";
 
       @KeepFieldType
       TakeQuizViewModel com_studyflix_android_ui_student_quizzes_TakeQuizViewModel2;
 
       @KeepFieldType
+      ChatViewModel com_studyflix_android_ui_student_chat_ChatViewModel2;
+
+      @KeepFieldType
+      TeacherOverviewViewModel com_studyflix_android_ui_teacher_overview_TeacherOverviewViewModel2;
+
+      @KeepFieldType
       LoginViewModel com_studyflix_android_ui_auth_LoginViewModel2;
 
       @KeepFieldType
+      PastPapersViewModel com_studyflix_android_ui_student_pastpapers_PastPapersViewModel2;
+
+      @KeepFieldType
+      NotesViewModel com_studyflix_android_ui_student_notes_NotesViewModel2;
+
+      @KeepFieldType
+      SubscriptionViewModel com_studyflix_android_ui_student_videos_SubscriptionViewModel2;
+
+      @KeepFieldType
+      TeacherLearnerAssignmentsViewModel com_studyflix_android_ui_teacher_learners_TeacherLearnerAssignmentsViewModel2;
+
+      @KeepFieldType
+      AssignmentDetailsViewModel com_studyflix_android_ui_student_assignments_AssignmentDetailsViewModel2;
+
+      @KeepFieldType
+      QuizzesViewModel com_studyflix_android_ui_student_quizzes_QuizzesViewModel2;
+
+      @KeepFieldType
       VideosViewModel com_studyflix_android_ui_student_videos_VideosViewModel2;
+
+      @KeepFieldType
+      SignUpViewModel com_studyflix_android_ui_auth_SignUpViewModel2;
+
+      @KeepFieldType
+      TeacherDashboardViewModel com_studyflix_android_ui_teacher_TeacherDashboardViewModel2;
+
+      @KeepFieldType
+      TeacherLearnerProfileViewModel com_studyflix_android_ui_teacher_learners_TeacherLearnerProfileViewModel2;
+
+      @KeepFieldType
+      MarksViewModel com_studyflix_android_ui_student_marks_MarksViewModel2;
+
+      @KeepFieldType
+      TeacherLearnersViewModel com_studyflix_android_ui_teacher_learners_TeacherLearnersViewModel2;
+
+      @KeepFieldType
+      AssignmentsViewModel com_studyflix_android_ui_student_assignments_AssignmentsViewModel2;
+
+      @KeepFieldType
+      StudentHomeViewModel com_studyflix_android_ui_student_home_StudentHomeViewModel2;
     }
 
     private static final class SwitchingProvider<T> implements Provider<T> {
@@ -877,7 +877,7 @@ public final class DaggerStudyFlixApplication_HiltComponents_SingletonC {
           return (T) new TeacherDashboardViewModel(viewModelCImpl.getTeacherProfileUseCase(), singletonCImpl.provideFirebaseAuthProvider.get());
 
           case 13: // com.studyflix.android.ui.teacher.learners.TeacherLearnerAssignmentsViewModel 
-          return (T) new TeacherLearnerAssignmentsViewModel(viewModelCImpl.getLearnerAssignmentsUseCase());
+          return (T) new TeacherLearnerAssignmentsViewModel(viewModelCImpl.getLearnerAssignmentsUseCase(), singletonCImpl.provideFirebaseAuthProvider.get());
 
           case 14: // com.studyflix.android.ui.teacher.learners.TeacherLearnerProfileViewModel 
           return (T) new TeacherLearnerProfileViewModel(singletonCImpl.teacherRepositoryImplProvider.get());

@@ -35,6 +35,7 @@ interface TeacherRepository {
     ): TeacherLearner?
 
     suspend fun getLearnerAssignments(
+        teacherUid: String,
         learnerId: String
     ): List<TeacherLearnerAssignment>
 }
