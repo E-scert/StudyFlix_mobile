@@ -90,6 +90,24 @@ sealed class Screen(val route: String) {
             learnerId: String
         ) = "teacher_learner_assignments/$learnerId"
     }
+
+    object TeacherLearnerConversation : Screen(
+        "teacher_learner_conversation/{learnerId}"
+    ) {
+
+        fun createRoute(
+            learnerId: String
+        ) = "teacher_learner_conversation/$learnerId"
+    }
+    object TeacherLearnersChat : Screen("teacher_learners_chat")
+
+    object TeacherCreateAssignment : Screen(
+        "teacher_create_assignment"
+    )
+
+
+
+
     // Admin portal
     data object AdminDashboard : Screen("admin/dashboard")
 

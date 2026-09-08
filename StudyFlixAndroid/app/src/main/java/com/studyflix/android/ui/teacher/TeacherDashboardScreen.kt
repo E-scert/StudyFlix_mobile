@@ -37,12 +37,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TeacherDashboardScreen(
-
     onLogout: () -> Unit,
-
     onOpenOverview: () -> Unit,
-
     onOpenLearners: () -> Unit,
+    onOpenLearnersChat: () -> Unit,
+    onOpenCreateAssignment: () -> Unit,
 
     viewModel: TeacherDashboardViewModel = hiltViewModel()
 ) {
@@ -110,7 +109,10 @@ fun TeacherDashboardScreen(
             ListItem(
                 headlineContent = {
                     Text("Assignments")
-                }
+                },
+                modifier = Modifier.clickable(
+                    onClick = onOpenCreateAssignment
+                )
             )
 
             ListItem(
@@ -128,8 +130,12 @@ fun TeacherDashboardScreen(
             ListItem(
                 headlineContent = {
                     Text("Learners Chat")
-                }
+                },
+                modifier = Modifier.clickable(
+                    onClick = onOpenLearnersChat
+                )
             )
+
 
             ListItem(
                 headlineContent = {

@@ -2,6 +2,7 @@ package com.studyflix.android.domain.repository
 
 
 import com.studyflix.android.domain.model.Teacher
+import com.studyflix.android.domain.model.TeacherChatMessage
 import com.studyflix.android.domain.model.TeacherLearner
 import com.studyflix.android.domain.model.TeacherLearnerAssignment
 import com.studyflix.android.domain.model.TeacherOverview
@@ -38,4 +39,22 @@ interface TeacherRepository {
         teacherUid: String,
         learnerId: String
     ): List<TeacherLearnerAssignment>
+
+    fun observeLearnerMessages(
+        learnerId: String,
+        teacherId: String
+    ): Flow<List<TeacherChatMessage>>
+
+    suspend fun sendLearnerMessage(
+        learnerId: String,
+        teacherId: String,
+        text: String
+    )
+    suspend fun createAssignment(
+        teacherUid: String,
+        title: String,
+        subject: String,
+        totalMarks: Int,
+        dueDate: String
+    )
 }

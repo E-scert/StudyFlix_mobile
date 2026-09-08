@@ -18,6 +18,9 @@ import com.studyflix.android.ui.student.quizzes.TakeQuizViewModel_HiltModules;
 import com.studyflix.android.ui.student.videos.SubscriptionViewModel_HiltModules;
 import com.studyflix.android.ui.student.videos.VideosViewModel_HiltModules;
 import com.studyflix.android.ui.teacher.TeacherDashboardViewModel_HiltModules;
+import com.studyflix.android.ui.teacher.assignments.TeacherCreateAssignmentViewModel_HiltModules;
+import com.studyflix.android.ui.teacher.chat.TeacherConversationViewModel_HiltModules;
+import com.studyflix.android.ui.teacher.chat.TeacherLearnersChatViewModel_HiltModules;
 import com.studyflix.android.ui.teacher.learners.TeacherLearnerAssignmentsViewModel_HiltModules;
 import com.studyflix.android.ui.teacher.learners.TeacherLearnerProfileViewModel_HiltModules;
 import com.studyflix.android.ui.teacher.learners.TeacherLearnersViewModel_HiltModules;
@@ -192,9 +195,12 @@ public final class StudyFlixApplication_HiltComponents {
           ViewModelCBuilderModule.class,
           SubscriptionViewModel_HiltModules.KeyModule.class,
           TakeQuizViewModel_HiltModules.KeyModule.class,
+          TeacherConversationViewModel_HiltModules.KeyModule.class,
+          TeacherCreateAssignmentViewModel_HiltModules.KeyModule.class,
           TeacherDashboardViewModel_HiltModules.KeyModule.class,
           TeacherLearnerAssignmentsViewModel_HiltModules.KeyModule.class,
           TeacherLearnerProfileViewModel_HiltModules.KeyModule.class,
+          TeacherLearnersChatViewModel_HiltModules.KeyModule.class,
           TeacherLearnersViewModel_HiltModules.KeyModule.class,
           TeacherOverviewViewModel_HiltModules.KeyModule.class,
           VideosViewModel_HiltModules.KeyModule.class
@@ -246,9 +252,12 @@ public final class StudyFlixApplication_HiltComponents {
           StudentHomeViewModel_HiltModules.BindsModule.class,
           SubscriptionViewModel_HiltModules.BindsModule.class,
           TakeQuizViewModel_HiltModules.BindsModule.class,
+          TeacherConversationViewModel_HiltModules.BindsModule.class,
+          TeacherCreateAssignmentViewModel_HiltModules.BindsModule.class,
           TeacherDashboardViewModel_HiltModules.BindsModule.class,
           TeacherLearnerAssignmentsViewModel_HiltModules.BindsModule.class,
           TeacherLearnerProfileViewModel_HiltModules.BindsModule.class,
+          TeacherLearnersChatViewModel_HiltModules.BindsModule.class,
           TeacherLearnersViewModel_HiltModules.BindsModule.class,
           TeacherOverviewViewModel_HiltModules.BindsModule.class,
           VideosViewModel_HiltModules.BindsModule.class

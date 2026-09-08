@@ -41,6 +41,9 @@ import com.studyflix.android.ui.teacher.TeacherDashboardScreen
 import kotlinx.coroutines.launch
 import com.studyflix.android.domain.model.AccessResult
 import com.studyflix.android.ui.student.videos.SubscriptionViewModel
+import com.studyflix.android.ui.teacher.assignments.TeacherCreateAssignmentScreen
+import com.studyflix.android.ui.teacher.chat.TeacherLearnerConversationScreen
+import com.studyflix.android.ui.teacher.chat.TeacherLearnersChatScreen
 import com.studyflix.android.ui.teacher.learners.TeacherLearnerAssignmentsScreen
 import com.studyflix.android.ui.teacher.learners.TeacherLearnerProfileScreen
 import com.studyflix.android.ui.teacher.learners.TeacherLearnersScreen
@@ -340,10 +343,11 @@ fun StudyFlixNavGraph(navController: NavHostController = rememberNavController()
             TeacherDashboardScreen(
 
                 onLogout = { navController.navigate(Screen.Landing.route) { popUpTo(0) } },
-
                 onOpenOverview = { navController.navigate(Screen.TeacherOverview.route) },
-
-                onOpenLearners = { navController.navigate(Screen.TeacherLearners.route) }
+                onOpenLearners = { navController.navigate(Screen.TeacherLearners.route) },
+                onOpenLearnersChat = { navController.navigate(Screen.TeacherLearnersChat.route) },
+                onOpenCreateAssignment = { navController.navigate(Screen.TeacherCreateAssignment.route)
+                },
             )
         }
 
@@ -382,6 +386,43 @@ fun StudyFlixNavGraph(navController: NavHostController = rememberNavController()
             TeacherLearnerAssignmentsScreen(
                 learnerId = learnerId
             )
+        }
+
+        composable(
+            Screen.TeacherLearnersChat.route
+        ) {
+
+            TeacherLearnersChatScreen(
+
+                onOpenConversation = { learnerId ->
+
+                    navController.navigate(
+                        Screen.TeacherLearnerConversation
+                            .createRoute(learnerId)
+                    )
+                }
+            )
+        }
+
+        composable(
+            route = Screen.TeacherLearnerConversation.route
+        ) { backStackEntry ->
+
+            val learnerId =
+                backStackEntry.arguments
+                    ?.getString("learnerId")
+                    .orEmpty()
+
+            TeacherLearnerConversationScreen(
+                learnerId = learnerId
+            )
+        }
+
+        composable(
+            Screen.TeacherCreateAssignment.route
+        ) {
+
+            TeacherCreateAssignmentScreen()
         }
 
 

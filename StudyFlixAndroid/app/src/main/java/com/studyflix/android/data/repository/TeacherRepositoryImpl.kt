@@ -17,6 +17,10 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import javax.inject.Singleton
+import com.studyflix.android.domain.model.TeacherChatMessage
+import com.google.firebase.firestore.FieldValue
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.callbackFlow
 
 @Singleton
 class TeacherRepositoryImpl @Inject constructor(
@@ -424,5 +428,157 @@ class TeacherRepositoryImpl @Inject constructor(
 
             return emptyList()
         }
+    }
+
+    override fun observeLearnerMessages(
+        learnerId: String,
+        teacherId: String
+    ) = callbackFlow {
+
+        val chatId =
+            "chat_${learnerId}_${teacherId}"
+
+        val listener =
+            firestore.collection("chats")
+                .document(chatId)
+                .collection("messages")
+                .orderBy("timestamp")
+                .addSnapshotListener { snapshot, _ ->
+
+                    val messages =
+                        snapshot?.documents?.map {
+
+                            TeacherChatMessage(
+
+                                id = it.id,
+
+                                text =
+                                    it.getString("text")
+                                        .orEmpty(),
+
+                                senderId =
+                                    it.getString("senderId")
+                                        .orEmpty(),
+
+                                senderName =
+                                    it.getString("senderName")
+                                        .orEmpty(),
+
+                                recipientId =
+                                    it.getString("recipientId")
+                                        .orEmpty(),
+
+                                timestamp =
+                                    it.getTimestamp("timestamp")
+                                        ?.toDate()
+                                        ?.time
+                                        ?: 0L,
+
+                                read =
+                                    it.getBoolean("read")
+                                        ?: false
+                            )
+                        }.orEmpty()
+
+                    trySend(messages)
+                }
+
+        awaitClose {
+            listener.remove()
+        }
+    }
+    override suspend fun sendLearnerMessage(
+        learnerId: String,
+        teacherId: String,
+        text: String
+    ) {
+
+        val teacher =
+            getTeacher(teacherId)
+                ?: return
+
+        val chatId =
+            "chat_${learnerId}_${teacherId}"
+
+        firestore.collection("chats")
+            .document(chatId)
+            .set(
+                mapOf(
+                    "participants" to listOf(
+                        teacherId,
+                        learnerId
+                    ),
+                    "updatedAt" to
+                            FieldValue.serverTimestamp()
+                )
+            )
+            .await()
+
+        firestore.collection("chats")
+            .document(chatId)
+            .collection("messages")
+            .add(
+                mapOf(
+                    "text" to text,
+
+                    "senderId" to teacherId,
+
+                    "senderName" to teacher.name,
+
+                    "recipientId" to learnerId,
+
+                    "timestamp" to
+                            FieldValue.serverTimestamp(),
+
+                    "read" to false,
+
+                    "chatType" to "student"
+                )
+            )
+            .await()
+    }
+
+    override suspend fun createAssignment(
+        teacherUid: String,
+        title: String,
+        subject: String,
+        totalMarks: Int,
+        dueDate: String
+    ) {
+
+        val teacher =
+            getTeacher(teacherUid)
+                ?: return
+
+        firestore.collection("assignments")
+            .add(
+                mapOf(
+
+                    "teacherId" to teacherUid,
+
+                    "teacherName" to teacher.name,
+
+                    "schoolId" to teacher.schoolId,
+
+                    "schoolName" to teacher.schoolName,
+
+                    "grade" to teacher.grade,
+
+                    "subject" to subject,
+
+                    "title" to title,
+
+                    "totalMarks" to totalMarks,
+
+                    "dueDate" to dueDate,
+
+                    "status" to "active",
+
+                    "createdAt" to
+                            com.google.firebase.firestore.FieldValue
+                                .serverTimestamp()
+                )
+            )
+            .await()
     }
 }
